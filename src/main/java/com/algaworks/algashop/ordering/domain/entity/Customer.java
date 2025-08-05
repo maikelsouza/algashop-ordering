@@ -1,9 +1,13 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
+import com.algaworks.algashop.ordering.domain.validator.FieldValidations;
+
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.algaworks.algashop.ordering.domain.exception.ErrorMessages.*;
 
 public class Customer{
 
@@ -22,38 +26,36 @@ public class Customer{
     public Customer(UUID id, String fullName, LocalDate birthDate, String email, String phone, String document,
                     Boolean promotionNotificationsAllowed, Boolean archived, OffsetDateTime registeredAt,
                     OffsetDateTime archivedAt, Integer loyaltyPoints) {
-        this.id = id;
-        this.fullName = fullName;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.phone = phone;
-        this.document = document;
-        this.promotionNotificationsAllowed = promotionNotificationsAllowed;
-        this.archived = archived;
-        this.registeredAt = registeredAt;
-        this.archivedAt = archivedAt;
-        this.loyaltyPoints = loyaltyPoints;
+        this.setId(id);
+        this.setFullName(fullName);
+        this.setBirthDate(birthDate);
+        this.setEmail(email);
+        this.setPhone(phone);
+        this.setDocument(document);
+        this.setPromotionNotificationsAllowed(promotionNotificationsAllowed);
+        this.setArchived(archived);
+        this.setRegisteredAt(registeredAt);
+        this.setArchivedAt(archivedAt);
+        this.setLoyaltyPoints(loyaltyPoints);
     }
 
     public Customer(UUID id, String fullName, LocalDate birthDate, String email, String phone, String document,
                     Boolean promotionNotificationsAllowed, OffsetDateTime registeredAt) {
-        this.id = id;
-        this.fullName = fullName;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.phone = phone;
-        this.document = document;
-        this.promotionNotificationsAllowed = promotionNotificationsAllowed;
-        this.registeredAt = registeredAt;
+        this.setId(id);
+        this.setFullName(fullName);
+        this.setBirthDate(birthDate);
+        this.setEmail(email);
+        this.setPhone(phone);
+        this.setDocument(document);
+        this.setPromotionNotificationsAllowed(promotionNotificationsAllowed);
+        this.setRegisteredAt(registeredAt);
+        this.setArchived(false);
+        this.setLoyaltyPoints(0);
     }
 
-    public void addLoyaltyPoints(Integer points){
+    public void addLoyaltyPoints(Integer points){}
 
-    }
-
-    public void archive(){
-
-    }
+    public void archive(){}
 
     public void enablePromotionNotifications(){
         this.setPromotionNotificationsAllowed(true);
@@ -120,38 +122,56 @@ public class Customer{
     }
 
     private void setId(UUID id) {
+        Objects.requireNonNull(id);
         this.id = id;
     }
 
     private void setFullName(String fullName) {
+        Objects.requireNonNull(fullName,VALIDATION_ERROR_FULLNAME_IS_NULL);
+        if(fullName.isBlank()){
+            throw new IllegalArgumentException(VALIDATION_ERROR_FULLNAME_IS_BLANK);
+        }
         this.fullName = fullName;
     }
 
     private void setBirthDate(LocalDate birthDate) {
+        if (birthDate == null){
+            this.birthDate = null;
+            return;
+        }
+        if(birthDate.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException(VALIDATION_ERROR_BIRTHDATE_MUST_IN_PAST);
+        }
         this.birthDate = birthDate;
     }
 
     private void setEmail(String email) {
+        FieldValidations.requiresValidEmail(email,VALIDATION_ERROR_EMAIL_IS_INVALID );
         this.email = email;
     }
 
     private void setPhone(String phone) {
+        Objects.requireNonNull(phone);
         this.phone = phone;
     }
 
     private void setDocument(String document) {
+        Objects.requireNonNull(document);
         this.document = document;
     }
 
     private void setPromotionNotificationsAllowed(Boolean promotionNotificationsAllowed) {
+        Objects.requireNonNull(promotionNotificationsAllowed);
         this.promotionNotificationsAllowed = promotionNotificationsAllowed;
     }
 
     private void setArchived(Boolean archived) {
+        Objects.requireNonNull(archived);
         this.archived = archived;
     }
 
     private void setRegisteredAt(OffsetDateTime registeredAt) {
+        Objects.requireNonNull(registeredAt);
         this.registeredAt = registeredAt;
     }
 
@@ -160,6 +180,7 @@ public class Customer{
     }
 
     private void setLoyaltyPoints(Integer loyaltyPoints) {
+        Objects.requireNonNull(loyaltyPoints);
         this.loyaltyPoints = loyaltyPoints;
     }
 
