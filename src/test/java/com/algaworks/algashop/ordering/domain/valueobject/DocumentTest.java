@@ -23,11 +23,18 @@ class DocumentTest {
 
     @Test
     void shouldCreateDocumentNotNullAndNotBlank(){
-        String valueDocument = "nameDocument";
-        Document document = new Document(valueDocument);
+        String value = "000-00-0000";
+        Document document = new Document(value);
 
-        Assertions.assertThat(document.value()).isEqualTo(valueDocument);
+        Assertions.assertThat(document.value()).isEqualTo(value);
+    }
 
+    @Test
+    void shouldReturnNameDocument(){
+        String value = "000-00-0000";
+        Document document = new Document(value);
+
+        Assertions.assertThat(document.toString()).isEqualTo(value);
     }
 
 

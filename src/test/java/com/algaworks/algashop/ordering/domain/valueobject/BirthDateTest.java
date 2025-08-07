@@ -24,17 +24,23 @@ class BirthDateTest {
     }
 
     @Test
-    void shouldBNotAddCreateDateNull(){
+    void shouldNotAddCreateDateNull(){
         Assertions.assertThatExceptionOfType(NullPointerException.class)
                 .isThrownBy(() -> new BirthDate(null));
     }
 
     @Test
-    void shouldCorrectlyCalculateAgeInYears(){
+    void shouldCalculateAgeInYears(){
         int yearsToSubtract = 25;
         LocalDate todayMinus25Years = LocalDate.now().minusYears(yearsToSubtract);
         BirthDate birthDate = new BirthDate(todayMinus25Years);
         Assertions.assertThat(birthDate.age()).isEqualTo(yearsToSubtract);
+    }
+
+    @Test
+    void shouldReturnDateStringFormat(){
+        BirthDate birthDate = new BirthDate(LocalDate.of(2025, 8,1));
+        Assertions.assertThat(birthDate.toString()).isEqualTo("2025-08-01");
     }
 
 
