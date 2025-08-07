@@ -1,9 +1,7 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
 import com.algaworks.algashop.ordering.domain.exception.CustomerArchivedException;
-import com.algaworks.algashop.ordering.domain.valueobject.CustomerID;
-import com.algaworks.algashop.ordering.domain.valueobject.FullName;
-import com.algaworks.algashop.ordering.domain.valueobject.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.valueobject.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +21,10 @@ public class CustomerTest {
                     new Customer(
                         new CustomerID(),
                         new FullName("Jhon","Doe"),
-                        LocalDate.of(1991, 7, 5),
-                        "invalid",
-                        "478-256-2504",
-                        "255-08-0578",
+                        new BirthDate(LocalDate.of(1991, 7, 5)),
+                        new Email("invalid"),
+                        new Phone("478-256-2504"),
+                        new Document("255-08-0578"),
                         false,
                         OffsetDateTime.now()
                     );
@@ -38,17 +36,17 @@ public class CustomerTest {
             Customer customer = new Customer(
                     new CustomerID(),
                     new FullName("Jhon","Doe"),
-                    LocalDate.of(1991, 7, 5),
-                    "john.doe@gmail.com",
-                    "478-256-2504",
-                    "255-08-0578",
+                    new BirthDate(LocalDate.of(1991, 7, 5)),
+                    new Email("john.doe@gmail.com"),
+                    new Phone("478-256-2504"),
+                    new Document("255-08-0578"),
                     false,
                     OffsetDateTime.now()
             );
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() ->{
-                    customer.changeEmail("invalid");
+                    customer.changeEmail(new Email("invalid"));
                 });
     }
 
@@ -57,10 +55,10 @@ public class CustomerTest {
         Customer customer = new Customer(
                 new CustomerID(),
                 new FullName("Jhon","Doe"),
-                LocalDate.of(1991, 7, 5),
-                "john.doe@gmail.com",
-                "478-256-2504",
-                "255-08-0578",
+                new BirthDate(LocalDate.of(1991, 7, 5)),
+                new Email("john.doe@gmail.com"),
+                new Phone("478-256-2504"),
+                new Document("255-08-0578"),
                 false,
                 OffsetDateTime.now()
         );
@@ -69,9 +67,9 @@ public class CustomerTest {
 
         assertWith(customer,
                 c -> assertThat(c.fullName()).isEqualTo(new FullName("Anonymous","Anonymous")),
-                c -> assertThat(c.email()).isNotEqualTo("john.doe@gmail.com"),
-                c -> assertThat(c.phone()).isEqualTo("000-000-0000"),
-                c -> assertThat(c.document()).isEqualTo("000-00-0000"),
+                c -> assertThat(c.email()).isNotEqualTo(new Email("john.doe@gmail.com")),
+                c -> assertThat(c.phone()).isEqualTo(new Phone("000-000-0000")),
+                c -> assertThat(c.document()).isEqualTo(new Document("000-00-0000")),
                 c -> assertThat(c.birthDate()).isNull(),
                 c -> assertThat(c.isPromotionNotificationsAllowed()).isFalse()
         );
@@ -84,9 +82,9 @@ public class CustomerTest {
                 new CustomerID(),
                 new FullName("Anonymous","Anonymous"),
                 null,
-                "Anonymous@anonymous.com",
-                "000-000-0000",
-                "000-00-0000",
+                new Email("Anonymous@anonymous.com"),
+                new Phone("000-000-0000"),
+                new Document("000-00-0000"),
                 false,
                 true,
                 OffsetDateTime.now(),
@@ -98,10 +96,10 @@ public class CustomerTest {
                         .isThrownBy(customer::archive);
 
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> customer.changeEmail("email@gmail.com"));
+                .isThrownBy(() -> customer.changeEmail(new Email("email@gmail.com")));
 
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> customer.changePhone("111-111-1111"));
+                .isThrownBy(() -> customer.changePhone(new Phone("111-111-1111")));
 
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                 .isThrownBy(customer::enablePromotionNotifications);
@@ -115,10 +113,10 @@ public class CustomerTest {
         Customer customer = new Customer(
                 new CustomerID(),
                 new FullName("Jhon","Doe"),
-                LocalDate.of(1991, 7, 5),
-                "john.doe@gmail.com",
-                "478-256-2504",
-                "255-08-0578",
+                new BirthDate(LocalDate.of(1991, 7, 5)),
+                new Email("john.doe@gmail.com"),
+                new Phone("478-256-2504"),
+                new Document("255-08-0578"),
                 false,
                 OffsetDateTime.now()
         );
@@ -134,10 +132,10 @@ public class CustomerTest {
         Customer customer = new Customer(
                 new CustomerID(),
                 new FullName("Jhon","Doe"),
-                LocalDate.of(1991, 7, 5),
-                "john.doe@gmail.com",
-                "478-256-2504",
-                "255-08-0578",
+                new BirthDate(LocalDate.of(1991, 7, 5)),
+                new Email("john.doe@gmail.com"),
+                new Phone("478-256-2504"),
+                new Document("255-08-0578"),
                 false,
                 OffsetDateTime.now()
         );
