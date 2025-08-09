@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CustomerTest {
 
-
     @Test
     void given_invalidEmail_whenTryCreateCustomer_shouldGenerateException() {
 
