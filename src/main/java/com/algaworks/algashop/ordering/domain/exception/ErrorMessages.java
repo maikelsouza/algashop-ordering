@@ -1,7 +1,5 @@
 package com.algaworks.algashop.ordering.domain.exception;
 
-import com.algaworks.algashop.ordering.domain.valueobject.Phone;
-
 public class ErrorMessages {
 
     public static final String VALIDATION_ERROR_EMAIL_IS_INVALID = "Email is invalid";
@@ -20,5 +18,5 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_MONEY_IS_NULL = "Money cannot be null";
     public static final String VALIDATION_ERROR_MONEY_IS_DIVIDED_BY_ZERO = "Money cannot be divided by zero";
     public static final String VALIDATION_ERROR_QUANTITY_IS_NULL = "Quantity cannot be null";
-    public static final String VALIDATION_ERROR_QUANTIDY_IS_NEGATIVE =  "Quantity cannot be negative";
+    public static final String VALIDATION_ERROR_QUANTITY_IS_NEGATIVE =  "Quantity cannot be negative";
 }

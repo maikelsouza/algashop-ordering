@@ -1,6 +1,5 @@
 package com.algaworks.algashop.ordering.domain.valueobject;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import static com.algaworks.algashop.ordering.domain.exception.ErrorMessages.*;
@@ -12,7 +11,7 @@ public record Quantity(Integer value) implements Comparable<Quantity>{
     public Quantity(Integer value) {
         Objects.requireNonNull(Objects.requireNonNull(value, VALIDATION_ERROR_QUANTITY_IS_NULL));
         if (value < 0){
-            throw  new IllegalArgumentException(VALIDATION_ERROR_QUANTIDY_IS_NEGATIVE);
+            throw  new IllegalArgumentException(VALIDATION_ERROR_QUANTITY_IS_NEGATIVE);
         }
         this.value = value;
     }
