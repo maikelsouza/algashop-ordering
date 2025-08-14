@@ -27,7 +27,6 @@ public record Money(BigDecimal value) implements Comparable<Money>{
     }
 
     public Money add(Money outer){
-        Objects.requireNonNull(value, VALIDATION_ERROR_MONEY_IS_NULL);
         return new Money(value.add(outer.value));
     }
 
