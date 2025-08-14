@@ -30,4 +30,28 @@ class QuantityTest {
         Assertions.assertThat(quantity.value()).isEqualTo(10);
     }
 
+    @Test
+    void shouldOneMustBeGreaterThanZero(){
+        var quantityOne = new Quantity(1);
+        var quantityZero = new Quantity(0);
+
+        Assertions.assertThat(quantityOne.compareTo(quantityZero)).isEqualTo(1);
+    }
+
+    @Test
+    void shouldZeroMustBeLessThanOne(){
+        var quantityOne = new Quantity(1);
+        var quantityZero = new Quantity(0);
+
+        Assertions.assertThat(quantityZero.compareTo(quantityOne)).isEqualTo(-1);
+    }
+
+    @Test
+    void shouldOneMustBeEqualToOne(){
+        var quantityOne = new Quantity(1);
+        var quantityOne2 = new Quantity(1);
+
+        Assertions.assertThat(quantityOne.compareTo(quantityOne2)).isEqualTo(0);
+    }
+
 }

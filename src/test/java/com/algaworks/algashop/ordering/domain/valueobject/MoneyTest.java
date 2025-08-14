@@ -71,6 +71,29 @@ class MoneyTest {
         Assertions.assertThat(money.divide(moneyOuter)).isEqualTo(value);
     }
 
+    @Test
+    void shouldOneMustBeGreaterThanZero(){
+        var moneyOne = new Money(BigDecimal.ONE);
+        var moneyZero = new Money(BigDecimal.ZERO);
+
+        Assertions.assertThat(moneyOne.compareTo(moneyZero)).isEqualTo(1);
+    }
+
+    @Test
+    void shouldZeroMustBeLessThanOne(){
+        var moneyOne = new Money(BigDecimal.ONE);
+        var moneyZero = new Money(BigDecimal.ZERO);
+
+        Assertions.assertThat(moneyZero.compareTo(moneyOne)).isEqualTo(-1);
+    }
+
+    @Test
+    void shouldOneMustBeEqualToOne(){
+        var moneyOne = new Money(BigDecimal.ONE);
+        var moneyOne2 = new Money(BigDecimal.ONE);
+
+        Assertions.assertThat(moneyOne.compareTo(moneyOne2)).isEqualTo(0);
+    }
 
 
 
