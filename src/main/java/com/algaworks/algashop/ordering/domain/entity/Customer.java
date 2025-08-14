@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.domain.entity;
 
 import com.algaworks.algashop.ordering.domain.exception.CustomerArchivedException;
 import com.algaworks.algashop.ordering.domain.valueobject.*;
+import com.algaworks.algashop.ordering.domain.valueobject.id.CustomerId;
 import lombok.Builder;
 
 import java.time.OffsetDateTime;
@@ -12,7 +13,7 @@ import static com.algaworks.algashop.ordering.domain.exception.ErrorMessages.*;
 
 public class Customer{
 
-    private CustomerID id;
+    private CustomerId id;
     private FullName fullName;
     private BirthDate birthDate;
     private Email email;
@@ -28,7 +29,7 @@ public class Customer{
     @Builder(builderClassName = "BrandNewCustomerBuild", builderMethodName = "brandNew")
     public static Customer createBrandNew(FullName fullName, BirthDate birthDate, Email email, Phone phone, Document document,
                                     Boolean promotionNotificationsAllowed, Address address){
-        return  new Customer(new CustomerID(),
+        return  new Customer(new CustomerId(),
                 fullName, birthDate,
                 email, phone, document,
                 promotionNotificationsAllowed,
@@ -40,9 +41,9 @@ public class Customer{
     }
 
     @Builder(builderClassName = "ExistingCustomerBuild", builderMethodName = "existing")
-    private Customer(CustomerID id, FullName fullName, BirthDate birthDate, Email email, Phone phone, Document document,
-                    Boolean promotionNotificationsAllowed, Boolean archived, OffsetDateTime registeredAt,
-                    OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
+    private Customer(CustomerId id, FullName fullName, BirthDate birthDate, Email email, Phone phone, Document document,
+                     Boolean promotionNotificationsAllowed, Boolean archived, OffsetDateTime registeredAt,
+                     OffsetDateTime archivedAt, LoyaltyPoints loyaltyPoints, Address address) {
         this.setId(id);
         this.setFullName(fullName);
         this.setBirthDate(birthDate);
@@ -108,7 +109,7 @@ public class Customer{
         this.setAddress(address);
     }
 
-    public CustomerID id() {
+    public CustomerId id() {
         return id;
     }
 
@@ -162,7 +163,7 @@ public class Customer{
         }
     }
 
-    private void setId(CustomerID id) {
+    private void setId(CustomerId id) {
         Objects.requireNonNull(id);
         this.id = id;
     }
