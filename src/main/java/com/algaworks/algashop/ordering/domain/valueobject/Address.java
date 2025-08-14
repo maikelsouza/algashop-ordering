@@ -24,4 +24,9 @@ public record Address(String street,
         FieldValidations.requiresNonBlanks(state);
         Objects.requireNonNull(zipCode);
     }
+
+    @Override
+    public String toString() {
+        return  street + " " + complement + " " + neighborhood + " " + number + " " + city + " " + state + " " + zipCode;
+    }
 }

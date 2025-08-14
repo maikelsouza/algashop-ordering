@@ -16,6 +16,6 @@ public record BillingInfo(FullName fullName, Document document, Phone phone, Add
 
     @Override
     public String toString() {
-        return fullName + " " + document + " " + phone + " " + address;
+        return fullName.toString() + " " + document.toString() + " " + phone.toString() + " " + address.toString();
     }
 }
