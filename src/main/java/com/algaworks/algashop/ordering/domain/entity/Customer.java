@@ -168,7 +168,6 @@ public class Customer{
     }
 
     private void setFullName(FullName fullName) {
-        Objects.requireNonNull(fullName,VALIDATION_ERROR_FULLNAME_IS_NULL);
         this.fullName = fullName;
     }
 
