@@ -6,10 +6,11 @@ import com.algaworks.algashop.ordering.domain.valueobject.Quantity;
 import com.algaworks.algashop.ordering.domain.valueobject.id.OrderId;
 import com.algaworks.algashop.ordering.domain.valueobject.id.OrderItemId;
 import com.algaworks.algashop.ordering.domain.valueobject.id.ProductId;
+import lombok.Builder;
 
 import java.util.Objects;
 
-public class OrdemItem {
+public class OrderItem {
 
     private OrderItemId id;
 
@@ -25,7 +26,8 @@ public class OrdemItem {
 
     private Money totalAmount;
 
-    public OrdemItem(OrderItemId id, OrderId orderId, ProductId productId, ProductName productName, Money price,
+    @Builder(builderClassName = "existemOrderItemBuilder", builderMethodName = "existing")
+    public OrderItem(OrderItemId id, OrderId orderId, ProductId productId, ProductName productName, Money price,
                      Quantity quantity, Money totalAmount) {
         this.setId(id);
         this.setOrderId(orderId);
@@ -34,6 +36,21 @@ public class OrdemItem {
         this.setPrice(price);
         this.setQuantity(quantity);
         this.setTotalAmount(totalAmount);
+    }
+
+    @Builder(builderClassName = "BrandNewOrderItemBuilder", builderMethodName = "brandNew")
+    private static OrderItem createBrandNew(OrderId orderId,
+                                           ProductId productId, ProductName productName,
+                                           Money price, Quantity quantity) {
+        return new OrderItem(
+                new OrderItemId(),
+                orderId,
+                productId,
+                productName,
+                price,
+                quantity,
+                Money.ZERO
+        );
     }
 
     public OrderItemId id() {
@@ -102,8 +119,8 @@ public class OrdemItem {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        OrdemItem ordemItem = (OrdemItem) o;
-        return Objects.equals(id, ordemItem.id);
+        OrderItem orderItem = (OrderItem) o;
+        return Objects.equals(id, orderItem.id);
     }
 
     @Override

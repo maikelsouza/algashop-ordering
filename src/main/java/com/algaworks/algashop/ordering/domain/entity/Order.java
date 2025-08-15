@@ -6,13 +6,16 @@ import com.algaworks.algashop.ordering.domain.valueobject.Quantity;
 import com.algaworks.algashop.ordering.domain.valueobject.ShippingInfo;
 import com.algaworks.algashop.ordering.domain.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.valueobject.id.OrderId;
+import lombok.Builder;
+
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Ordem {
+public class Order {
 
 
     private OrderId id;
@@ -35,7 +38,7 @@ public class Ordem {
 
     private ShippingInfo shippingInfo;
 
-    private OrdemStatus status;
+    private OrderStatus status;
 
     private PaymentMethod paymentMethod;
 
@@ -43,12 +46,13 @@ public class Ordem {
 
     private LocalDate expectedDeliveryDate;
 
-    private Set<OrdemItem> items;
+    private Set<OrderItem> items;
 
-    public Ordem(OrderId id, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
+    @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
+    public Order(OrderId id, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
                  OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime readyAt, BillingInfo billingInfo,
-                 ShippingInfo shippingInfo, OrdemStatus status, PaymentMethod paymentMethod, Money shippingCost,
-                 LocalDate expectedDeliveryDate, Set<OrdemItem> items) {
+                 ShippingInfo shippingInfo, OrderStatus status, PaymentMethod paymentMethod, Money shippingCost,
+                 LocalDate expectedDeliveryDate, Set<OrderItem> items) {
         this.setId(id);
         this.setCustomerId(customerId);
         this.setTotalAmount(totalAmount);
@@ -64,6 +68,26 @@ public class Ordem {
         this.setShippingCost(shippingCost);
         this.setExpectedDeliveryDate(expectedDeliveryDate);
         this.setItems(items);
+    }
+
+    public static Order draft(CustomerId customerId){
+        return new Order(
+                new OrderId(),
+                customerId,
+                Money.ZERO,
+                Quantity.ZERO,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                OrderStatus.DRAFT,
+                null,
+                null,
+                null,
+                new HashSet<>()
+        );
     }
 
     public OrderId id() {
@@ -106,7 +130,7 @@ public class Ordem {
         return shippingInfo;
     }
 
-    public OrdemStatus status() {
+    public OrderStatus status() {
         return status;
     }
 
@@ -122,7 +146,7 @@ public class Ordem {
         return expectedDeliveryDate;
     }
 
-    public Set<OrdemItem> items() {
+    public Set<OrderItem> items() {
         return items;
     }
 
@@ -162,22 +186,19 @@ public class Ordem {
     }
 
     private void setBillingInfo(BillingInfo billingInfo) {
-        Objects.requireNonNull(billingInfo);
         this.billingInfo = billingInfo;
     }
 
     private void setShippingInfo(ShippingInfo shippingInfo) {
-        Objects.requireNonNull(shippingInfo);
         this.shippingInfo = shippingInfo;
     }
 
-    private void setStatus(OrdemStatus status) {
+    private void setStatus(OrderStatus status) {
         Objects.requireNonNull(status);
         this.status = status;
     }
 
     private void setPaymentMethod(PaymentMethod paymentMethod) {
-        Objects.requireNonNull(paymentMethod);
         this.paymentMethod = paymentMethod;
     }
 
@@ -189,7 +210,7 @@ public class Ordem {
         this.expectedDeliveryDate = expectedDeliveryDate;
     }
 
-    private void setItems(Set<OrdemItem> items) {
+    private void setItems(Set<OrderItem> items) {
         Objects.requireNonNull(items);
         this.items = items;
     }
@@ -198,8 +219,8 @@ public class Ordem {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Ordem ordem = (Ordem) o;
-        return Objects.equals(id, ordem.id);
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
     }
 
     @Override

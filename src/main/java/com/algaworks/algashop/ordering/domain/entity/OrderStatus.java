@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
-public enum OrdemStatus {
+public enum OrderStatus {
 
     DRAFT,
     PLACED,
