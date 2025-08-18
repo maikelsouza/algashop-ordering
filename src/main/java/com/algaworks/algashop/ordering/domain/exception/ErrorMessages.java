@@ -20,4 +20,5 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_MONEY_IS_DIVIDED_BY_ZERO = "Money cannot be divided by zero";
     public static final String VALIDATION_ERROR_QUANTITY_IS_NULL = "Quantity cannot be null";
     public static final String VALIDATION_ERROR_QUANTITY_IS_NEGATIVE =  "Quantity cannot be negative";
+    public static final String ERROR_ORDER_STATUS_CANNOT_BE_CHANGED = "Cannot change order %s status from %s to %s";
 }

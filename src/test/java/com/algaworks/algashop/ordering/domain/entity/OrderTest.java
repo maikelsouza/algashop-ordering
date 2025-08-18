@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
-import com.algaworks.algashop.ordering.domain.valueobject.LoyaltyPoints;
+import com.algaworks.algashop.ordering.domain.exception.OrderStatusCannotBeChangedException;
 import com.algaworks.algashop.ordering.domain.valueobject.Money;
 import com.algaworks.algashop.ordering.domain.valueobject.ProductName;
 import com.algaworks.algashop.ordering.domain.valueobject.Quantity;
@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
-import java.util.UnknownFormatConversionException;
 
 class OrderTest {
 
@@ -82,10 +81,21 @@ class OrderTest {
 
         Assertions.assertThat(order.totalAmount()).isEqualTo(new Money("250"));
         Assertions.assertThat(order.totalItems()).isEqualTo(new Quantity(3));
+    }
 
+    @Test
+    public void givenDraftOrdem_whenPlace_shouldChangeToPlaced(){
+        Order order = Order.draft(new CustomerId());
+        order.place();
+        Assertions.assertThat(order.isPlaced()).isTrue();
+    }
 
-
-
+    @Test
+    public void givenPlacedOrder_whenTryToPlace_shouldGenerateException(){
+        Order order = Order.draft(new CustomerId());
+        order.place();
+        Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
+                .isThrownBy(order::place);
     }
 
 
