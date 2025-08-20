@@ -95,15 +95,15 @@ public class Order {
         );
     }
 
-    public void addItem(ProductId productId, ProductName productName, Money price,
+    public void addItem(Product product,
                         Quantity quantity){
 
+        Objects.requireNonNull(product);
+        Objects.requireNonNull(quantity);
         OrderItem orderItem = OrderItem.brandNew()
                 .orderId(this.id)
-                .price(price)
+                .product(product)
                 .quantity(quantity)
-                .productName(productName)
-                .productId(productId)
                 .build();
 
         this.items.add(orderItem);
