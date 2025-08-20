@@ -35,5 +35,6 @@ public class ErrorMessages {
             = "Order %s cannot be placed, it has no delivery date";
     public static final String ERROR_ORDER_CANNOT_BE_PLACED_HAS_NO_PAYMENT_METHOD
             = "Order %s cannot be placed, it has no payment method";
+    public static final String ERROR_ORDER_DOES_NOT_CONTAIN_ITEM = "Order %s dose not contain item %s";
 
 }
