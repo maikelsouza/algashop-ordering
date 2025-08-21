@@ -104,30 +104,14 @@ class OrderTest {
     }
 
     @Test
-    public void givenDraftOrder_whenChangeBillingInfo_shouldAllowChange(){
-        Address address = Address.builder()
-                .street("Bourbon Street")
-                .number("1234")
-                .neighborhood("North Ville")
-                .complement("apt 11")
-                .city("Montfort")
-                .state("South Caroline")
-                .zipCode(new ZipCode("79911"))
-                .build();
-
-
-        BillingInfo billingInfo = BillingInfo.builder()
-                .address(address)
-                .document(new Document("225-09-1992"))
-                .phone(new Phone("123-111-9911"))
-                .fullName(new FullName("John", "Doe"))
-                .build();
+    public void givenDraftOrder_whenChangeBilling_shouldAllowChange(){
+       Billing billing = OrderTestDataBuilder.aBilling();
 
         Order order = Order.draft(new CustomerId());
 
-        order.changeBilling(billingInfo);
+        order.changeBilling(billing);
 
-        Assertions.assertThat(order.billingInfo()).isEqualTo(billingInfo);
+        Assertions.assertThat(order.billingInfo()).isEqualTo(billing);
     }
 
     @Test
@@ -135,8 +119,6 @@ class OrderTest {
         Shipping shipping = OrderTestDataBuilder.aShipping();
 
         Order order = Order.draft(new CustomerId());
-        Money shippingCost = Money.ZERO;
-        LocalDate expectedDeliveryDate  = LocalDate.now().plusDays(1);
         order.changeShipping(shipping);
 
         Assertions.assertWith(order,

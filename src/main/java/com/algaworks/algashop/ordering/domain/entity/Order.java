@@ -38,7 +38,7 @@ public class Order {
 
     private OffsetDateTime readyAt;
 
-    private BillingInfo billingInfo;
+    private Billing billing;
 
     private Shipping shipping;
 
@@ -51,7 +51,7 @@ public class Order {
 
     @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
     public Order(OrderId id, CustomerId customerId, Money totalAmount, Quantity totalItems, OffsetDateTime placedAt,
-                 OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime readyAt, BillingInfo billingInfo,
+                 OffsetDateTime paidAt, OffsetDateTime canceledAt, OffsetDateTime readyAt, Billing billing,
                  Shipping shipping, OrderStatus status, PaymentMethod paymentMethod, Set<OrderItem> items) {
         this.setId(id);
         this.setCustomerId(customerId);
@@ -61,7 +61,7 @@ public class Order {
         this.setPaidAt(paidAt);
         this.setCanceledAt(canceledAt);
         this.setReadyAt(readyAt);
-        this.setBillingInfo(billingInfo);
+        this.setBilling(billing);
         this.setShipping(shipping);
         this.setStatus(status);
         this.setPaymentMethod(paymentMethod);
@@ -122,9 +122,9 @@ public class Order {
         this.setPaymentMethod(paymentMethod);
     }
 
-    public void changeBilling(BillingInfo billing){
+    public void changeBilling(Billing billing){
         Objects.requireNonNull(billing);
-        setBillingInfo(billing);
+        setBilling(billing);
     }
 
     public void changeShipping(Shipping newShipping){
@@ -189,8 +189,8 @@ public class Order {
         return readyAt;
     }
 
-    public BillingInfo billingInfo() {
-        return billingInfo;
+    public Billing billingInfo() {
+        return billing;
     }
 
     public Shipping shipping() {
@@ -300,8 +300,8 @@ public class Order {
         this.readyAt = readyAt;
     }
 
-    private void setBillingInfo(BillingInfo billingInfo) {
-        this.billingInfo = billingInfo;
+    private void setBilling(Billing billing) {
+        this.billing = billing;
     }
 
     private void setShipping(Shipping shipping) {

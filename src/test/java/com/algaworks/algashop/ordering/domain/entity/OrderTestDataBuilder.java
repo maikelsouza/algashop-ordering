@@ -14,7 +14,7 @@ public class OrderTestDataBuilder {
 
     private static Shipping shipping = aShipping();
 
-    public static BillingInfo billingInfo = aBillingInfo();
+    public static Billing billing = aBilling();
 
     private boolean withItems = true;
 
@@ -30,7 +30,7 @@ public class OrderTestDataBuilder {
     public Order build(){
         Order order = Order.draft(customerId);
         order.changeShipping(shipping);
-        order.changeBilling(billingInfo);
+        order.changeBilling(billing);
         order.changePaymentMethod(paymentMethod);
 
         if (withItems){
@@ -80,12 +80,13 @@ public class OrderTestDataBuilder {
                 .build();
     }
 
-    public static BillingInfo aBillingInfo() {
-        return BillingInfo.builder()
+    public static Billing aBilling() {
+        return Billing.builder()
                 .address(anAddress())
                 .document(new Document("225-09-1992"))
                 .phone(new Phone("123-111-9911"))
                 .fullName(new FullName("John", "Doe"))
+                .email(new Email("john.doe@gmail.com"))
                 .build();
     }
 
@@ -123,12 +124,12 @@ public class OrderTestDataBuilder {
         return this;
     }
 
-    public static void shippingInfo(Shipping shipping) {
+    public static void shipping(Shipping shipping) {
         OrderTestDataBuilder.shipping = shipping;
     }
 
-    public static void billingInfo(BillingInfo billingInfo) {
-        OrderTestDataBuilder.billingInfo = billingInfo;
+    public static void billing(Billing billing) {
+        OrderTestDataBuilder.billing = billing;
     }
 
     public OrderTestDataBuilder withItems(boolean withItems) {
