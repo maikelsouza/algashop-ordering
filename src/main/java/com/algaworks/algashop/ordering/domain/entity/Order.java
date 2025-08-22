@@ -189,7 +189,7 @@ public class Order {
         return readyAt;
     }
 
-    public Billing billingInfo() {
+    public Billing billing() {
         return billing;
     }
 
@@ -243,7 +243,7 @@ public class Order {
             throw OrderCannotBePlacedException.noShippingInfo(this.id());
         }
 
-        if(this.billingInfo() == null){
+        if(this.billing() == null){
             throw OrderCannotBePlacedException.noBillingInfo(this.id());
         }
 
@@ -296,7 +296,7 @@ public class Order {
         this.canceledAt = canceledAt;
     }
 
-    private void setReadyAt(OffsetDateTime billingInfo) {
+    private void setReadyAt(OffsetDateTime billing) {
         this.readyAt = readyAt;
     }
 
