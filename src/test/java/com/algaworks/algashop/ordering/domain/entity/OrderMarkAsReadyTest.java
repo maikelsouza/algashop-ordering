@@ -25,6 +25,5 @@ public class OrderMarkAsReadyTest {
         Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
                 .isThrownBy(order::markAsReady)
                 .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), OrderStatus.PLACED, OrderStatus.READY));
-
     }
 }
