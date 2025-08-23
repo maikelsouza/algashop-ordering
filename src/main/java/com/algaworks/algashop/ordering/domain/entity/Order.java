@@ -43,7 +43,6 @@ public class Order {
 
     private PaymentMethod paymentMethod;
 
-
     private Set<OrderItem> items;
 
     @Builder(builderClassName = "ExistingOrderBuilder", builderMethodName = "existing")
@@ -103,13 +102,21 @@ public class Order {
         this.recalculateTotals();
     }
 
+    public void removeItem(OrderItemId orderItemId){
+        this.verifyIfChangeable();
+        Objects.requireNonNull(orderItemId);
+        OrderItem orderItem = this.findOrderItem(orderItemId);
+        this.items.remove(orderItem);
+        this.recalculateTotals();
+
+
+    }
+
     public void place(){
         this.verifyIfCanChangeToPlaced();
         this.changeStatus(OrderStatus.PLACED);
         this.setPlacedAt(OffsetDateTime.now());
     }
-
-
 
     public void markAsPaid() {
         this.setPaidAt(OffsetDateTime.now());
@@ -157,8 +164,7 @@ public class Order {
         return OrderStatus.PLACED.equals(this.status());
     }
 
-    public boolean isPaid(){ return OrderStatus.PAID.equals(this.status());
-    }
+    public boolean isPaid(){ return OrderStatus.PAID.equals(this.status());}
 
     public OrderId id() {
         return id;
@@ -267,7 +273,6 @@ public class Order {
                 .orElseThrow(() -> new OrderDoesNotContainOrderItemException(this.id(), orderItemId));
     }
 
-
     private void setId(OrderId id) {
         this.id = id;
     }
@@ -342,7 +347,6 @@ public class Order {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 
 }
 
