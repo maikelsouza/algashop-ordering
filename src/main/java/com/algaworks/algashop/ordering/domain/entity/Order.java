@@ -108,8 +108,6 @@ public class Order {
         OrderItem orderItem = this.findOrderItem(orderItemId);
         this.items.remove(orderItem);
         this.recalculateTotals();
-
-
     }
 
     public void place(){
@@ -121,6 +119,11 @@ public class Order {
     public void markAsPaid() {
         this.setPaidAt(OffsetDateTime.now());
         this.changeStatus(OrderStatus.PAID);
+    }
+
+    public void markAsReady(){
+        this.changeStatus(OrderStatus.READY);
+        this.setReadyAt(OffsetDateTime.now());
     }
 
     public void changePaymentMethod(PaymentMethod paymentMethod){
@@ -165,6 +168,7 @@ public class Order {
     }
 
     public boolean isPaid(){ return OrderStatus.PAID.equals(this.status());}
+    public boolean isReady(){ return OrderStatus.READY.equals(this.status());}
 
     public OrderId id() {
         return id;
@@ -304,7 +308,7 @@ public class Order {
         this.canceledAt = canceledAt;
     }
 
-    private void setReadyAt(OffsetDateTime billing) {
+    private void setReadyAt(OffsetDateTime readyAt) {
         this.readyAt = readyAt;
     }
 
