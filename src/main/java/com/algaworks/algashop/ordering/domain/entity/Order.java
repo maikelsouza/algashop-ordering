@@ -1,9 +1,6 @@
 package com.algaworks.algashop.ordering.domain.entity;
 
-import com.algaworks.algashop.ordering.domain.exception.OrderCannotBePlacedException;
-import com.algaworks.algashop.ordering.domain.exception.OrderDoesNotContainOrderItemException;
-import com.algaworks.algashop.ordering.domain.exception.OrderInvalidShippingDeliveryDateException;
-import com.algaworks.algashop.ordering.domain.exception.OrderStatusCannotBeChangedException;
+import com.algaworks.algashop.ordering.domain.exception.*;
 import com.algaworks.algashop.ordering.domain.valueobject.*;
 import com.algaworks.algashop.ordering.domain.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.valueobject.id.OrderId;
@@ -89,8 +86,10 @@ public class Order {
     public void addItem(Product product,
                         Quantity quantity){
 
+        this.verifyIfChangeable();
         Objects.requireNonNull(product);
         Objects.requireNonNull(quantity);
+
         product.checkOutOfStock();
 
         OrderItem orderItem = OrderItem.brandNew()
@@ -118,16 +117,19 @@ public class Order {
     }
 
     public void changePaymentMethod(PaymentMethod paymentMethod){
+        this.verifyIfChangeable();
         Objects.requireNonNull(paymentMethod);
         this.setPaymentMethod(paymentMethod);
     }
 
     public void changeBilling(Billing billing){
+        this.verifyIfChangeable();
         Objects.requireNonNull(billing);
         setBilling(billing);
     }
 
     public void changeShipping(Shipping newShipping){
+        this.verifyIfChangeable();
         Objects.requireNonNull(newShipping);
         if (newShipping.expectedDate().isBefore(LocalDate.now())){
             throw new OrderInvalidShippingDeliveryDateException(this.id());
@@ -137,6 +139,7 @@ public class Order {
     }
 
     public void changeItemQuantity(OrderItemId orderItemId, Quantity quantity){
+        this.verifyIfChangeable();
         Objects.requireNonNull(orderItemId);
         Objects.requireNonNull(quantity);
 
@@ -322,7 +325,11 @@ public class Order {
         this.items = items;
     }
 
-
+    private void verifyIfChangeable(){
+        if (!isDraft()){
+            throw new OrderCannotBeEditedException(this.id(), this.status());
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

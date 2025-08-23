@@ -29,7 +29,7 @@ public class CustomerTest {
     }
 
     @Test
-    void given_unarchivedCustumer_whenArchive_shoudAnonymized(){
+    void given_unarchivedCustomer_whenArchive_shouldAnonymized(){
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
         customer.archive();
 
