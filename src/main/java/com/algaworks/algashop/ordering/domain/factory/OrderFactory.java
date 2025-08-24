@@ -2,7 +2,7 @@ package com.algaworks.algashop.ordering.domain.factory;
 
 import com.algaworks.algashop.ordering.domain.entity.Order;
 import com.algaworks.algashop.ordering.domain.entity.PaymentMethod;
-import com.algaworks.algashop.ordering.domain.entity.Product;
+import com.algaworks.algashop.ordering.domain.valueobject.Product;
 import com.algaworks.algashop.ordering.domain.valueobject.Billing;
 import com.algaworks.algashop.ordering.domain.valueobject.Quantity;
 import com.algaworks.algashop.ordering.domain.valueobject.Shipping;
