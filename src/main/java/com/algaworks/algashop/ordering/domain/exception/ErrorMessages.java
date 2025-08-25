@@ -31,9 +31,14 @@ public class ErrorMessages {
             = "Order %s cannot be placed, it has no billing info";
     public static final String ERROR_ORDER_CANNOT_BE_PLACED_HAS_NO_PAYMENT_METHOD
             = "Order %s cannot be placed, it has no payment method";
-    public static final String ERROR_ORDER_DOES_NOT_CONTAIN_ITEM = "Order %s dose not contain item %s";
+    public static final String ERROR_ORDER_DOES_NOT_CONTAIN_ITEM = "Order %s does not contain item %s";
     public static final String ERROR_PRODUCT_IS_OUT_OF_STOCK = "Product %s is out of stock";
     public static final String ERROR_ORDER_CANNOT_BE_EDITED = "Order %s with status %s cannot be edited";
+    public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_ITEM = "Shopping Card %s does not contain item %s";
+    public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_PRODUCT = "Shopping Card %s does not contain product %s";
+    public static final String ERROR_SHOPPING_CARD_ITEM_INCOMPATIBLE_PRODUCT = "Shopping Card Item %s incompatible product %s";
+
+
 
 
 
