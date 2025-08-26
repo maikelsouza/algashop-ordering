@@ -1,6 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.entity;
 
 import com.algaworks.algashop.ordering.domain.model.exception.CustomerArchivedException;
+import com.algaworks.algashop.ordering.domain.model.repository.AggregateRoot;
 import com.algaworks.algashop.ordering.domain.model.valueobject.*;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.model.exception.ErrorMessages.*;
 
-public class Customer{
+public class Customer implements AggregateRoot<CustomerId> {
 
     private CustomerId id;
     private FullName fullName;
