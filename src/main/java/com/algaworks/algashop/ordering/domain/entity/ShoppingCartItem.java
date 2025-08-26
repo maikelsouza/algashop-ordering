@@ -68,7 +68,11 @@ public class ShoppingCartItem {
 
     void changeQuantity(Quantity quantity){
         Objects.requireNonNull(quantity);
+        if (quantity.value() <= 0){
+            throw new IllegalArgumentException();
+        }
         setQuantity(quantity);
+        this.recalculateTotals();
     }
 
     public void recalculateTotals(){

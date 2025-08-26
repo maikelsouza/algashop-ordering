@@ -193,6 +193,11 @@ public class ShoppingCart {
     }
 
     @Override
+    public String toString() {
+        return  id.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
 
