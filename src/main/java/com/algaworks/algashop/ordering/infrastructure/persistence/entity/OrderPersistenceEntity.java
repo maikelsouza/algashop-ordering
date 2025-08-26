@@ -1,6 +1,5 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.entity;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -25,7 +24,7 @@ public class OrderPersistenceEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
-    private UUID CustomerId;
+    private UUID customerId;
 
     private BigDecimal totalAmount;
 
