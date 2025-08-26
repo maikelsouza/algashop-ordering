@@ -42,7 +42,7 @@ public class ShoppingCartItemTest {
     }
 
     @Test
-    public void givenTwoShoppingCarts_wheSameIds_shouldBeEquals() {
+    public void givenTwoShoppingCartItems_wheSameIds_shouldBeEquals() {
 
         ShoppingCartItemId shoppingCartItemId = new ShoppingCartItemId();
 
