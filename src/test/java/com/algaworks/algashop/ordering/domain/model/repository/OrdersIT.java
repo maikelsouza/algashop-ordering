@@ -82,7 +82,7 @@ class OrdersIT {
         orderT2.cancel();
 
 
-        Assertions.assertThatExceptionOfType(ObjectOptimisticLockingFailureException.class)
+            Assertions.assertThatExceptionOfType(ObjectOptimisticLockingFailureException.class)
                 .isThrownBy(() ->orders.add(orderT2));
 
         Order savedOrder = orders.ofId(order.id()).orElseThrow();
@@ -90,4 +90,5 @@ class OrdersIT {
         Assertions.assertThat(savedOrder.canceledAt()).isNull();
         Assertions.assertThat(savedOrder.paidAt()).isNotNull();
     }
+
 }

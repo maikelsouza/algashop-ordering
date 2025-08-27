@@ -9,8 +9,12 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPe
 import com.algaworks.algashop.ordering.infrastructure.persistence.repository.OrderPersistenceEntityRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.val;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.Optional;
 
 @Component
@@ -47,17 +51,24 @@ public class OrdersPersistenceProvider implements Orders {
     }
 
     private void insert(Order aggregateRoot) {
-         OrderPersistenceEntity orderPersistenceEntity = assembler.fromDomain(aggregateRoot);
+        OrderPersistenceEntity orderPersistenceEntity = assembler.fromDomain(aggregateRoot);
         persistenceRepository.saveAndFlush(orderPersistenceEntity);
-        aggregateRoot.setVersion(orderPersistenceEntity.getVersion());
+        updateVersion(aggregateRoot, orderPersistenceEntity);
     }
 
     private void update(Order aggregateRoot, OrderPersistenceEntity persistenceEntity) {
         persistenceEntity = assembler.merge(persistenceEntity, aggregateRoot);
         entityManager.detach(persistenceEntity);
         persistenceRepository.saveAndFlush(persistenceEntity);
-        aggregateRoot.setVersion(persistenceEntity.getVersion());
+        updateVersion(aggregateRoot, persistenceEntity);
+    }
 
+    @SneakyThrows
+    private void updateVersion(Order aggregateRoot, OrderPersistenceEntity persistenceEntity) {
+        Field version = aggregateRoot.getClass().getDeclaredField("version");
+        version.setAccessible(true);
+        ReflectionUtils.setField(version, aggregateRoot, persistenceEntity.getVersion());
+        version.setAccessible(false);
     }
 
     @Override
