@@ -33,13 +33,13 @@ public class OrderPersistenceEntityAssembler{
         orderPersistenceEntity.setCancelAt(order.canceledAt());
         orderPersistenceEntity.setReadyAt(order.readyAt());
         orderPersistenceEntity.setVersion(order.version());
-        orderPersistenceEntity.setBilling(buildBilling(order.billing()));
-        orderPersistenceEntity.setShipping(buildShipping(order.shipping()));
+        orderPersistenceEntity.setBilling(buildBillingEmbeddable(order.billing()));
+        orderPersistenceEntity.setShipping(buildShippingEmbeddable(order.shipping()));
 
         return orderPersistenceEntity;
     }
 
-    private BillingEmbeddable buildBilling(Billing billing) {
+    private BillingEmbeddable buildBillingEmbeddable(Billing billing) {
         Objects.requireNonNull(billing);
         return BillingEmbeddable.builder()
                 .firstName(billing.fullName().firstName())
@@ -47,11 +47,11 @@ public class OrderPersistenceEntityAssembler{
                 .document(billing.document().value())
                 .phone(billing.phone().value())
                 .email(billing.email().value())
-                .address(buildAddress(billing.address()))
+                .address(buildAddressEmbeddable(billing.address()))
                 .build();
     }
 
-    private AddressEmbeddable buildAddress(Address address){
+    private AddressEmbeddable buildAddressEmbeddable(Address address){
         Objects.requireNonNull(address);
         return AddressEmbeddable.builder()
                 .state(address.state())
@@ -64,18 +64,18 @@ public class OrderPersistenceEntityAssembler{
                 .build();
     }
 
-    private ShippingEmbeddable buildShipping(Shipping shipping){
+    private ShippingEmbeddable buildShippingEmbeddable(Shipping shipping){
         Objects.requireNonNull(shipping);
         return ShippingEmbeddable.builder()
                 .cost(shipping.cost().value())
-                .address(buildAddress(shipping.address()))
+                .address(buildAddressEmbeddable(shipping.address()))
                 .expectedDate(shipping.expectedDate())
-                .recipient(buildRecipient(shipping.recipient()))
+                .recipient(buildRecipientEmbeddable(shipping.recipient()))
                 .build();
 
     }
 
-    private RecipientEmbeddable buildRecipient(Recipient recipient) {
+    private RecipientEmbeddable buildRecipientEmbeddable(Recipient recipient) {
         Objects.requireNonNull(recipient);
         return RecipientEmbeddable.builder()
                 .document(recipient.document().value())
