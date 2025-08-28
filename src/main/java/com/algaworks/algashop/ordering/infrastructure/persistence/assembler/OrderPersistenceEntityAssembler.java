@@ -72,7 +72,6 @@ public class OrderPersistenceEntityAssembler{
                 .expectedDate(shipping.expectedDate())
                 .recipient(buildRecipientEmbeddable(shipping.recipient()))
                 .build();
-
     }
 
     private RecipientEmbeddable buildRecipientEmbeddable(Recipient recipient) {
