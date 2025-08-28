@@ -10,7 +10,6 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.repository.Ord
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
@@ -37,7 +36,7 @@ public class OrdersPersistenceProvider implements Orders {
 
     @Override
     public boolean exists(OrderId orderId) {
-        return false;
+        return persistenceRepository.existsById(orderId.value().toLong());
     }
 
     @Override
@@ -48,6 +47,11 @@ public class OrdersPersistenceProvider implements Orders {
                         update(aggregateRoot, persistenceEntity);
                     }, () -> insert(aggregateRoot));
 
+    }
+
+    @Override
+    public long count() {
+        return persistenceRepository.count();
     }
 
     private void insert(Order aggregateRoot) {
@@ -71,8 +75,4 @@ public class OrdersPersistenceProvider implements Orders {
         version.setAccessible(false);
     }
 
-    @Override
-    public void count() {
-
-    }
 }

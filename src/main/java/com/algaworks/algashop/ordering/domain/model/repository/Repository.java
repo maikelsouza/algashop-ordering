@@ -10,6 +10,6 @@ public interface Repository<T extends AggregateRoot<ID>, ID> {
 
     void add(T aggregateRoot);
 
-    void count();
+    long count();
 
 }
