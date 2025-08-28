@@ -10,6 +10,7 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.Shi
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 public class OrderPersistenceEntityTestDataBuilder {
 
@@ -22,12 +23,34 @@ public class OrderPersistenceEntityTestDataBuilder {
                 .id(IdGenerator.generateTSID().toLong())
                 .customerId(IdGenerator.generateTimeBasedUUID())
                 .totalItems(2)
-                .totalAmount(new BigDecimal(1000))
+                .totalAmount(new BigDecimal(1250))
                 .status("DRAFT")
                 .paymentMethod("CREDIT_CARD")
                 .shipping(buildShippingEmbeddable())
                 .billing(buildBillingEmbeddable())
-                .placedAt(OffsetDateTime.now());
+                .placedAt(OffsetDateTime.now())
+                .items(Set.of(existingItem().build(), existingItemAlt().build()));
+
+    }
+
+    private static OrderItemPersistenceEntity.OrderItemPersistenceEntityBuilder existingItem(){
+        return OrderItemPersistenceEntity.builder()
+                .id(IdGenerator.generateTSID().toLong())
+                .price(new BigDecimal(500))
+                .quantity(2)
+                .totalAmount(new BigDecimal(1000))
+                .productName("Notebook")
+                .productId(IdGenerator.generateTimeBasedUUID());
+    }
+
+    private static OrderItemPersistenceEntity.OrderItemPersistenceEntityBuilder existingItemAlt(){
+        return OrderItemPersistenceEntity.builder()
+                .id(IdGenerator.generateTSID().toLong())
+                .price(new BigDecimal(250))
+                .quantity(1)
+                .totalAmount(new BigDecimal(250))
+                .productName("Mouse Pad")
+                .productId(IdGenerator.generateTimeBasedUUID());
     }
 
     private static ShippingEmbeddable buildShippingEmbeddable() {
