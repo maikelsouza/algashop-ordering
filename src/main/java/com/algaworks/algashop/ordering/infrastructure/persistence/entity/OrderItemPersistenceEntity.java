@@ -12,6 +12,7 @@ import java.util.UUID;
 @ToString(of = "id")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class OrderItemPersistenceEntity {
 
