@@ -30,7 +30,6 @@ public class OrderPersistenceEntityTestDataBuilder {
                 .billing(buildBillingEmbeddable())
                 .placedAt(OffsetDateTime.now())
                 .items(Set.of(existingItem().build(), existingItemAlt().build()));
-
     }
 
     private static OrderItemPersistenceEntity.OrderItemPersistenceEntityBuilder existingItem(){
