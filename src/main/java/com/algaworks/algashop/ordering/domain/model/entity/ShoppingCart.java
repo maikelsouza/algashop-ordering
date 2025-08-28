@@ -50,7 +50,8 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
 
     public void empty(){
         this.items.clear();
-        this.recalculateTotals();
+        totalAmount = Money.ZERO;
+        totalItems = Quantity.ZERO;
     }
 
     public void addItem(Product product, Quantity quantity){
@@ -200,8 +201,8 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ShoppingCart that = (ShoppingCart) o;
         return Objects.equals(id, that.id);
     }

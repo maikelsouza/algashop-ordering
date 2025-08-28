@@ -68,9 +68,6 @@ public class ShoppingCartItem {
 
     void changeQuantity(Quantity quantity){
         Objects.requireNonNull(quantity);
-        if (quantity.value() <= 0){
-            throw new IllegalArgumentException();
-        }
         setQuantity(quantity);
         this.recalculateTotals();
     }
@@ -81,7 +78,7 @@ public class ShoppingCartItem {
 
     public ShoppingCartItemId id() { return id; }
 
-    public ShoppingCartId ShoppingCardId() { return this.shoppingCartId; }
+    public ShoppingCartId shoppingCardId() { return this.shoppingCartId; }
 
     public ProductId productId() { return this.productId; }
 
@@ -124,16 +121,21 @@ public class ShoppingCartItem {
     }
 
     private void setQuantity(Quantity quantity){
+        if (quantity.value() <= 0){
+            throw new IllegalArgumentException();
+        }
         this.quantity = quantity;
     }
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ShoppingCartItem that = (ShoppingCartItem) o;
         return Objects.equals(id, that.id);
     }
+
+
 
     @Override
     public int hashCode() {
