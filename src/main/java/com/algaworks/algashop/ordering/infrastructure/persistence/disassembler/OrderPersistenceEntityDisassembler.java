@@ -7,6 +7,7 @@ import com.algaworks.algashop.ordering.domain.model.entity.PaymentMethod;
 import com.algaworks.algashop.ordering.domain.model.valueobject.*;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderId;
+import com.algaworks.algashop.ordering.domain.model.valueobject.id.OrderItemId;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.ProductId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.AddressEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.BillingEmbeddable;
@@ -48,16 +49,15 @@ public class OrderPersistenceEntityDisassembler {
             return new HashSet<>();
         }
         return items.stream().map(
-                i ->
-                        OrderItem.brandNew()
-                                .orderId(new OrderId(i.getOrderId()))
-                                .quantity(new Quantity(i.getQuantity()))
-                                .product(Product.builder()
-                                        .id(new ProductId(i.getProductId()))
-                                        .price(new Money(i.getPrice()))
-                                        .inStock(true)
-                                        .name(new ProductName(i.getProductName()))
-                                        .build())
+                p ->
+                        OrderItem.existing()
+                                .id(new OrderItemId(p.getId()))
+                                .orderId(new OrderId(p.getOrderId()))
+                                .quantity(new Quantity(p.getQuantity()))
+                                .productId(new ProductId(p.getProductId()))
+                                .productName(new ProductName(p.getProductName()))
+                                .price(new Money(p.getPrice()))
+                                .totalAmount(new Money(p.getTotalAmount()))
                                 .build()
         ).collect(Collectors.toSet());
     }
