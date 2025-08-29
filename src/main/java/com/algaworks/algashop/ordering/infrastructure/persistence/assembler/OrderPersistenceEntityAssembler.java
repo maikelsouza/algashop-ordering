@@ -12,7 +12,6 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.Rec
 import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.ShippingEmbeddable;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderItemPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPersistenceEntity;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -44,7 +43,6 @@ public class OrderPersistenceEntityAssembler{
         orderPersistenceEntity.setShipping(buildShippingEmbeddable(order.shipping()));
         Set<OrderItemPersistenceEntity> mergeItems = mergeItems(order, orderPersistenceEntity);
         orderPersistenceEntity.replaceItems(mergeItems);
-
         return orderPersistenceEntity;
     }
 
@@ -88,7 +86,7 @@ public class OrderPersistenceEntityAssembler{
 
 
     private BillingEmbeddable buildBillingEmbeddable(Billing billing) {
-        Objects.requireNonNull(billing);
+        if (billing == null) return null;
         return BillingEmbeddable.builder()
                 .firstName(billing.fullName().firstName())
                 .lastName(billing.fullName().lastName())
@@ -100,7 +98,7 @@ public class OrderPersistenceEntityAssembler{
     }
 
     private AddressEmbeddable buildAddressEmbeddable(Address address){
-        Objects.requireNonNull(address);
+        if (address == null) return null;
         return AddressEmbeddable.builder()
                 .state(address.state())
                 .city(address.city())
@@ -113,7 +111,7 @@ public class OrderPersistenceEntityAssembler{
     }
 
     private ShippingEmbeddable buildShippingEmbeddable(Shipping shipping){
-        Objects.requireNonNull(shipping);
+        if (shipping == null) return null;
         return ShippingEmbeddable.builder()
                 .cost(shipping.cost().value())
                 .address(buildAddressEmbeddable(shipping.address()))
@@ -123,7 +121,7 @@ public class OrderPersistenceEntityAssembler{
     }
 
     private RecipientEmbeddable buildRecipientEmbeddable(Recipient recipient) {
-        Objects.requireNonNull(recipient);
+        if (recipient == null) return null;
         return RecipientEmbeddable.builder()
                 .document(recipient.document().value())
                 .firstName(recipient.fullName().firstName())
