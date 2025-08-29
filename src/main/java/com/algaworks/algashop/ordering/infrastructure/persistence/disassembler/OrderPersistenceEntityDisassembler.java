@@ -17,7 +17,6 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.entity.OrderPe
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,16 +60,12 @@ public class OrderPersistenceEntityDisassembler {
                                         .build())
                                 .build()
         ).collect(Collectors.toSet());
-
-
-
-
     }
 
 
 
     private Billing buildBilling(BillingEmbeddable billingEmbeddable) {
-        Objects.requireNonNull(billingEmbeddable);
+        if (billingEmbeddable == null) return null;
         return Billing.builder()
                 .fullName(new FullName(billingEmbeddable.getFirstName(), billingEmbeddable.getLastName()))
                 .document(new Document(billingEmbeddable.getDocument()))
@@ -81,7 +76,7 @@ public class OrderPersistenceEntityDisassembler {
     }
 
     private Address buildAddress(AddressEmbeddable addressEmbeddable){
-        Objects.requireNonNull(addressEmbeddable);
+        if (addressEmbeddable == null) return null;
         return Address.builder()
                 .state(addressEmbeddable.getState())
                 .city(addressEmbeddable.getCity())
@@ -94,7 +89,7 @@ public class OrderPersistenceEntityDisassembler {
     }
 
     private Shipping buildShipping(ShippingEmbeddable shippingEmbeddable){
-        Objects.requireNonNull(shippingEmbeddable);
+        if (shippingEmbeddable == null) return null;
         return Shipping.builder()
                 .cost(new Money(shippingEmbeddable.getCost()))
                 .address(buildAddress(shippingEmbeddable.getAddress()))
@@ -104,7 +99,7 @@ public class OrderPersistenceEntityDisassembler {
     }
 
     private Recipient buildRecipient(RecipientEmbeddable recipientEmbeddable) {
-        Objects.requireNonNull(recipientEmbeddable);
+        if (recipientEmbeddable == null) return null;
         return Recipient.builder()
                 .document(new Document(recipientEmbeddable.getDocument()))
                 .fullName(new FullName(recipientEmbeddable.getFirstName(), recipientEmbeddable.getLastName()))
