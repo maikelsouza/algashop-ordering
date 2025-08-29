@@ -1,0 +1,45 @@
+package com.algaworks.algashop.ordering.infrastructure.persistence.assembler;
+
+import com.algaworks.algashop.ordering.domain.model.entity.Customer;
+import com.algaworks.algashop.ordering.domain.model.valueobject.Address;
+import com.algaworks.algashop.ordering.infrastructure.persistence.embeddable.AddressEmbeddable;
+import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntity;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CustomerPersistenceEntityAssembler {
+
+    public CustomerPersistenceEntity fromDomain(Customer customer){
+        return merge(new CustomerPersistenceEntity(), customer);
+    }
+
+    public CustomerPersistenceEntity merge(CustomerPersistenceEntity customerPersistenceEntity, Customer customer){
+        customerPersistenceEntity.setId(customer.id().value());
+        customerPersistenceEntity.setArchived(customer.isArchived());
+        customerPersistenceEntity.setRegisteredAt(customer.registeredAt());
+        customerPersistenceEntity.setDocument(customer.document().value());
+        customerPersistenceEntity.setEmail(customer.email().value());
+        customerPersistenceEntity.setBirthDate(customer.birthDate().value());
+        customerPersistenceEntity.setPhone(customer.phone().value());
+        customerPersistenceEntity.setFirstName(customer.fullName().firstName());
+        customerPersistenceEntity.setLastName(customer.fullName().lastName());
+        customerPersistenceEntity.setLoyaltyPoints(customer.loyaltyPoints().value());
+        customerPersistenceEntity.setPromotionNotificationsAllowed(customer.isPromotionNotificationsAllowed());
+        customerPersistenceEntity.setVersion(customer.version());
+        customerPersistenceEntity.setAddress(buildAddressEmbeddable(customer.address()));
+        return customerPersistenceEntity;
+    }
+
+    public static AddressEmbeddable buildAddressEmbeddable(Address address){
+        if (address == null) return null;
+        return AddressEmbeddable.builder()
+                .state(address.state())
+                .city(address.city())
+                .neighborhood(address.neighborhood())
+                .complement(address.complement())
+                .number(address.number())
+                .street(address.street())
+                .zipCode(address.zipCode().value())
+                .build();
+    }
+}

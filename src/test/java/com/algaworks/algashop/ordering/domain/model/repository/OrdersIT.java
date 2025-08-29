@@ -81,8 +81,7 @@ class OrdersIT {
         orders.add(orderT1);
         orderT2.cancel();
 
-
-            Assertions.assertThatExceptionOfType(ObjectOptimisticLockingFailureException.class)
+        Assertions.assertThatExceptionOfType(ObjectOptimisticLockingFailureException.class)
                 .isThrownBy(() ->orders.add(orderT2));
 
         Order savedOrder = orders.ofId(order.id()).orElseThrow();
