@@ -1,6 +1,7 @@
 package com.algaworks.algashop.ordering.domain.model.repository;
 
 import com.algaworks.algashop.ordering.domain.model.entity.*;
+import com.algaworks.algashop.ordering.domain.model.valueobject.Email;
 import com.algaworks.algashop.ordering.domain.model.valueobject.FullName;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.assembler.CustomerPersistenceEntityAssembler;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @DataJpaTest
 @Import({CustomersPersistenceProvider.class, CustomerPersistenceEntityAssembler.class, CustomerPersistenceEntityDisassembler.class})
@@ -109,11 +111,10 @@ class CustomersIT {
 
         Assertions.assertThat(customers.count()).isZero();
 
-        Customer customer1 = CustomerTestDataBuilder.existingCustomer().build();
-        Customer customer2 = CustomerTestDataBuilder.existingCustomer().build();
-
-
+        Customer customer1 = CustomerTestDataBuilder.brandNewCustomer().build();
         customers.add(customer1);
+
+        Customer customer2 = CustomerTestDataBuilder.brandNewCustomer().build();
         customers.add(customer2);
 
         Assertions.assertThat(customers.count()).isEqualTo(2);
@@ -127,6 +128,23 @@ class CustomersIT {
 
         Assertions.assertThat(customers.exists(customer.id())).isTrue();
         Assertions.assertThat(customers.exists(new CustomerId())).isFalse();
+    }
+
+    @Test
+    public void shouldFindByEmail(){
+        Customer customer = CustomerTestDataBuilder.existingCustomer().build();
+        customers.add(customer);
+
+        Optional<Customer> customerOptional = customers.ofEmail(customer.email());
+
+        Assertions.assertThat(customerOptional).isPresent();
+    }
+
+    @Test
+    public void shouldNotFindEmailIfNoExistsWithEmail(){
+        Optional<Customer> customerOptional = customers.ofEmail(new Email(UUID.randomUUID().toString() +"@email.com"));
+
+        Assertions.assertThat(customerOptional).isNotPresent();
     }
 
 }
