@@ -60,6 +60,12 @@ public class CustomersPersistenceProvider implements Customers {
         return persistenceRepository.count();
     }
 
+    @Override
+    public Optional<Customer> ofEmail(Email email) {
+        return persistenceRepository.findByEmail(email.value())
+                .map(disassembler::toDomainEntity);
+    }
+
     private void insert(Customer aggregateRoot) {
         CustomerPersistenceEntity orderPersistenceEntity = assembler.fromDomain(aggregateRoot);
         persistenceRepository.saveAndFlush(orderPersistenceEntity);
@@ -81,9 +87,4 @@ public class CustomersPersistenceProvider implements Customers {
         version.setAccessible(false);
     }
 
-    @Override
-    public Optional<Customer> ofEmail(Email email) {
-        return persistenceRepository.findByEmail(email.value())
-                .map(disassembler::toDomainEntity);
-    }
 }
