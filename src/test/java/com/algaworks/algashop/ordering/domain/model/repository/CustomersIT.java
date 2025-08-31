@@ -30,7 +30,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldPersistAndFind(){
+    public void shouldPersistAndFind() {
         Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
         CustomerId customerId = customer.id();
         customers.add(customer);
@@ -61,7 +61,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldUpdateExistingCustomer(){
+    public void shouldUpdateExistingCustomer() {
 
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
 
@@ -81,7 +81,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldNotAllowStalesUpdates(){
+    public void shouldNotAllowStalesUpdates() {
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
 
         customers.add(customer);
@@ -98,7 +98,7 @@ class CustomersIT {
 
 
         Assertions.assertThatExceptionOfType(ObjectOptimisticLockingFailureException.class)
-                .isThrownBy(() ->customers.add(customer2));
+                .isThrownBy(() -> customers.add(customer2));
 
         Customer savedCustomer = customers.ofId(customer.id()).orElseThrow();
 
@@ -107,7 +107,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldCountExistingCustomer(){
+    public void shouldCountExistingCustomer() {
 
         Assertions.assertThat(customers.count()).isZero();
 
@@ -121,7 +121,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldReturnIfCustomerExists(){
+    public void shouldReturnIfCustomerExists() {
 
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
         customers.add(customer);
@@ -131,7 +131,7 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldFindByEmail(){
+    public void shouldFindByEmail() {
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
         customers.add(customer);
 
@@ -141,10 +141,20 @@ class CustomersIT {
     }
 
     @Test
-    public void shouldNotFindEmailIfNoExistsWithEmail(){
-        Optional<Customer> customerOptional = customers.ofEmail(new Email(UUID.randomUUID().toString() +"@email.com"));
+    public void shouldNotFindEmailIfNoExistsWithEmail() {
+        Optional<Customer> customerOptional = customers.ofEmail(new Email(UUID.randomUUID().toString() + "@email.com"));
 
         Assertions.assertThat(customerOptional).isNotPresent();
+    }
+
+    @Test
+    public void shouldReturnIfEmailInUse() {
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        customers.add(customer);
+
+        Assertions.assertThat(customers.isEmailUnique(customer.email(), customer.id())).isTrue();
+        Assertions.assertThat(customers.isEmailUnique(customer.email(), new CustomerId())).isFalse();
+        Assertions.assertThat(customers.isEmailUnique(new Email("maikel.souza@gmail.com"), new CustomerId())).isTrue();
     }
 
 }
