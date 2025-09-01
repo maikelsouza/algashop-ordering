@@ -164,7 +164,7 @@ public class Customer implements AggregateRoot<CustomerId> {
         return version;
     }
 
-    private void setVersion(Long version) {
+    public void setVersion(Long version) {
         this.version = version;
     }
 

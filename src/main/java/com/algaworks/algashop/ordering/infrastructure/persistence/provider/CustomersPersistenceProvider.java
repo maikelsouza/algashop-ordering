@@ -46,6 +46,7 @@ public class CustomersPersistenceProvider implements Customers {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void add(Customer aggregateRoot) {
         UUID customerId = aggregateRoot.id().value();
         persistenceRepository.findById(customerId)
