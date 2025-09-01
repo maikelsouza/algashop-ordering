@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class CustomerPersistenceEntityDisassembler {
 
     public Customer toDomainEntity(CustomerPersistenceEntity persistenceEntity) {
+        if (persistenceEntity== null) return null;
         return Customer.existing()
                 .id(new CustomerId(persistenceEntity.getId()))
                 .email(new Email(persistenceEntity.getEmail()))
