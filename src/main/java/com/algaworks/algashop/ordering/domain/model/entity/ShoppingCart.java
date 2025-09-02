@@ -30,6 +30,8 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
 
     private Set<ShoppingCartItem> items;
 
+    private Long version;
+
 
     @Builder(builderClassName = "ExistingShoppingCartBuilder", builderMethodName = "existing")
     public ShoppingCart(ShoppingCartId id, CustomerId customerId,
@@ -158,6 +160,13 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
 
     public OffsetDateTime createdAt() { return this.createdAt; }
 
+    public Long version(){
+        return version;
+    }
+
+    private void setVersion(Long version){
+        this.version = version;
+    }
 
     private void updateItem(ShoppingCartItem shoppingCartItem, Product product, Quantity quantity) {
         shoppingCartItem.refresh(product);

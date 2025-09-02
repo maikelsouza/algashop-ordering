@@ -3,11 +3,13 @@ package com.algaworks.algashop.ordering.domain.model.entity;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 
+import static com.algaworks.algashop.ordering.domain.model.entity.CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID;
+
 public class ShoppingCartTestDataBuilder {
 
     private boolean withItems = false;
 
-    private CustomerId customerId = new CustomerId();
+    private CustomerId customerId = DEFAULT_CUSTOMER_ID;
 
     private ShoppingCartTestDataBuilder() {}
 

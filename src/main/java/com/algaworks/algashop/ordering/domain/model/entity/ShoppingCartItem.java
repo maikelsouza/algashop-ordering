@@ -82,7 +82,7 @@ public class ShoppingCartItem {
 
     public ProductId productId() { return this.productId; }
 
-    public ProductName name() { return this.productName; }
+    public ProductName productName() { return this.productName; }
 
     public Money price() { return this.price; }
 
