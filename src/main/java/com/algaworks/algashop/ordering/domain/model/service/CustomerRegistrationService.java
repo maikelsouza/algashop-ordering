@@ -12,12 +12,13 @@ public class CustomerRegistrationService {
 
     private Customers customers;
 
-    public Customer register(Long version, FullName fullName, BirthDate birthDate, Email email, Phone phone, Document document,
+    public Customer register(FullName fullName, BirthDate birthDate, Email email, Phone phone, Document document,
                              Boolean promotionNotificationsAllowed, Address address){
 
         Customer customer = Customer.brandNew()
                 .fullName(fullName)
                 .birthDate(birthDate)
+                .phone(phone)
                 .email(email)
                 .document(document)
                 .promotionNotificationsAllowed(promotionNotificationsAllowed)
