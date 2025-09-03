@@ -23,7 +23,12 @@ public record Money(BigDecimal value) implements Comparable<Money>{
     }
 
     public Money multiply(Quantity quantity){
-        return new Money(value.multiply(BigDecimal.valueOf(quantity.value())));
+        Objects.requireNonNull(quantity);
+        if (quantity.value() < 1) {
+            throw new IllegalArgumentException();
+        }
+        BigDecimal multiplied = this.value.multiply(new BigDecimal(quantity.value()));
+        return new Money(multiplied);
     }
 
     public Money add(Money outer){

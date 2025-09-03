@@ -87,7 +87,7 @@ public class Order implements AggregateRoot<OrderId> {
         );
     }
 
-    public void addItem(Product product,
+    public void addItem2(Product product,
                         Quantity quantity){
 
         this.verifyIfChangeable();
@@ -101,6 +101,29 @@ public class Order implements AggregateRoot<OrderId> {
                 .product(product)
                 .quantity(quantity)
                 .build();
+
+        this.items.add(orderItem);
+
+        this.recalculateTotals();
+    }
+
+    public void addItem(Product product, Quantity quantity) {
+        Objects.requireNonNull(product);
+        Objects.requireNonNull(quantity);
+
+        this.verifyIfChangeable();
+
+        product.checkOutOfStock();
+
+        OrderItem orderItem = OrderItem.brandNew()
+                .orderId(this.id())
+                .quantity(quantity)
+                .product(product)
+                .build();
+
+        if (this.items == null) {
+            this.items = new HashSet<>();
+        }
 
         this.items.add(orderItem);
 
