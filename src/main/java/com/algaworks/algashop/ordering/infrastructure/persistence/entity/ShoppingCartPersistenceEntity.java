@@ -37,7 +37,7 @@ public class ShoppingCartPersistenceEntity {
 
     private Integer totalItems;
 
-    @OneToMany(mappedBy = "ShoppingCart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
     private Set<ShoppingCartItemPersistenceEntity> items = new HashSet<>();
 
     @CreatedBy

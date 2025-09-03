@@ -41,7 +41,7 @@ public class ShoppingCartItemPersistenceEntity {
 
     @JoinColumn
     @ManyToOne(optional = false)
-    private ShoppingCartPersistenceEntity ShoppingCart;
+    private ShoppingCartPersistenceEntity shoppingCart;
 
     @CreatedBy
     private UUID createdByUserId;
