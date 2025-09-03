@@ -39,6 +39,7 @@ public class ErrorMessages {
     public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_ITEM = "Shopping Card %s does not contain item %s";
     public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_PRODUCT = "Shopping Card %s does not contain product %s";
     public static final String ERROR_SHOPPING_CARD_ITEM_INCOMPATIBLE_PRODUCT = "Shopping Card Item %s incompatible product %s";
+    public static final String ERROR_SHOPPING_CARD_CANT_PROCEED_TO_CHECKOUT = "Shopping Card %s cannot proceed to checkout";
 
 
 
