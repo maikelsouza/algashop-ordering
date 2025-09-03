@@ -9,6 +9,8 @@ import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
 import com.algaworks.algashop.ordering.domain.model.valueobject.Shipping;
 import com.algaworks.algashop.ordering.domain.model.valueobject.id.CustomerId;
 
+import java.util.Objects;
+
 @DomainService
 public class BuyNowService {
 
@@ -18,6 +20,12 @@ public class BuyNowService {
                         Shipping shipping,
                         Quantity quantity,
                         PaymentMethod paymentMethod) {
+
+        Objects.requireNonNull(product);
+        Objects.requireNonNull(customerId);
+        Objects.requireNonNull(billing);
+        Objects.requireNonNull(shipping);
+        Objects.requireNonNull(paymentMethod);
 
         product.checkOutOfStock();
 
