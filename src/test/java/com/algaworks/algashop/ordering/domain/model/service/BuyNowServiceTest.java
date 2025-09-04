@@ -2,14 +2,12 @@ package com.algaworks.algashop.ordering.domain.model.service;
 
 import com.algaworks.algashop.ordering.domain.model.entity.*;
 import com.algaworks.algashop.ordering.domain.model.exception.ProductOutOfStockException;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Billing;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Product;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Quantity;
-import com.algaworks.algashop.ordering.domain.model.valueobject.Shipping;
+import com.algaworks.algashop.ordering.domain.model.valueobject.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.algaworks.algashop.ordering.domain.model.exception.ErrorMessages.ERROR_PRODUCT_IS_OUT_OF_STOCK;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BuyNowServiceTest {
 
@@ -29,14 +27,25 @@ class BuyNowServiceTest {
         Order order =  buyNowService.buyNow(product,customer.id(), billing,
                 shipping, quantity,creditCard);
 
-        Assertions.assertThat(order).satisfies(
-                o -> Assertions.assertThat(o).isNotNull(),
-                o -> Assertions.assertThat(o.isPlaced()).isTrue(),
-                o -> Assertions.assertThat(o.paymentMethod()).isEqualTo(PaymentMethod.CREDIT_CARD),
-                o -> Assertions.assertThat(o.billing()).isEqualTo(billing),
-                o -> Assertions.assertThat(o.shipping()).isEqualTo(shipping),
-                o -> Assertions.assertThat(o.totalItems()).isEqualTo(quantity)
+        assertThat(order).satisfies(
+                o -> assertThat(o).isNotNull(),
+                o -> assertThat(o.isPlaced()).isTrue(),
+                o -> assertThat(o.paymentMethod()).isEqualTo(PaymentMethod.CREDIT_CARD),
+                o -> assertThat(o.billing()).isEqualTo(billing),
+                o -> assertThat(o.shipping()).isEqualTo(shipping),
+                o -> assertThat(o.totalItems()).isEqualTo(quantity),
+                o -> assertThat(o.customerId()).isEqualTo(customer.id())
         );
+
+        assertThat(order.items()).hasSize(1);
+        assertThat(order.items().iterator().next().productId()).isEqualTo(product.id());
+        assertThat(order.items().iterator().next().quantity()).isEqualTo(quantity);
+        assertThat(order.items().iterator().next().price()).isEqualTo(product.price());
+
+        Money expectedTotalAmount = product.price().multiply(quantity).add(shipping.cost());
+        assertThat(order.totalAmount()).isEqualTo(expectedTotalAmount);
+        assertThat(order.totalItems()).isEqualTo(quantity);
+
     }
 
     @Test
