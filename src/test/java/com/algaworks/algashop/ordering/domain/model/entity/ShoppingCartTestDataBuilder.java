@@ -9,7 +9,7 @@ public class ShoppingCartTestDataBuilder {
 
     private boolean withItems = false;
 
-    private CustomerId customerId = DEFAULT_CUSTOMER_ID;
+    public CustomerId customerId = DEFAULT_CUSTOMER_ID;
 
     private ShoppingCartTestDataBuilder() {}
 
