@@ -1,6 +1,5 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.embeddable;
 
-import com.algaworks.algashop.ordering.domain.model.valueobject.ZipCode;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
