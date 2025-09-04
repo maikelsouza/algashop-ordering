@@ -71,11 +71,11 @@ public class ShoppingCart implements AggregateRoot<ShoppingCartId> {
                 .quantity(quantity)
                 .build();
 
-        Optional<ShoppingCartItem> ShoppingCartItemOptional = this.items.stream()
+        Optional<ShoppingCartItem> shoppingCartItemOptional = this.items.stream()
                 .filter(i -> i.productId().equals(product.id()))
                 .findFirst();
 
-        ShoppingCartItemOptional
+        shoppingCartItemOptional
                 .ifPresentOrElse(i -> updateItem(i, product, quantity),
                         () -> this.items.add(shoppingCartItem));
 
