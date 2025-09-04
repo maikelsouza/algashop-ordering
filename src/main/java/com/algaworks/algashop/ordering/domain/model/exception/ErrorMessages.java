@@ -14,7 +14,9 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_PHONE_IS_BLANK = "Phone cannot be blank";
     public static final String VALIDATION_ERROR_PRODUCT_NAME_IS_NULL = "Product Name cannot be null";
     public static final String VALIDATION_ERROR_PRODUCT_NAME_IS_BLANK = "Product Name cannot be blank";
-    public static final String ERROR_CUSTOMER_ARCHIVED =  "Customer is archived cannot be changed";
+    public static final String ERROR_CUSTOMER_ARCHIVED = "Customer is archived cannot be changed";
+    public static final String ERROR_CUSTOMER_NOT_FOUND = "Customer %s not found";
+    public static final String ERROR_CUSTOMER_ALREADY_HAVES_SHOPPING_CART = "Customer %s already haves shopping cart";
     public static final String VALIDATION_ERROR_MONEY_IS_NEGATIVE =  "Money cannot be negative";
     public static final String VALIDATION_ERROR_MONEY_IS_NULL = "Money cannot be null";
     public static final String VALIDATION_ERROR_MONEY_IS_DIVIDED_BY_ZERO = "Money cannot be divided by zero";
