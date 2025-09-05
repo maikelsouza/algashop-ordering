@@ -34,7 +34,7 @@ public class CustomerOutput {
 
     private Integer loyaltyPoints;
 
-    private OffsetDateTime registerAt;
+    private OffsetDateTime registeredAt;
 
     private OffsetDateTime archivedAt;
 
