@@ -12,8 +12,4 @@ public class CustomerNotFoundException extends DomainException {
     public CustomerNotFoundException(CustomerId id) {
         super(String.format(ERROR_CUSTOMER_NOT_FOUND,id));
     }
-
-    public CustomerNotFoundException(UUID id) {
-        super(String.format(ERROR_CUSTOMER_NOT_FOUND,id));
-    }
 }
