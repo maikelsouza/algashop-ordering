@@ -1,6 +1,7 @@
 package com.algaworks.algashop.ordering.application.customer.management;
 
 import com.algaworks.algashop.ordering.application.commons.AddressData;
+import com.algaworks.algashop.ordering.application.utility.Mapper;
 import com.algaworks.algashop.ordering.domain.model.commons.*;
 import com.algaworks.algashop.ordering.domain.model.customer.*;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ public class CustomerManagementApplicationService {
     private final CustomerRegistrationService customerRegistration;
 
     private final Customers customers;
+
+    private final Mapper mapper;
 
     @Transactional
     public UUID create(CustomerInput input){
@@ -50,30 +53,7 @@ public class CustomerManagementApplicationService {
 
         Customer customer = customers.ofId(new CustomerId(customerId))
                         .orElseThrow(() -> new CustomerNotFoundException(customerId));
-        Address address = customer.address();
-        return CustomerOutput.builder()
-                .id(customer.id().value())
-                .firstName(customer.fullName().firstName())
-                .lastName(customer.fullName().lastName())
-                .email(customer.email().value())
-                .document(customer.document().value())
-                .phone(customer.phone().value())
-                .promotionNotificationsAllowed(customer.isPromotionNotificationsAllowed())
-                .loyaltyPoints(customer.loyaltyPoints().value())
-                .registerAt(customer.registeredAt())
-                .birthDate(customer.birthDate() != null ? customer.birthDate().value() :null)
-                .archived(customer.isArchived())
-                .address(AddressData.builder()
-                        .street(address.street())
-                        .number(address.number())
-                        .complement(address.complement())
-                        .neighborhood(address.neighborhood())
-                        .city(address.city())
-                        .state(address.state())
-                        .zipCode(address.zipCode().value())
-                        .build())
-
-                .build();
+        return mapper.covert(customer, CustomerOutput.class);
     }
 }
 
