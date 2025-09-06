@@ -74,7 +74,7 @@ public class Customer implements AggregateRoot<CustomerId> {
         this.setFullName(new FullName("Anonymous","Anonymous"));
         this.setPhone(new Phone("000-000-0000"));
         this.setDocument(new Document("000-00-0000"));
-        this.setEmail(new Email(UUID.randomUUID() + "@annonymous.com"));
+        this.setEmail(new Email(UUID.randomUUID() + "@anonymous.com"));
         this.setBirthDate(null);
         this.setPromotionNotificationsAllowed(false);
         setAddress(this.address.toBuilder()

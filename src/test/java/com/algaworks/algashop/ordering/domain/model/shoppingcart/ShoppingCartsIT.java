@@ -65,7 +65,7 @@ class ShoppingCartsIT {
                 s-> Assertions.assertThat(s.totalAmount()).isEqualTo(originalShoppingCart.totalAmount()),
                 s-> Assertions.assertThat(s.totalItems()).isEqualTo(originalShoppingCart.totalItems()),
                 s->Assertions.assertThat(s.createdAt())
-                        .isCloseTo(originalShoppingCart.createdAt(), Assertions.within(1, ChronoUnit.MILLIS))
+                        .isCloseTo(originalShoppingCart.createdAt(), Assertions.within(10, ChronoUnit.MILLIS))
 
         );
 

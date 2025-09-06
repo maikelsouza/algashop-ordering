@@ -17,7 +17,7 @@ public class CustomerPersistenceEntityDisassembler {
                 .id(new CustomerId(persistenceEntity.getId()))
                 .email(new Email(persistenceEntity.getEmail()))
                 .phone(new Phone(persistenceEntity.getPhone()))
-                .birthDate(new BirthDate(persistenceEntity.getBirthDate()))
+                .birthDate(persistenceEntity.getBirthDate() != null ? new BirthDate(persistenceEntity.getBirthDate()) : null)
                 .address(buildAddress(persistenceEntity.getAddress()))
                 .document(new Document(persistenceEntity.getDocument()))
                 .promotionNotificationsAllowed(persistenceEntity.getPromotionNotificationsAllowed())

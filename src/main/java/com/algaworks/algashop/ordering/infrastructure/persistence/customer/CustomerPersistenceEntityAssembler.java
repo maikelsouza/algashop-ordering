@@ -15,6 +15,7 @@ public class CustomerPersistenceEntityAssembler {
     public CustomerPersistenceEntity merge(CustomerPersistenceEntity customerPersistenceEntity, Customer customer){
         customerPersistenceEntity.setId(customer.id().value());
         customerPersistenceEntity.setArchived(customer.isArchived());
+        customerPersistenceEntity.setArchivedAt(customer.archivedAt());
         customerPersistenceEntity.setRegisteredAt(customer.registeredAt());
         customerPersistenceEntity.setDocument(customer.document().value());
         customerPersistenceEntity.setEmail(customer.email().value());

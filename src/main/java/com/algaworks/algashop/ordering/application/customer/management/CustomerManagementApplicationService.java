@@ -87,6 +87,18 @@ public class CustomerManagementApplicationService {
         customers.add(customer);
     }
 
+    @Transactional
+    public void archive(UUID customerId){
+        Objects.requireNonNull(customerId);
+
+        Customer customer = customers.ofId(new CustomerId(customerId)).orElseThrow(
+                () -> new CustomerNotFoundException(new CustomerId(customerId)));
+
+        customer.archive();
+
+        customers.add(customer);
+    }
+
 }
 
 
