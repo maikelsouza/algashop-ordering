@@ -38,6 +38,7 @@ public class ErrorMessages {
     public static final String ERROR_CANT_ADD_LOYALTY_POINTS_ORDER_IS_NOT_READY = "Order %s cannot add loyalty points order is not ready";
     public static final String ERROR_ORDER_NOT_BELONGS_TO_CUSTOMER = "Order %s not belongs to customer %s";
     public static final String ERROR_ORDER_CANNOT_BE_EDITED = "Order %s with status %s cannot be edited";
+    public static final String ERROR_ORDER_NOT_FOUND = "Order %s not found";
     public static final String ERROR_PRODUCT_IS_OUT_OF_STOCK = "Product %s is out of stock";
     public static final String ERROR_PRODUCT_NOT_FOUND = "Product %s not found";
     public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_ITEM = "Shopping Card %s does not contain item %s";
