@@ -1,9 +1,7 @@
 package com.algaworks.algashop.ordering.application.shoppingcart.management;
 
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
-import com.algaworks.algashop.ordering.domain.model.customer.Customer;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;
-import com.algaworks.algashop.ordering.domain.model.customer.Customers;
+import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.product.*;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
 import org.assertj.core.api.Assertions;
@@ -15,6 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.*;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -135,6 +134,45 @@ class ShoppingCartManagementApplicationServiceIT {
                 .withMessage(String.format(ERROR_PRODUCT_IS_OUT_OF_STOCK, product.id()));
 
         verify(productCatalogService).ofId(product.id());
+    }
+
+    @Test
+    public void givenAShoppingCartItemInput_whenCreateNew_shouldSuccessfully(){
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        customers.add(customer);
+
+        UUID newShoppingCartId  = shoppingCartManagementApplicationService.createNew(customer.id().value());
+
+        ShoppingCart shoppingCart = shoppingCarts.ofId(new ShoppingCartId(newShoppingCartId)).orElseThrow();
+        Assertions.assertThat(newShoppingCartId).isNotNull();
+        Assertions.assertThat(shoppingCart.customerId()).isEqualTo(customer.id());
+        Assertions.assertThat(shoppingCart.totalItems()).isEqualTo(Quantity.ZERO);
+    }
+
+    @Test
+    void givenAShoppingCartItemInput_whenTryCreateNewWithoutCustomer_shouldGenerationException() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        UUID customerId = customer.id().value();
+
+        assertThatExceptionOfType(CustomerNotFoundException.class)
+                .isThrownBy(() -> shoppingCartManagementApplicationService.createNew(customerId))
+                .withMessage(String.format(ERROR_CUSTOMER_NOT_FOUND,customerId));
+    }
+
+    @Test
+    void givenAShoppingCartItemInput_whenTryCreateNewWithCustomerAlreadyHavesShoppingCart_shouldGenerationException() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        UUID customerId = customer.id().value();
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(new CustomerId(customerId)).build();
+        customers.add(customer);
+        shoppingCarts.add(shoppingCart);
+
+        assertThatExceptionOfType(CustomerAlreadyHaveShoppingCartException.class)
+                .isThrownBy(() -> shoppingCartManagementApplicationService.createNew(customerId))
+                .withMessage(String.format(ERROR_CUSTOMER_ALREADY_HAVES_SHOPPING_CART,customerId));
     }
 
 
