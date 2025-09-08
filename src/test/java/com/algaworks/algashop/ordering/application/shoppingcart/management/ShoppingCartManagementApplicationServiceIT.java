@@ -175,5 +175,62 @@ class ShoppingCartManagementApplicationServiceIT {
                 .withMessage(String.format(ERROR_CUSTOMER_ALREADY_HAVES_SHOPPING_CART,customerId));
     }
 
+    @Test
+    public void givenAShoppingCartItemInput_whenRemoveItem_shouldSuccessfully(){
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        CustomerId customerId = customer.id();
+        customers.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customerId).build();
+        Product product = ProductTestDataBuilder.aProduct().build();
+        shoppingCart.addItem(product, new Quantity(1));
+        shoppingCarts.add(shoppingCart);
+        ShoppingCartItem itemToRemove = shoppingCart.items().iterator().next();
+
+        shoppingCartManagementApplicationService.removeItem(shoppingCart.id().value(), itemToRemove.id().value());
+
+        shoppingCart = shoppingCarts.ofId(new ShoppingCartId(shoppingCart.id().value())).orElseThrow();
+
+        Assertions.assertThat(shoppingCart).isNotNull();
+        Assertions.assertThat(shoppingCart.customerId()).isEqualTo(customerId);
+        Assertions.assertThat(shoppingCart.isEmpty()).isTrue();
+    }
+
+    @Test
+    void givenAShoppingCartItemInput_whenTryRemoveItemWithShoppingCartNotFound_shouldGenerationException() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        CustomerId customerId = customer.id();
+        customers.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customerId).build();
+        Product product = ProductTestDataBuilder.aProduct().build();
+        shoppingCart.addItem(product, new Quantity(1));
+
+        ShoppingCartItem itemToRemove = shoppingCart.items().iterator().next();
+
+        assertThatExceptionOfType(ShoppingCartNotFoundException.class)
+                .isThrownBy(() -> shoppingCartManagementApplicationService.removeItem(shoppingCart.id().value(), itemToRemove.id().value()))
+                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
+
+    }
+
+    @Test
+    void givenAShoppingCartItemInput_whenTryRemoveItemWithShoppingCartDoesNotContain_shouldGenerationException() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        CustomerId customerId = customer.id();
+        customers.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customerId).build();
+        shoppingCarts.add(shoppingCart);
+
+        UUID nonExistingItemId = UUID.randomUUID();
+
+        assertThatExceptionOfType(ShoppingCartDoesNotContainItemException.class)
+                .isThrownBy(() -> shoppingCartManagementApplicationService.removeItem(shoppingCart.id().value(), nonExistingItemId))
+                .withMessage(String.format(ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_ITEM,shoppingCart.id(),nonExistingItemId));
+
+    }
+
+
+
 
 }
