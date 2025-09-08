@@ -79,4 +79,16 @@ public class ShoppingCartManagementApplicationService {
         shoppingCart.empty();
         shoppingCarts.add(shoppingCart);
     }
+
+    @Transactional
+    public void delete(UUID rawShoppingCartId){
+        Objects.requireNonNull(rawShoppingCartId);
+
+        ShoppingCartId shoppingCartId = new ShoppingCartId(rawShoppingCartId);
+
+        ShoppingCart shoppingCart = shoppingCarts.ofId(shoppingCartId)
+                .orElseThrow(() -> new ShoppingCartNotFoundException(shoppingCartId));
+
+        shoppingCarts.remove(shoppingCart);
+    }
 }

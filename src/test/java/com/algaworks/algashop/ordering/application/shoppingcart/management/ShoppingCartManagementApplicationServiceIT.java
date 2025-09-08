@@ -262,6 +262,39 @@ class ShoppingCartManagementApplicationServiceIT {
                 .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
     }
 
+    @Test
+    void givenAShoppingCart_whetDelete_shouldSuccessfully(){
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        CustomerId customerId = customer.id();
+        customers.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customerId).build();
+        Product product = ProductTestDataBuilder.aProduct().build();
+        shoppingCart.addItem(product, new Quantity(1));
+        shoppingCarts.add(shoppingCart);
+
+        shoppingCartManagementApplicationService.delete(shoppingCart.id().value());
+
+        Optional<ShoppingCart> shoppingCartOptional = shoppingCarts.ofId(new ShoppingCartId(shoppingCart.id().value()));
+
+        Assertions.assertThat(shoppingCartOptional).isNotPresent();
+    }
+
+    @Test
+    void givenAShoppingCartAndAShoppingCartItem_whenTryDeleteWithShoppingCartNotFound_shouldGenerationException() {
+
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        CustomerId customerId = customer.id();
+        customers.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customerId).build();
+        Product product = ProductTestDataBuilder.aProduct().build();
+        shoppingCart.addItem(product, new Quantity(1));
+
+        assertThatExceptionOfType(ShoppingCartNotFoundException.class)
+                .isThrownBy(() -> shoppingCartManagementApplicationService.delete(shoppingCart.id().value()))
+                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
+    }
+
+
 
 
 
