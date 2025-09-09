@@ -71,4 +71,43 @@ class OrderManagementApplicationServiceIT {
                 .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.CANCELED));
     }
 
+    @Test
+    public void givenAnOrder_whenMarkAsPaid_shouldSuccessfully(){
+        Order order = OrderTestDataBuilder.anOrder()
+                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .status(OrderStatus.PLACED)
+                .build();
+        orders.add(order);
+        orderManagementApplicationService.markAsPaid(order.id().value().toLong());
+
+        Order cancelOrder = orders.ofId(order.id()).orElseThrow();
+
+        Assertions.assertThat(cancelOrder.paidAt()).isNotNull();
+        Assertions.assertThat(cancelOrder.isPaid()).isTrue();
+    }
+
+    @Test
+    public void givenAnOrder_whenTryMarkAsPaidWithOrderNotFound_shouldGenerationException(){
+        Order order = OrderTestDataBuilder.anOrder()
+                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .build();
+
+        Assertions.assertThatExceptionOfType(OrderNotFoundException.class)
+                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().value().toLong()))
+                .withMessage(String.format(ERROR_ORDER_NOT_FOUND,order.id()));
+    }
+
+    @Test
+    public void givenAnOrder_whenTryCancelWithMarkAsPaidStatus_shouldGenerationException(){
+        Order order = OrderTestDataBuilder.anOrder()
+                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .status(OrderStatus.PAID)
+                .build();
+        orders.add(order);
+
+        Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
+                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().value().toLong()))
+                .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.PAID));
+    }
+
 }
