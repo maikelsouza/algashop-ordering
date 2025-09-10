@@ -27,6 +27,7 @@ public class CustomerPersistenceEntityAssembler {
         customerPersistenceEntity.setPromotionNotificationsAllowed(customer.isPromotionNotificationsAllowed());
         customerPersistenceEntity.setVersion(customer.version());
         customerPersistenceEntity.setAddress(buildAddressEmbeddable(customer.address()));
+        customerPersistenceEntity.addEvents(customer.domainEvents());
         return customerPersistenceEntity;
     }
 
