@@ -18,39 +18,36 @@ public class OrderManagementApplicationService {
 
 
     @Transactional
-    public void cancel(Long rawOrderId){
+    public void cancel(String  rawOrderId){
         Objects.requireNonNull(rawOrderId);
 
-        OrderId orderId = new OrderId(rawOrderId);
-        Order order = orders.ofId(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
-
+        Order order = findOrder(rawOrderId);
         order.cancel();
         orders.add(order);
     }
 
     @Transactional
-    public void markAsPaid(Long rawOrderId){
+    public void markAsPaid(String rawOrderId){
         Objects.requireNonNull(rawOrderId);
 
-        OrderId orderId = new OrderId(rawOrderId);
-        Order order = orders.ofId(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
-
+        Order order = findOrder(rawOrderId);
         order.markAsPaid();
         orders.add(order);
     }
 
     @Transactional
-    public void markAsReady(Long rawOrderId){
+    public void markAsReady(String  rawOrderId){
         Objects.requireNonNull(rawOrderId);
 
-        OrderId orderId = new OrderId(rawOrderId);
-        Order order = orders.ofId(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
-
+        Order order = findOrder(rawOrderId);
         order.markAsReady();
         orders.add(order);
+    }
+
+    private Order findOrder(String rawOrderId) {
+        OrderId orderId = new OrderId(rawOrderId);
+        return orders.ofId(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
     }
 
 }

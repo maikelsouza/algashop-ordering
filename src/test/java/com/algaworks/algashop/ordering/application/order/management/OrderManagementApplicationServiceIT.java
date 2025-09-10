@@ -39,7 +39,7 @@ class OrderManagementApplicationServiceIT {
                 .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
                 .build();
         orders.add(order);
-        orderManagementApplicationService.cancel(order.id().value().toLong());
+        orderManagementApplicationService.cancel(order.id().toString());
 
         Order cancelOrder = orders.ofId(order.id()).orElseThrow();
 
@@ -54,7 +54,7 @@ class OrderManagementApplicationServiceIT {
                 .build();
 
         Assertions.assertThatExceptionOfType(OrderNotFoundException.class)
-                .isThrownBy(() ->orderManagementApplicationService.cancel(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.cancel(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_NOT_FOUND,order.id()));
     }
 
@@ -67,7 +67,7 @@ class OrderManagementApplicationServiceIT {
         orders.add(order);
 
         Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
-                .isThrownBy(() ->orderManagementApplicationService.cancel(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.cancel(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.CANCELED));
     }
 
@@ -78,7 +78,7 @@ class OrderManagementApplicationServiceIT {
                 .status(OrderStatus.PLACED)
                 .build();
         orders.add(order);
-        orderManagementApplicationService.markAsPaid(order.id().value().toLong());
+        orderManagementApplicationService.markAsPaid(order.id().toString());
 
         Order cancelOrder = orders.ofId(order.id()).orElseThrow();
 
@@ -93,7 +93,7 @@ class OrderManagementApplicationServiceIT {
                 .build();
 
         Assertions.assertThatExceptionOfType(OrderNotFoundException.class)
-                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_NOT_FOUND,order.id()));
     }
 
@@ -106,7 +106,20 @@ class OrderManagementApplicationServiceIT {
         orders.add(order);
 
         Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
-                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().toString()))
+                .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.PAID));
+    }
+
+    @Test
+    public void givenAnOrder_whenTryCancelWithMarkAsCanceledStatus_shouldGenerationException(){
+        Order order = OrderTestDataBuilder.anOrder()
+                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .status(OrderStatus.CANCELED)
+                .build();
+        orders.add(order);
+
+        Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
+                .isThrownBy(() ->orderManagementApplicationService.markAsPaid(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.PAID));
     }
 
@@ -117,7 +130,7 @@ class OrderManagementApplicationServiceIT {
                 .status(OrderStatus.PAID)
                 .build();
         orders.add(order);
-        orderManagementApplicationService.markAsReady(order.id().value().toLong());
+        orderManagementApplicationService.markAsReady(order.id().toString());
 
         Order cancelOrder = orders.ofId(order.id()).orElseThrow();
 
@@ -132,12 +145,12 @@ class OrderManagementApplicationServiceIT {
                 .build();
 
         Assertions.assertThatExceptionOfType(OrderNotFoundException.class)
-                .isThrownBy(() ->orderManagementApplicationService.markAsReady(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.markAsReady(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_NOT_FOUND,order.id()));
     }
 
     @Test
-    public void givenAnOrder_whenTryCancelWithMarkAsReadyStatus_shouldGenerationException(){
+    public void givenAnOrder_whenTryMarkAsReadyWithReadyStatus_shouldGenerationException(){
         Order order = OrderTestDataBuilder.anOrder()
                 .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
                 .status(OrderStatus.READY)
@@ -145,7 +158,20 @@ class OrderManagementApplicationServiceIT {
         orders.add(order);
 
         Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
-                .isThrownBy(() ->orderManagementApplicationService.markAsReady(order.id().value().toLong()))
+                .isThrownBy(() ->orderManagementApplicationService.markAsReady(order.id().toString()))
+                .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.READY));
+    }
+
+    @Test
+    public void givenAnOrder_whenTryMarkReadyWithPlacedStatus_shouldGenerationException(){
+        Order order = OrderTestDataBuilder.anOrder()
+                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .status(OrderStatus.PLACED)
+                .build();
+        orders.add(order);
+
+        Assertions.assertThatExceptionOfType(OrderStatusCannotBeChangedException.class)
+                .isThrownBy(() ->orderManagementApplicationService.markAsReady(order.id().toString()))
                 .withMessage(String.format(ERROR_ORDER_STATUS_CANNOT_BE_CHANGED,order.id(), order.status(), OrderStatus.READY));
     }
 
