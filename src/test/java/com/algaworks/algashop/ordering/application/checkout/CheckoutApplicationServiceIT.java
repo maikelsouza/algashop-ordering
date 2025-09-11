@@ -9,6 +9,7 @@ import com.algaworks.algashop.ordering.domain.model.order.shipping.ShippingCostS
 import com.algaworks.algashop.ordering.domain.model.product.Product;
 import com.algaworks.algashop.ordering.domain.model.product.ProductTestDataBuilder;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
+import com.algaworks.algashop.ordering.infrastructure.listener.order.OrderEventListener;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -42,6 +44,9 @@ class CheckoutApplicationServiceIT {
 
     @MockitoBean
     private ShippingCostService shippingCostService;
+
+    @MockitoSpyBean
+    private OrderEventListener orderEventListener;
 
     @BeforeEach
     public void setup() {
@@ -89,7 +94,7 @@ class CheckoutApplicationServiceIT {
                 o -> Assertions.assertThat(order.isPlaced()).isTrue(),
                 o -> Assertions.assertThat(order.placedAt()).isNotNull()
         );
-
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderPlacedEvent.class));
         verify(shippingCostService).calculate(Mockito.any(ShippingCostService.CalculationRequest.class));
     }
 

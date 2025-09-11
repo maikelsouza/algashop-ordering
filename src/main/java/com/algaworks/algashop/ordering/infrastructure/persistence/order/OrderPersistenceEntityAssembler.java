@@ -44,6 +44,7 @@ public class OrderPersistenceEntityAssembler{
         orderPersistenceEntity.replaceItems(mergeItems);
         CustomerPersistenceEntity customerPersistenceEntity = customerPersistenceEntityRepository.getReferenceById(order.customerId().value());
         orderPersistenceEntity.setCustomer(customerPersistenceEntity);
+        orderPersistenceEntity.addEvents(order.domainEvents());
         return orderPersistenceEntity;
     }
 

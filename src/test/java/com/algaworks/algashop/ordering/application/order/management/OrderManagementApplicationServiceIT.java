@@ -3,11 +3,14 @@ package com.algaworks.algashop.ordering.application.order.management;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import com.algaworks.algashop.ordering.domain.model.order.*;
+import com.algaworks.algashop.ordering.infrastructure.listener.order.OrderEventListener;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_ORDER_NOT_FOUND;
@@ -25,6 +28,9 @@ class OrderManagementApplicationServiceIT {
 
     @Autowired
     private Customers customers;
+
+    @MockitoSpyBean
+    private OrderEventListener orderEventListener;
 
     @BeforeEach
     public void setup() {
@@ -45,6 +51,7 @@ class OrderManagementApplicationServiceIT {
 
         Assertions.assertThat(cancelOrder.canceledAt()).isNotNull();
         Assertions.assertThat(cancelOrder.isCanceled()).isTrue();
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderCanceledEvent.class));
     }
 
     @Test
@@ -84,6 +91,7 @@ class OrderManagementApplicationServiceIT {
 
         Assertions.assertThat(cancelOrder.paidAt()).isNotNull();
         Assertions.assertThat(cancelOrder.isPaid()).isTrue();
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderPaidEvent.class));
     }
 
     @Test
@@ -136,6 +144,7 @@ class OrderManagementApplicationServiceIT {
 
         Assertions.assertThat(cancelOrder.readyAt()).isNotNull();
         Assertions.assertThat(cancelOrder.isReady()).isTrue();
+        Mockito.verify(orderEventListener).listen(Mockito.any(OrderReadyEvent.class));
     }
 
     @Test

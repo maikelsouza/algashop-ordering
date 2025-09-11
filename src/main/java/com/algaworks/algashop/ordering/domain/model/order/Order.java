@@ -87,26 +87,6 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
         );
     }
 
-    public void addItem2(Product product,
-                         Quantity quantity){
-
-        this.verifyIfChangeable();
-        Objects.requireNonNull(product);
-        Objects.requireNonNull(quantity);
-
-        product.checkOutOfStock();
-
-        OrderItem orderItem = OrderItem.brandNew()
-                .orderId(this.id)
-                .product(product)
-                .quantity(quantity)
-                .build();
-
-        this.items.add(orderItem);
-
-        this.recalculateTotals();
-    }
-
     public void addItem(Product product, Quantity quantity) {
         Objects.requireNonNull(product);
         Objects.requireNonNull(quantity);
@@ -142,21 +122,25 @@ public class Order extends AbstractEventSourceEntity implements AggregateRoot<Or
         this.verifyIfCanChangeToPlaced();
         this.changeStatus(OrderStatus.PLACED);
         this.setPlacedAt(OffsetDateTime.now());
+        publishDomainEvent(new OrderPlacedEvent(this.id(), this.customerId(), this.placedAt()));
     }
 
     public void markAsPaid() {
         this.setPaidAt(OffsetDateTime.now());
         this.changeStatus(OrderStatus.PAID);
+        publishDomainEvent(new OrderPaidEvent(this.id(), this.customerId(), this.paidAt()));
     }
 
     public void markAsReady(){
         this.changeStatus(OrderStatus.READY);
         this.setReadyAt(OffsetDateTime.now());
+        publishDomainEvent(new OrderReadyEvent(this.id(), this.customerId(), this.readyAt()));
     }
 
     public void cancel(){
         this.changeStatus(OrderStatus.CANCELED);
         this.setCanceledAt(OffsetDateTime.now());
+        publishDomainEvent(new OrderCanceledEvent(this.id(), this.customerId(), this.canceledAt()));
     }
 
     public void changePaymentMethod(PaymentMethod paymentMethod){
