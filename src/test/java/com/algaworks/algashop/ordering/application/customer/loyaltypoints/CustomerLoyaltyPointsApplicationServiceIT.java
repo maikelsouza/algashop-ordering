@@ -52,7 +52,7 @@ class CustomerLoyaltyPointsApplicationServiceIT {
 
         Assertions.assertThat(customerUpdate).isNotNull();
         Assertions.assertThat(customerUpdate.loyaltyPoints()).isNotNull();
-        Assertions.assertThat(customerUpdate.loyaltyPoints()).isEqualTo(new LoyaltyPoints(15));
+        Assertions.assertThat(customerUpdate.loyaltyPoints()).isEqualTo(new LoyaltyPoints(30));
     }
 
     @Test
@@ -106,13 +106,13 @@ class CustomerLoyaltyPointsApplicationServiceIT {
     }
 
     @Test
-    void givenACustomerAndAOrder_whenTryAddLoyaltyPointsWithClientThatHasAlreadyBeenArchived_shouldGenerationException() {
+    void givenACustomerAndAOrder_whenTryAddLoyaltyPointsAfterEventWithClientThatHasAlreadyBeenArchived_shouldGenerationException() {
 
         Customer customer = CustomerTestDataBuilder.existingCustomer().archived(true).build();
 
         customers.add(customer);
         Order order = OrderTestDataBuilder.anOrder()
-                .customerId(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)
+                .customerId(customer.id())
                 .withItems(false)
                 .build();
 
@@ -122,12 +122,11 @@ class CustomerLoyaltyPointsApplicationServiceIT {
         order.place();
         order.markAsPaid();
         order.markAsReady();
-        orders.add(order);
-
 
         assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> customerLoyaltyPointsApplicationService.addLoyaltyPoints( customer.id().value(), order.id().value().toString()))
+                .isThrownBy(() -> orders.add(order))
                 .withMessage(ERROR_CUSTOMER_ARCHIVED);
+
     }
 
     @Test

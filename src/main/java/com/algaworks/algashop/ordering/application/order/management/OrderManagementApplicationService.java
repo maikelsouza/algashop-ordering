@@ -20,7 +20,6 @@ public class OrderManagementApplicationService {
     @Transactional
     public void cancel(String  rawOrderId){
         Objects.requireNonNull(rawOrderId);
-
         Order order = findOrder(rawOrderId);
         order.cancel();
         orders.add(order);
@@ -29,7 +28,6 @@ public class OrderManagementApplicationService {
     @Transactional
     public void markAsPaid(String rawOrderId){
         Objects.requireNonNull(rawOrderId);
-
         Order order = findOrder(rawOrderId);
         order.markAsPaid();
         orders.add(order);
@@ -38,7 +36,6 @@ public class OrderManagementApplicationService {
     @Transactional
     public void markAsReady(String  rawOrderId){
         Objects.requireNonNull(rawOrderId);
-
         Order order = findOrder(rawOrderId);
         order.markAsReady();
         orders.add(order);

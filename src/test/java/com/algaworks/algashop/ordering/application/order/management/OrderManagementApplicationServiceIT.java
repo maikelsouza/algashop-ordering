@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_ORDER_NOT_FOUND;
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_ORDER_STATUS_CANNOT_BE_CHANGED;
 
@@ -151,8 +153,8 @@ class OrderManagementApplicationServiceIT {
         Assertions.assertThat(cancelOrder.readyAt()).isNotNull();
         Assertions.assertThat(cancelOrder.isReady()).isTrue();
         Mockito.verify(orderEventListener).listen(Mockito.any(OrderReadyEvent.class));
-//        Mockito.verify(loyaltyPointsApplicationService).addLoyaltyPoints(Mockito.any(UUID.class)
-//                ,Mockito.any(String.class));
+        Mockito.verify(loyaltyPointsApplicationService).addLoyaltyPoints(Mockito.any(UUID.class)
+                ,Mockito.any(String.class));
     }
 
     @Test
