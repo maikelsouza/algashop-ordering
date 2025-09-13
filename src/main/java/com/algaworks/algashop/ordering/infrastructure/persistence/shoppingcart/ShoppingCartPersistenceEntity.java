@@ -1,16 +1,19 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
 
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
+import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -21,9 +24,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @ToString(of = "id")
 @Table(name = "shopping_cart")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @EntityListeners(AuditingEntityListener.class)
-public class ShoppingCartPersistenceEntity {
+public class ShoppingCartPersistenceEntity extends AbstractAggregateRoot<ShoppingCartPersistenceEntity> {
 
 
     @Id
@@ -85,6 +88,14 @@ public class ShoppingCartPersistenceEntity {
     public UUID getCustomerId(){
         if (this.customer == null) return null;
         return this.customer.getId();
+    }
+
+    public void addEvents(Collection< Object > events) {
+        if (events != null) {
+            for (Object event : events) {
+                this.registerEvent(event);
+            }
+        }
     }
 
 }

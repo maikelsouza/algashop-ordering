@@ -43,14 +43,20 @@ public class ShoppingCart extends AbstractEventSourceEntity implements Aggregate
     }
 
     public static ShoppingCart startShopping(CustomerId customerId){
-        return new ShoppingCart(new ShoppingCartId(), customerId, Money.ZERO,
+        ShoppingCart shoppingCart = new ShoppingCart(new ShoppingCartId(), customerId, Money.ZERO,
                 Quantity.ZERO, OffsetDateTime.now(), new HashSet<>());
+
+        shoppingCart.publishDomainEvent(new ShoppingCartCreatedEvent(shoppingCart.id(),
+                shoppingCart.customerId(), shoppingCart.createdAt()));
+        return shoppingCart;
     }
 
     public void empty(){
         this.items.clear();
         totalAmount = Money.ZERO;
         totalItems = Quantity.ZERO;
+        this.publishDomainEvent(new ShoppingCartEmptiedEvent(this.id(),
+                this.customerId(), OffsetDateTime.now()));
     }
 
     public void addItem(Product product, Quantity quantity){
@@ -77,6 +83,9 @@ public class ShoppingCart extends AbstractEventSourceEntity implements Aggregate
                         () -> this.items.add(shoppingCartItem));
 
         this.recalculateTotals();
+
+        publishDomainEvent(new ShoppingCartItemAddedEvent(this.id(),
+                this.customerId, product.id(), OffsetDateTime.now()));
     }
 
     public void removeItem(ShoppingCartItemId shoppingCartItemId){
@@ -85,6 +94,9 @@ public class ShoppingCart extends AbstractEventSourceEntity implements Aggregate
         ShoppingCartItem shoppingCartItem = this.findItem(shoppingCartItemId);
         this.items.remove(shoppingCartItem);
         this.recalculateTotals();
+
+        publishDomainEvent(new ShoppingCartItemRemovedEvent(this.id(),this.customerId(),
+                shoppingCartItem.productId(), OffsetDateTime.now()));
     }
 
     public void refreshItem(Product product){

@@ -4,12 +4,14 @@ import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.product.*;
 import com.algaworks.algashop.ordering.domain.model.shoppingcart.*;
+import com.algaworks.algashop.ordering.infrastructure.listener.shoppingcart.ShoppingCartEventListener;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -34,6 +36,10 @@ class ShoppingCartManagementApplicationServiceIT {
 
     @MockitoBean
     private ProductCatalogService productCatalogService;
+
+    @MockitoSpyBean
+    private ShoppingCartEventListener shoppingCartEventListener;
+
 
 
     @Test
@@ -64,6 +70,8 @@ class ShoppingCartManagementApplicationServiceIT {
         Assertions.assertThat(updatedCart.findItem(product.id()).quantity()).isEqualTo(new Quantity(1));
 
         verify(productCatalogService).ofId(product.id());
+        verify(shoppingCartEventListener).listen(Mockito.any(ShoppingCartItemAddedEvent.class));
+
     }
 
     @Test
@@ -148,6 +156,7 @@ class ShoppingCartManagementApplicationServiceIT {
         Assertions.assertThat(newShoppingCartId).isNotNull();
         Assertions.assertThat(shoppingCart.customerId()).isEqualTo(customer.id());
         Assertions.assertThat(shoppingCart.totalItems()).isEqualTo(Quantity.ZERO);
+        verify(shoppingCartEventListener).listen(Mockito.any(ShoppingCartCreatedEvent.class));
     }
 
     @Test
@@ -193,6 +202,7 @@ class ShoppingCartManagementApplicationServiceIT {
         Assertions.assertThat(shoppingCart).isNotNull();
         Assertions.assertThat(shoppingCart.customerId()).isEqualTo(customerId);
         Assertions.assertThat(shoppingCart.isEmpty()).isTrue();
+        verify(shoppingCartEventListener).listen(Mockito.any(ShoppingCartItemRemovedEvent.class));
     }
 
     @Test
@@ -245,6 +255,7 @@ class ShoppingCartManagementApplicationServiceIT {
 
         Assertions.assertThat(shoppingCart.isEmpty()).isTrue();
         Assertions.assertThat(shoppingCart.totalItems()).isEqualTo(Quantity.ZERO);
+        verify(shoppingCartEventListener).listen(Mockito.any(ShoppingCartEmptiedEvent.class));
     }
 
     @Test
