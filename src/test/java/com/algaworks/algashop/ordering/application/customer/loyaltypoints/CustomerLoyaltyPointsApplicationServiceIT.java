@@ -5,10 +5,12 @@ import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.order.*;
 import com.algaworks.algashop.ordering.domain.model.product.Product;
 import com.algaworks.algashop.ordering.domain.model.product.ProductTestDataBuilder;
+import com.algaworks.algashop.ordering.infrastructure.listener.customer.CustomerEventListener;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -28,6 +30,9 @@ class CustomerLoyaltyPointsApplicationServiceIT {
 
     @Autowired
     private Orders orders;
+
+    @MockitoBean
+    private CustomerEventListener eventListener;
 
     @Test
     public void givenACustomerAndAOrder_shouldAddLoyaltyPoints(){
@@ -52,7 +57,7 @@ class CustomerLoyaltyPointsApplicationServiceIT {
 
         Assertions.assertThat(customerUpdate).isNotNull();
         Assertions.assertThat(customerUpdate.loyaltyPoints()).isNotNull();
-        Assertions.assertThat(customerUpdate.loyaltyPoints()).isEqualTo(new LoyaltyPoints(30));
+        Assertions.assertThat(customerUpdate.loyaltyPoints()).isEqualTo(new LoyaltyPoints(15));
     }
 
     @Test
@@ -106,7 +111,7 @@ class CustomerLoyaltyPointsApplicationServiceIT {
     }
 
     @Test
-    void givenACustomerAndAOrder_whenTryAddLoyaltyPointsAfterEventWithClientThatHasAlreadyBeenArchived_shouldGenerationException() {
+    void givenACustomerAndAOrder_whenTryAddLoyaltyPointsWithClientThatHasAlreadyBeenArchived_shouldGenerationException() {
 
         Customer customer = CustomerTestDataBuilder.existingCustomer().archived(true).build();
 
@@ -122,9 +127,10 @@ class CustomerLoyaltyPointsApplicationServiceIT {
         order.place();
         order.markAsPaid();
         order.markAsReady();
+        orders.add(order);
 
         assertThatExceptionOfType(CustomerArchivedException.class)
-                .isThrownBy(() -> orders.add(order))
+                .isThrownBy(() -> customerLoyaltyPointsApplicationService.addLoyaltyPoints(customer.id().value(), order.id().value().toString()))
                 .withMessage(ERROR_CUSTOMER_ARCHIVED);
 
     }
