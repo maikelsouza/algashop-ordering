@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.Year;
 
 @RequiredArgsConstructor
+
 public class CustomerHasOrderedEnoughAtYearSpecification implements Specification<Customer> {
 
     private final Orders orders;
