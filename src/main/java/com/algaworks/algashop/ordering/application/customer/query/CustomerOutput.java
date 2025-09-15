@@ -16,6 +16,7 @@ import java.util.UUID;
 @Builder
 public class CustomerOutput {
 
+
     private UUID id;
 
     private String firstName;
@@ -30,13 +31,13 @@ public class CustomerOutput {
 
     private LocalDate birthDate;
 
-    private Boolean promotionNotificationsAllowed;
-
     private Integer loyaltyPoints;
 
     private OffsetDateTime registeredAt;
 
     private OffsetDateTime archivedAt;
+
+    private Boolean promotionNotificationsAllowed;
 
     private Boolean archived;
 

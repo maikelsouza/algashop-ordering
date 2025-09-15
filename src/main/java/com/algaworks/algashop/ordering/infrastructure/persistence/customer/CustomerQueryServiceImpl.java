@@ -3,7 +3,6 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.customer;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerOutput;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerQueryService;
 import com.algaworks.algashop.ordering.application.utility.Mapper;
-import com.algaworks.algashop.ordering.domain.model.customer.Customer;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
@@ -21,12 +20,12 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
 
     private final Customers customers;
 
+    private final CustomerPersistenceEntityRepository repository;
+
     @Override
     public CustomerOutput findById(UUID customerId) {
         Objects.requireNonNull(customerId);
-
-        Customer customer = customers.ofId(new CustomerId(customerId))
+        return repository.findByIdAsOutput(customerId)
                         .orElseThrow(() -> new CustomerNotFoundException(new CustomerId(customerId)));
-        return mapper.covert(customer, CustomerOutput.class);
     }
 }
