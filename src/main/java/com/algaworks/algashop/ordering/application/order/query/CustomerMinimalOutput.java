@@ -22,6 +22,8 @@ public class CustomerMinimalOutput {
 
     private String email;
 
+    private String document;
+
     private String phone;
 
 
