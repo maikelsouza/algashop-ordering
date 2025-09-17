@@ -2,7 +2,6 @@ package com.algaworks.algashop.ordering.infrastructure.persistence.order;
 
 import com.algaworks.algashop.ordering.application.order.query.*;
 import com.algaworks.algashop.ordering.application.utility.Mapper;
-import com.algaworks.algashop.ordering.application.utility.PageFilter;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotFoundException;
 import jakarta.persistence.EntityManager;
@@ -110,6 +109,39 @@ public class OrderQueryServiceImpl implements OrderQueryService {
             Predicate predicate = builder.equal(customerIdPath, expectedCustomerId);
             predicates.add(predicate);
         }
+
+        if (filter.getStatus() != null && !filter.getStatus().isBlank()){
+            predicates.add(builder.equal(root.get("status"), filter.getStatus().toUpperCase()));
+
+        }
+
+        if (filter.getOrderId() != null) {
+            long orderIdLongValue;
+            try {
+                OrderId orderId = new OrderId(filter.getOrderId());
+                orderIdLongValue = orderId.value().toLong();
+            } catch (IllegalArgumentException e) {
+                orderIdLongValue = 0L;
+            }
+            predicates.add(builder.equal(root.get("id"), orderIdLongValue));
+        }
+
+        if (filter.getPlacedAtFrom() != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("placedAt"), filter.getPlacedAtFrom()));
+        }
+
+        if (filter.getPlacedAtTo() != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("placedAt"), filter.getPlacedAtTo()));
+        }
+
+        if (filter.getTotalAmountFrom() != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("totalAmount"), filter.getTotalAmountFrom()));
+        }
+
+        if (filter.getTotalAmountTo() != null){
+            predicates.add(builder.lessThanOrEqualTo(root.get("totalAmount"), filter.getTotalAmountTo()));
+        }
+
         return predicates.toArray(new Predicate[]{});
     }
 }
