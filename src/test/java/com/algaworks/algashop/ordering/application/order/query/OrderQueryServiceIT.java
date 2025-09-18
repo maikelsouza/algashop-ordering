@@ -47,7 +47,7 @@ class OrderQueryServiceIT {
                         OrderDetailOutput::getTotalAmount
                 ).containsExactly(
                         order.id().toString(),
-                    order.totalAmount().value()
+                         order.totalAmount().value()
                 );
 
     }

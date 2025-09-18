@@ -36,7 +36,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
         OrderPersistenceEntity entity = repository.findById(orderId.value().toLong())
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
 
-        return mapper.covert(entity, OrderDetailOutput.class);
+        return mapper.convert(entity, OrderDetailOutput.class);
     }
 
     @Override

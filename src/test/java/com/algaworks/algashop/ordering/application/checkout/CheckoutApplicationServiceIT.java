@@ -112,7 +112,7 @@ class CheckoutApplicationServiceIT {
 
         assertThatExceptionOfType(ShoppingCartNotFoundException.class)
                 .isThrownBy(() -> checkoutApplicationService.checkout(checkoutInput))
-                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND, shoppingCart.id()));
+                .withMessage(String.format(ERROR_SHOPPING_CARD_NOT_FOUND, shoppingCart.id()));
     }
 
     @Test

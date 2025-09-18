@@ -90,7 +90,7 @@ class ShoppingCartManagementApplicationServiceIT {
 
         assertThatExceptionOfType(ShoppingCartNotFoundException.class)
                 .isThrownBy(() -> shoppingCartManagementApplicationService.addItem(shoppingCartItemInput))
-                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND, shoppingCart.id()));
+                .withMessage(String.format(ERROR_SHOPPING_CARD_NOT_FOUND, shoppingCart.id()));
     }
 
 
@@ -219,7 +219,7 @@ class ShoppingCartManagementApplicationServiceIT {
 
         assertThatExceptionOfType(ShoppingCartNotFoundException.class)
                 .isThrownBy(() -> shoppingCartManagementApplicationService.removeItem(shoppingCart.id().value(), itemToRemove.id().value()))
-                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
+                .withMessage(String.format(ERROR_SHOPPING_CARD_NOT_FOUND,shoppingCart.id()));
 
     }
 
@@ -270,7 +270,7 @@ class ShoppingCartManagementApplicationServiceIT {
 
         assertThatExceptionOfType(ShoppingCartNotFoundException.class)
                 .isThrownBy(() -> shoppingCartManagementApplicationService.empty(shoppingCart.id().value()))
-                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
+                .withMessage(String.format(ERROR_SHOPPING_CARD_NOT_FOUND,shoppingCart.id()));
     }
 
     @Test
@@ -302,7 +302,7 @@ class ShoppingCartManagementApplicationServiceIT {
 
         assertThatExceptionOfType(ShoppingCartNotFoundException.class)
                 .isThrownBy(() -> shoppingCartManagementApplicationService.delete(shoppingCart.id().value()))
-                .withMessage(String.format(ERROR_SHOPPING_CARD_FOUND,shoppingCart.id()));
+                .withMessage(String.format(ERROR_SHOPPING_CARD_NOT_FOUND,shoppingCart.id()));
     }
 
 
