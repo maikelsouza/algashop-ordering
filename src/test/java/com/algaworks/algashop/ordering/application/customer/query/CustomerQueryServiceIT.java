@@ -69,12 +69,12 @@ class CustomerQueryServiceIT {
                 email(new Email("james.miller@gmail.com")).build());
         CustomerFilter filter = new CustomerFilter(4, 0);
 
-        filter.setEmail("john.doe@gmail.com".toUpperCase());
+        filter.setEmail("john".toUpperCase());
         Page<CustomerSummaryOutput> page = queryService.filter(filter);
 
         Assertions.assertThat(page.getTotalPages()).isEqualTo(1);
-        Assertions.assertThat(page.getTotalElements()).isEqualTo(1);
-        Assertions.assertThat(page.getNumberOfElements()).isEqualTo(1);
+        Assertions.assertThat(page.getTotalElements()).isEqualTo(2);
+        Assertions.assertThat(page.getNumberOfElements()).isEqualTo(2);
         Assertions.assertThat(page.getContent().getFirst().getEmail()).isEqualTo("john.doe@gmail.com");
     }
 
@@ -100,21 +100,24 @@ class CustomerQueryServiceIT {
     @Test
     public void shouldFilterByFirstNameAndEmail() {
         customers.add(CustomerTestDataBuilder.brandNewCustomer().build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Michael", "Johnson")).build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Emily", "Davis")).build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("James", "Miller")).build());
+        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Michael", "Johnson")).
+                email(new Email("michael.Johnson@gmail.com")).build());
+        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Emily", "Davis")).
+                email(new Email("emily.davis@gmail.com")).build());
+        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("James", "Miller")).
+                email(new Email("james.miller@gmail.com")).build());
 
         CustomerFilter filter = new CustomerFilter(4, 0);
 
         filter.setFirstName("James".toUpperCase());
-        filter.setEmail("john.doe@gmail.com".toUpperCase());
+        filter.setEmail("james.miller".toUpperCase());
         Page<CustomerSummaryOutput> page = queryService.filter(filter);
 
         Assertions.assertThat(page.getTotalPages()).isEqualTo(1);
         Assertions.assertThat(page.getTotalElements()).isEqualTo(1);
         Assertions.assertThat(page.getNumberOfElements()).isEqualTo(1);
         Assertions.assertThat(page.getContent().getFirst().getFirstName()).isEqualTo("James");
-        Assertions.assertThat(page.getContent().getFirst().getEmail()).isEqualTo("john.doe@gmail.com");
+        Assertions.assertThat(page.getContent().getFirst().getEmail()).isEqualTo("james.miller@gmail.com");
     }
 
     @Test

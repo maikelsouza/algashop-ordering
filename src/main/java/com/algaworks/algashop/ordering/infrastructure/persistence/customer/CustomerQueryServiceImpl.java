@@ -145,7 +145,7 @@ public class CustomerQueryServiceImpl implements CustomerQueryService {
         List<Predicate> predicates = new ArrayList<>();
 
         if (filter.getEmail() != null){
-            predicates.add(builder.equal(builder.upper(root.get("email")), filter.getEmail().toUpperCase()));
+            predicates.add(builder.like(builder.upper(root.get("email")), "%" + filter.getEmail().toUpperCase() + "%"));
         }
 
         if (filter.getFirstName() != null){
