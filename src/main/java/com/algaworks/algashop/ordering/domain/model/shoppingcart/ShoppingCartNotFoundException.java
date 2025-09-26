@@ -1,12 +1,12 @@
 package com.algaworks.algashop.ordering.domain.model.shoppingcart;
 
-import com.algaworks.algashop.ordering.domain.model.DomainException;
+import com.algaworks.algashop.ordering.domain.model.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_SHOPPING_CARD_NOT_FOUND;
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_SHOPPING_CARD_NOT_FOUND_FOR_CUSTOMER;
 
-public class ShoppingCartNotFoundException extends DomainException {
+public class ShoppingCartNotFoundException extends DomainEntityNotFoundException {
 
 
     public ShoppingCartNotFoundException(ShoppingCartId id) {
