@@ -29,22 +29,6 @@ public class CustomerController {
 
     private final CustomerQueryService customerQueryService;
 
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public CustomerOutput create(@RequestBody @Valid CustomerInput input, HttpServletResponse httpServletResponse){
-//
-//        UUID customerId = customerManagementApplicationService.create(input);
-//
-////        UriComponentsBuilder builder = MvcUriComponentsBuilder.fromMethodCall(
-////                MvcUriComponentsBuilder.on(CustomerController.class).findById(customerId));
-////        httpServletResponse.addHeader("Location",builder.toUriString());
-//
-//
-//        UriComponentsBuilder builder = fromMethodCall(on(CustomerController.class).findById(customerId));
-//        httpServletResponse.addHeader("Location", builder.toUriString());
-//
-//        return customerQueryService.findById(customerId);
-//    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerOutput create(@RequestBody @Valid CustomerInput input, HttpServletResponse httpServletResponse) {
