@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.presentation;
 
 import com.algaworks.algashop.ordering.application.customer.management.CustomerInput;
 import com.algaworks.algashop.ordering.application.customer.management.CustomerManagementApplicationService;
+import com.algaworks.algashop.ordering.application.customer.management.CustomerUpdateInput;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerFilter;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerOutput;
 import com.algaworks.algashop.ordering.application.customer.query.CustomerQueryService;
@@ -11,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -49,5 +49,22 @@ public class CustomerController {
     @GetMapping("/{customerId}")
     public CustomerOutput findById(@PathVariable UUID customerId){
         return customerQueryService.findById(customerId);
+    }
+
+    @PutMapping("/{customerId}")
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerOutput update(@PathVariable UUID customerId, @RequestBody @Valid CustomerUpdateInput updateInput,  HttpServletResponse httpServletResponse){
+        customerManagementApplicationService.update(customerId, updateInput);
+
+        UriComponentsBuilder builder = fromMethodCall(on(CustomerController.class).findById(customerId));
+        httpServletResponse.addHeader("Location", builder.toUriString());
+
+        return customerQueryService.findById(customerId);
+    }
+
+    @DeleteMapping("/{customerId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable UUID customerId){
+        customerManagementApplicationService.archive(customerId);
     }
 }

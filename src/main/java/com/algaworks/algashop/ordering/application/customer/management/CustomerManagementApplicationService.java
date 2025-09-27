@@ -44,15 +44,6 @@ public class CustomerManagementApplicationService {
         return customer.id().value();
     }
 
-//    @Transactional(readOnly = true)
-//    public CustomerOutput findById(UUID customerId){
-//        Objects.requireNonNull(customerId);
-//
-//        Customer customer = customers.ofId(new CustomerId(customerId))
-//                        .orElseThrow(() -> new CustomerNotFoundException(new CustomerId(customerId)));
-//        return mapper.covert(customer, CustomerOutput.class);
-//    }
-
     @Transactional
     public void update(UUID rawCustomerId, CustomerUpdateInput input){
         Objects.requireNonNull(rawCustomerId);

@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.presentation;
 
+import com.algaworks.algashop.ordering.domain.model.DomainEntityBadRequestException;
 import com.algaworks.algashop.ordering.domain.model.DomainEntityNotFoundException;
 import com.algaworks.algashop.ordering.domain.model.DomainException;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerEmailIsInUseException;
@@ -55,6 +56,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
         problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("/errors/not-found"));
+        return problemDetail;
+    }
+
+    @ExceptionHandler(DomainEntityBadRequestException.class)
+    public ProblemDetail handleDomainEntityBadRequestException(DomainEntityBadRequestException e){
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        problemDetail.setTitle(e.getMessage());
+        problemDetail.setType(URI.create("/errors/bad-request"));
         return problemDetail;
     }
 
