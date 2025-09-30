@@ -54,7 +54,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainEntityNotFoundException(DomainEntityNotFoundException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
-        problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("/errors/not-found"));
         return problemDetail;
     }
@@ -63,7 +62,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainEntityBadRequestException(DomainEntityBadRequestException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.getReasonPhrase());
-        problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("/errors/bad-request"));
         return problemDetail;
     }
@@ -72,7 +70,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainException(DomainException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setTitle(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase());
-        problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("/errors/unprocessable-entity"));
         return problemDetail;
     }
@@ -81,7 +78,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleCustomerEmailIsInUseException(CustomerEmailIsInUseException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problemDetail.setTitle(HttpStatus.CONFLICT.getReasonPhrase());
-        problemDetail.setTitle(e.getMessage());
         problemDetail.setType(URI.create("/errors/conflict"));
         return problemDetail;
     }
@@ -91,7 +87,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(e.getMessage());
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         problemDetail.setTitle(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
-        problemDetail.setTitle("An unexpected internal error occurred");
         problemDetail.setType(URI.create("/errors/internal"));
         return problemDetail;
     }

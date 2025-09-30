@@ -147,10 +147,12 @@ class CustomerControllerContractTest {
                     .statusCode(HttpStatus.BAD_REQUEST.value())
                 .body(
                      "status", Matchers.is(HttpStatus.BAD_REQUEST.value()),
-                "type", Matchers.is("/errors/invalid-fields"),
+                        "type", Matchers.is("/errors/invalid-fields"),
                         "title", Matchers.notNullValue(),
+                        "title", Matchers.equalTo("invalid fields"),
                         "detail", Matchers.notNullValue(),
                         "instance", Matchers.notNullValue(),
+                        "instance", Matchers.is("/api/v1/customers"),
                         "fields", Matchers.notNullValue()
                 );
     }
@@ -290,10 +292,12 @@ class CustomerControllerContractTest {
                     .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
                     .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .body(
-                     "status", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.value()),
-               "type", Matchers.is("/errors/unprocessable-entity"),
+                   "status", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.value()),
+  "type", Matchers.is("/errors/unprocessable-entity"),
                         "title", Matchers.notNullValue(),
-                        "instance", Matchers.notNullValue()
+                        "title", Matchers.is("Unprocessable Entity"),
+                        "instance", Matchers.notNullValue(),
+                        "instance", Matchers.is("/api/v1/customers")
                 );
     }
 
@@ -335,10 +339,12 @@ class CustomerControllerContractTest {
                     .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
                     .statusCode(HttpStatus.CONFLICT.value())
                     .body(
-                     "status", Matchers.is(HttpStatus.CONFLICT.value()),
-               "type", Matchers.is("/errors/conflict"),
+                   "status", Matchers.is(HttpStatus.CONFLICT.value()),
+  "type", Matchers.is("/errors/conflict"),
                         "title", Matchers.notNullValue(),
-                        "instance", Matchers.notNullValue()
+                        "title", Matchers.is("Conflict"),
+                        "instance", Matchers.notNullValue(),
+                        "instance", Matchers.is("/api/v1/customers")
                     );
     }
 
@@ -380,10 +386,11 @@ class CustomerControllerContractTest {
                     .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
                     .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .body(
-                     "status", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.value()),
-               "type", Matchers.is("/errors/internal"),
-                        "title", Matchers.notNullValue(),
-                        "instance", Matchers.notNullValue()
+                   "status", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+  "type", Matchers.is("/errors/internal"),
+                        "title", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()),
+                        "instance", Matchers.notNullValue(),
+                        "instance", Matchers.is("/api/v1/customers")
                 );
     }
 
@@ -407,7 +414,9 @@ class CustomerControllerContractTest {
                         "status", Matchers.is(HttpStatus.NOT_FOUND.value()),
                         "type", Matchers.is("/errors/not-found"),
                         "title", Matchers.notNullValue(),
-                        "instance", Matchers.notNullValue()
+                        "title", Matchers.is(HttpStatus.NOT_FOUND.getReasonPhrase()),
+                        "instance", Matchers.notNullValue(),
+                        "instance", Matchers.is("/api/v1/customers/"+invalidCustomerId)
                 );
     }
 
@@ -521,7 +530,9 @@ class CustomerControllerContractTest {
                  "status", Matchers.is(HttpStatus.BAD_REQUEST.value()),
             "type", Matchers.is("/errors/bad-request"),
                     "title", Matchers.notNullValue(),
-                    "instance", Matchers.notNullValue()
+                    "title", Matchers.is(HttpStatus.BAD_REQUEST.getReasonPhrase()),
+                    "instance", Matchers.notNullValue(),
+                    "instance", Matchers.is("/api/v1/customers/"+customerId)
             );
     }
 
@@ -567,9 +578,11 @@ class CustomerControllerContractTest {
                 .statusCode(HttpStatus.NOT_FOUND.value())
             .body(
                "status", Matchers.is(HttpStatus.NOT_FOUND.value()),
-"type", Matchers.is("/errors/not-found"),
-                    "title", Matchers.notNullValue(),
-                    "instance", Matchers.notNullValue()
+               "type", Matchers.is("/errors/not-found"),
+                "title", Matchers.notNullValue(),
+                "title", Matchers.is(HttpStatus.NOT_FOUND.getReasonPhrase()),
+                "instance", Matchers.notNullValue(),
+                "instance", Matchers.is("/api/v1/customers/"+invalidCustomerId)
             );
     }
 
@@ -618,7 +631,9 @@ class CustomerControllerContractTest {
                     "status", Matchers.is(HttpStatus.CONFLICT.value()),
                     "type", Matchers.is("/errors/conflict"),
                     "title", Matchers.notNullValue(),
-                    "instance", Matchers.notNullValue()
+                    "title", Matchers.is(HttpStatus.CONFLICT.getReasonPhrase()),
+                    "instance", Matchers.notNullValue(),
+                    "instance", Matchers.is("/api/v1/customers/"+customerId)
             );
     }
     @Test
@@ -662,9 +677,11 @@ class CustomerControllerContractTest {
                 .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
             .body(
                  "status", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.value()),
-"type", Matchers.is("/errors/unprocessable-entity"),
-                       "title", Matchers.notNullValue(),
-                       "instance", Matchers.notNullValue()
+                 "type", Matchers.is("/errors/unprocessable-entity"),
+                 "title", Matchers.notNullValue(),
+                 "title", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase()),
+                 "instance", Matchers.notNullValue(),
+                 "instance", Matchers.is("/api/v1/customers/"+customerId)
             );
     }
 
@@ -708,7 +725,9 @@ class CustomerControllerContractTest {
            "status", Matchers.is(HttpStatus.NOT_FOUND.value()),
 "type", Matchers.is("/errors/not-found"),
                 "title", Matchers.notNullValue(),
-                "instance", Matchers.notNullValue()
+                "title", Matchers.is(HttpStatus.NOT_FOUND.getReasonPhrase()),
+                "instance", Matchers.notNullValue(),
+                "instance", Matchers.is("/api/v1/customers/"+invalidCustomerId)
             );
     }
 
@@ -734,8 +753,10 @@ class CustomerControllerContractTest {
             .body(
                  "status", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.value()),
 "type", Matchers.is("/errors/unprocessable-entity"),
-                      "title", Matchers.notNullValue(),
-                      "instance", Matchers.notNullValue()
+                    "title", Matchers.notNullValue(),
+                    "title", Matchers.is(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase()),
+                    "instance", Matchers.notNullValue(),
+                    "instance", Matchers.is("/api/v1/customers/"+customerId)
             );
     }
 
@@ -761,9 +782,11 @@ class CustomerControllerContractTest {
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
             .body(
                  "status", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.value()),
-"type", Matchers.is("/errors/internal"),
-                      "title", Matchers.notNullValue(),
-                      "instance", Matchers.notNullValue()
+                 "type", Matchers.is("/errors/internal"),
+                 "title", Matchers.notNullValue(),
+                 "title", Matchers.is(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()),
+                 "instance", Matchers.notNullValue(),
+                 "instance", Matchers.is("/api/v1/customers/"+customerId)
             );
     }
 }
