@@ -32,6 +32,8 @@ public class OrderDetailOutput {
 
     private OffsetDateTime readAt;
 
+    private String status;
+
     private String paymentMethod;
 
     private ShippingData shipping;
