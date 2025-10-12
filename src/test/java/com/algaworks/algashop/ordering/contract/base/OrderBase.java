@@ -1,5 +1,8 @@
 package com.algaworks.algashop.ordering.contract.base;
 
+import com.algaworks.algashop.ordering.application.checkout.BuyNowApplicationService;
+import com.algaworks.algashop.ordering.application.checkout.BuyNowInput;
+import com.algaworks.algashop.ordering.application.checkout.CheckoutApplicationService;
 import com.algaworks.algashop.ordering.application.order.management.OrderManagementApplicationService;
 import com.algaworks.algashop.ordering.application.order.query.*;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
@@ -31,7 +34,10 @@ public class OrderBase {
     private OrderQueryService orderQueryService;
 
     @MockitoBean
-    private OrderManagementApplicationService orderManagementApplicationService;
+    private CheckoutApplicationService checkoutApplicationService;
+
+    @MockitoBean
+    private BuyNowApplicationService buyNowApplicationService;
 
     public static final String validOrderId = "01226N0640J7Q";
 
@@ -50,6 +56,12 @@ public class OrderBase {
         mockValidOrderFindById();
         mockNotFoundOrderFindById();
         mockFilterOrders();
+        mockValidBuyNow();
+    }
+
+    private void mockValidBuyNow() {
+        Mockito.when(buyNowApplicationService.buyNow(Mockito.any(BuyNowInput .class)))
+                .thenReturn(validOrderId);
     }
 
     private void mockValidOrderFindById() {
@@ -68,6 +80,8 @@ public class OrderBase {
                     List.of(OrderSummaryOutputTestDataBuilder.placedOrder().id(validOrderId).build())
             ));
     }
+
+
 
 
 }
