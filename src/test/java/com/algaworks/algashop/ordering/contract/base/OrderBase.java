@@ -3,7 +3,7 @@ package com.algaworks.algashop.ordering.contract.base;
 import com.algaworks.algashop.ordering.application.checkout.BuyNowApplicationService;
 import com.algaworks.algashop.ordering.application.checkout.BuyNowInput;
 import com.algaworks.algashop.ordering.application.checkout.CheckoutApplicationService;
-import com.algaworks.algashop.ordering.application.order.management.OrderManagementApplicationService;
+import com.algaworks.algashop.ordering.application.checkout.CheckoutInput;
 import com.algaworks.algashop.ordering.application.order.query.*;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.domain.model.order.OrderNotFoundException;
@@ -57,6 +57,12 @@ public class OrderBase {
         mockNotFoundOrderFindById();
         mockFilterOrders();
         mockValidBuyNow();
+        mockValidCheckout();
+    }
+
+    private void mockValidCheckout() {
+        Mockito.when(checkoutApplicationService.checkout(Mockito.any(CheckoutInput.class)))
+                .thenReturn(validOrderId);
     }
 
     private void mockValidBuyNow() {
