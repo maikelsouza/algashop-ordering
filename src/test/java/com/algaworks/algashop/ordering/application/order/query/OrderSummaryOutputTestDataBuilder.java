@@ -26,7 +26,7 @@ public class OrderSummaryOutputTestDataBuilder {
                 .placedAt(OffsetDateTime.now())
                 .paidAt(null)
                 .canceledAt(null)
-                .readAt(null)
+                .readyAt(null)
                 .status("PLACED")
                 .paymentMethod("GATEWAY_BALANCE");
         }

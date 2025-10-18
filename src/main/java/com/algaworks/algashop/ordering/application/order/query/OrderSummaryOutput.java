@@ -29,7 +29,7 @@ public class OrderSummaryOutput {
 
     private OffsetDateTime canceledAt;
 
-    private OffsetDateTime readAt;
+    private OffsetDateTime readyAt;
 
     private String status;
 
@@ -46,7 +46,7 @@ public class OrderSummaryOutput {
         this.placedAt = placedAt;
         this.paidAt = paidAt;
         this.canceledAt = canceledAt;
-        this.readAt = readyAt;
+        this.readyAt = readyAt;
         this.status = status;
         this.paymentMethod = paymentMethod;
     }

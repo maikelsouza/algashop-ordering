@@ -33,7 +33,7 @@ public class OrderDetailOutputTestDataBuilder {
                 .placedAt(OffsetDateTime.now())
                 .paidAt(null)
                 .canceledAt(null)
-                .readAt(null)
+                .readyAt(null)
                 .status("PLACED")
                 .paymentMethod("GATEWAY_BALANCE")
                 .shipping(ShippingData.builder()
@@ -73,8 +73,8 @@ public class OrderDetailOutputTestDataBuilder {
                 .items(itemsOutput(orderId));
     }
 
-    private static List itemsOutput(String orderId) {
-        List items = new ArrayList<>();
+    private static List<OrderItemDetailOutput> itemsOutput(String orderId) {
+        List<OrderItemDetailOutput> items = new ArrayList<>();
         items.add(OrderItemDetailOutput.builder()
                 .id(new OrderItemId().toString())
                 .orderId(orderId)

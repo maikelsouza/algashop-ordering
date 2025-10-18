@@ -30,7 +30,7 @@ public class OrderDetailOutput {
 
     private OffsetDateTime canceledAt;
 
-    private OffsetDateTime readAt;
+    private OffsetDateTime readyAt;
 
     private String status;
 

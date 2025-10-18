@@ -27,7 +27,7 @@ Contract.make {
             placedAt: anyIso8601WithOffset(),
             canceledAt: null,
             paidAt: null,
-            readAt: null,
+            readyAt: null,
             status: "PLACED",
             paymentMethod: "GATEWAY_BALANCE",
             shipping: [
