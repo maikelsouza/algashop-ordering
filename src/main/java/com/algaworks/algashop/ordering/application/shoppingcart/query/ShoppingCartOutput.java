@@ -24,5 +24,6 @@ public class ShoppingCartOutput {
 
     private BigDecimal totalAmount;
 
+    @Builder.Default
     private List<ShoppingCartItemOutput> items = new ArrayList<>();
 }
