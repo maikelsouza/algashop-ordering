@@ -48,9 +48,4 @@ public class ErrorMessages {
     public static final String ERROR_SHOPPING_CARD_NOT_FOUND = "Shopping Card %s not found";
     public static final String ERROR_SHOPPING_CARD_NOT_FOUND_FOR_CUSTOMER = "Shopping Card not found for by customer %s";
 
-
-
-
-
-
 }

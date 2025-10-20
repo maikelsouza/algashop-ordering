@@ -6,6 +6,7 @@ import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.ERROR_P
 
 public class ProductNotFoundException extends DomainException {
 
+    public ProductNotFoundException() {}
 
     public ProductNotFoundException(ProductId id) {
         super(String.format(ERROR_PRODUCT_NOT_FOUND,id));
