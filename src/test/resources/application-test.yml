@@ -29,4 +29,4 @@ algashop:
   integrations:
     shipping.provider: "FAKE"
     rapidex.url: "http://localhost:8780"
-    product-catalog.url: "http://localhost:8780"
+    product-catalog.url: "http://localhost:8781"
