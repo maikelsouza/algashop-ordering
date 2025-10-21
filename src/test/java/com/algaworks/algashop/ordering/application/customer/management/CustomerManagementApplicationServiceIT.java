@@ -224,7 +224,7 @@ class CustomerManagementApplicationServiceIT {
 
         assertThatExceptionOfType(CustomerEmailIsInUseException.class)
                 .isThrownBy(() -> customerManagementApplicationService.changeEmail(customerId1,input2.getEmail()))
-                .withMessage(String.format(ERROR_CUSTOMER_EMAIL_IS_IN_USE,customerId1));
+                .withMessage(ERROR_CUSTOMER_EMAIL_IS_IN_USE);
     }
 
 

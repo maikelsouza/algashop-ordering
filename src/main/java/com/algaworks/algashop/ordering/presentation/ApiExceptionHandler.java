@@ -78,6 +78,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleCustomerEmailIsInUseException(CustomerEmailIsInUseException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problemDetail.setTitle(HttpStatus.CONFLICT.getReasonPhrase());
+        problemDetail.setDetail(e.getMessage());
         problemDetail.setType(URI.create("/errors/conflict"));
         return problemDetail;
     }
