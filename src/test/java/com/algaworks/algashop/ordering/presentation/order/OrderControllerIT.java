@@ -29,6 +29,8 @@ import java.util.UUID;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@AutoConfigureStubRunner(stubsMode = StubRunnerProperties.StubsMode.LOCAL,
+//        ids = "com.algaworks.algashop:product-catalog:0.0.1-SNAPSHOT:8781")
 public class OrderControllerIT {
 
     @LocalServerPort
