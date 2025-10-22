@@ -54,6 +54,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainEntityNotFoundException(DomainEntityNotFoundException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle(HttpStatus.NOT_FOUND.getReasonPhrase());
+        problemDetail.setDetail(e.getMessage());
         problemDetail.setType(URI.create("/errors/not-found"));
         return problemDetail;
     }
@@ -62,6 +63,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleDomainEntityBadRequestException(DomainEntityBadRequestException e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        problemDetail.setDetail(e.getMessage());
         problemDetail.setType(URI.create("/errors/bad-request"));
         return problemDetail;
     }
@@ -70,6 +72,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ProblemDetail handleUnprocessableEntityException(Exception e){
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         problemDetail.setTitle(HttpStatus.UNPROCESSABLE_ENTITY.getReasonPhrase());
+        problemDetail.setDetail(e.getMessage());
         problemDetail.setType(URI.create("/errors/unprocessable-entity"));
         return problemDetail;
     }

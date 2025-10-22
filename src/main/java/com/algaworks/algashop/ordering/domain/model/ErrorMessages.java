@@ -15,7 +15,7 @@ public class ErrorMessages {
     public static final String VALIDATION_ERROR_PRODUCT_NAME_IS_NULL = "Product Name cannot be null";
     public static final String VALIDATION_ERROR_PRODUCT_NAME_IS_BLANK = "Product Name cannot be blank";
     public static final String ERROR_CUSTOMER_ARCHIVED = "Customer is archived cannot be changed";
-    public static final String ERROR_CUSTOMER_NOT_FOUND = "Customer %s not found";
+    public static final String ERROR_CUSTOMER_NOT_FOUND = "Customer %s was not found";
     public static final String ERROR_CUSTOMER_ALREADY_HAVES_SHOPPING_CART = "Customer %s already haves shopping cart";
     public static final String ERROR_CUSTOMER_EMAIL_IS_IN_USE = "Customer email is in use";
     public static final String VALIDATION_ERROR_MONEY_IS_NEGATIVE =  "Money cannot be negative";
@@ -38,14 +38,14 @@ public class ErrorMessages {
     public static final String ERROR_CANT_ADD_LOYALTY_POINTS_ORDER_IS_NOT_READY = "Order %s cannot add loyalty points order is not ready";
     public static final String ERROR_ORDER_NOT_BELONGS_TO_CUSTOMER = "Order %s not belongs to customer %s";
     public static final String ERROR_ORDER_CANNOT_BE_EDITED = "Order %s with status %s cannot be edited";
-    public static final String ERROR_ORDER_NOT_FOUND = "Order %s not found";
+    public static final String ERROR_ORDER_NOT_FOUND = "Order %s was not found";
     public static final String ERROR_PRODUCT_IS_OUT_OF_STOCK = "Product %s is out of stock";
-    public static final String ERROR_PRODUCT_NOT_FOUND = "Product %s not found";
+    public static final String ERROR_PRODUCT_NOT_FOUND = "Product %s was not found";
     public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_ITEM = "Shopping Card %s does not contain item %s";
     public static final String ERROR_SHOPPING_CARD_DOES_NOT_CONTAIN_PRODUCT = "Shopping Card %s does not contain product %s";
     public static final String ERROR_SHOPPING_CARD_ITEM_INCOMPATIBLE_PRODUCT = "Shopping Card Item %s incompatible product %s";
     public static final String ERROR_SHOPPING_CARD_CANT_PROCEED_TO_CHECKOUT = "Shopping Card %s cannot proceed to checkout";
-    public static final String ERROR_SHOPPING_CARD_NOT_FOUND = "Shopping Card %s not found";
-    public static final String ERROR_SHOPPING_CARD_NOT_FOUND_FOR_CUSTOMER = "Shopping Card not found for by customer %s";
+    public static final String ERROR_SHOPPING_CARD_NOT_FOUND = "Shopping Card %s was not found";
+    public static final String ERROR_SHOPPING_CARD_NOT_FOUND_FOR_CUSTOMER = "Shopping Card was not found for by customer %s";
 
 }
