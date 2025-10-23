@@ -68,9 +68,9 @@ public class CustomerControllerIT {
                 .extract()
                 .jsonPath().getUUID("id");
 
-        boolean orderExists = customerRepository.existsById(createdCustomerId);
+        boolean customerExists = customerRepository.existsById(createdCustomerId);
 
-        Assertions.assertThat(orderExists).isTrue();
+        Assertions.assertThat(customerExists).isTrue();
     }
 
     @Test
