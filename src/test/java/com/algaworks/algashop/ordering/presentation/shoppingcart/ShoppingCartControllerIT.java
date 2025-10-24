@@ -109,7 +109,7 @@ public class ShoppingCartControllerIT {
     }
 
     @Test
-    public void notShouldCreateAShoppingCartWithRequiredField(){
+    public void shouldNotCreateAShoppingCartWithRequiredField(){
         String json = AlgaShopResourceUtils.readContent("json/create-shopping-cart-required-field.json");
         RestAssured
             .given()
@@ -150,7 +150,7 @@ public class ShoppingCartControllerIT {
     }
 
     @Test
-    public void shouldTryAddItemToShoppingCartWhenNotFoundShoppingCart(){
+    public void shouldReturnNotFoundWhenAddingItemToNonexistentShoppingCart(){
 
         String json = AlgaShopResourceUtils.readContent("json/add-product-to-shopping-cart.json");
         RestAssured
