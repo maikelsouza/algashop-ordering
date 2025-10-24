@@ -198,9 +198,9 @@ public class OrderControllerIT {
             .when()
                 .post("/api/v1/orders")
             .then()
-            .assertThat()
-            .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
-            .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
+                .assertThat()
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE)
+                .statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value());
     }
 
     @Test
@@ -226,7 +226,7 @@ public class OrderControllerIT {
                     .statusCode(HttpStatus.CREATED.value())
                     .body("id", Matchers.not(Matchers.emptyString()),
                     "customer.id", Matchers.is(validCustomerId.toString()))
-                .extract().jsonPath().getString("id");
+                .extract().body().as(OrderDetailOutput.class).getId();
 
         boolean orderExists = orderRepository.existsById(new OrderId(createdOrderId).value().toLong());
 
@@ -234,7 +234,7 @@ public class OrderControllerIT {
     }
 
     @Test
-    public void notShouldCreateOrderUsingShoppingCartWhenShoppingCartWasNotFound(){
+    public void shouldNotCreateOrderUsingShoppingCartWhenShoppingCartWasNotFound(){
 
         var shoppingCartPersistence = existingShoppingCart()
                 .id(validShoppingCartId)
