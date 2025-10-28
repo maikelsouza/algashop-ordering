@@ -46,7 +46,7 @@ public class OrderPersistenceEntity extends AbstractAggregateRoot<OrderPersisten
 
     private OffsetDateTime paidAt;
 
-    private OffsetDateTime cancelAt;
+    private OffsetDateTime canceledAt;
 
     private OffsetDateTime readyAt;
 
@@ -102,7 +102,7 @@ public class OrderPersistenceEntity extends AbstractAggregateRoot<OrderPersisten
     @Builder
     public OrderPersistenceEntity(Long id, CustomerPersistenceEntity customer, BigDecimal totalAmount, Integer totalItems, String status,
                                   String paymentMethod, OffsetDateTime placedAt, OffsetDateTime paidAt,
-                                  OffsetDateTime cancelAt, OffsetDateTime readyAt, UUID createdByUserId,
+                                  OffsetDateTime canceledAt, OffsetDateTime readyAt, UUID createdByUserId,
                                   OffsetDateTime lastModifiedAt, UUID lastModifiedByUserId, Long version,
                                   BillingEmbeddable billing, ShippingEmbeddable shipping,
                                   Set<OrderItemPersistenceEntity> items) {
@@ -114,7 +114,7 @@ public class OrderPersistenceEntity extends AbstractAggregateRoot<OrderPersisten
         this.paymentMethod = paymentMethod;
         this.placedAt = placedAt;
         this.paidAt = paidAt;
-        this.cancelAt = cancelAt;
+        this.canceledAt = canceledAt;
         this.readyAt = readyAt;
         this.createdByUserId = createdByUserId;
         this.lastModifiedAt = lastModifiedAt;

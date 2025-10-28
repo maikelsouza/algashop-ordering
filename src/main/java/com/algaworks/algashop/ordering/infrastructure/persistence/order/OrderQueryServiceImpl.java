@@ -61,7 +61,7 @@ public class OrderQueryServiceImpl implements OrderQueryService {
                     root.get("totalAmount"),
                     root.get("placedAt"),
                     root.get("paidAt"),
-                    root.get("cancelAt"),
+                    root.get("canceledAt"),
                     root.get("readyAt"),
                     root.get("status"),
                     root.get("paymentMethod"),

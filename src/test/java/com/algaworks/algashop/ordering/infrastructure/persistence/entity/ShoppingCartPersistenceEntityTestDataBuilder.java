@@ -31,7 +31,7 @@ public class ShoppingCartPersistenceEntityTestDataBuilder {
                 .quantity(2)
                 .totalAmount(new BigDecimal(1000))
                 .available(true)
-                .productName("Notebook")
+                .name("Notebook")
                 .productId(IdGenerator.generateTimeBasedUUID());
     }
 
@@ -42,7 +42,7 @@ public class ShoppingCartPersistenceEntityTestDataBuilder {
                 .quantity(1)
                 .available(true)
                 .totalAmount(new BigDecimal(250))
-                .productName("Mouse Pad")
+                .name("Mouse Pad")
                 .productId(IdGenerator.generateTimeBasedUUID());
     }
 }

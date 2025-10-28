@@ -29,7 +29,7 @@ public class ShoppingCartItemPersistenceEntity {
 
     private UUID productId;
 
-    private String productName;
+    private String name;
 
     private BigDecimal price;
 

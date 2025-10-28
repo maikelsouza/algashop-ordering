@@ -47,7 +47,7 @@ public class ShoppingCartPersistenceEntityAssembler {
           shoppingCartItemPersistenceEntity.setPrice(shoppingCartItem.price().value());
           shoppingCartItemPersistenceEntity.setProductId(shoppingCartItem.productId().value());
           shoppingCartItemPersistenceEntity.setTotalAmount(shoppingCartItem.totalAmount().value());
-        shoppingCartItemPersistenceEntity.setProductName(shoppingCartItem.productName().value());
+        shoppingCartItemPersistenceEntity.setName(shoppingCartItem.productName().value());
         return shoppingCartItemPersistenceEntity;
     }
 
