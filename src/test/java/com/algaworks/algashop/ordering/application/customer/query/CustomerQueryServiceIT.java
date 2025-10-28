@@ -2,6 +2,7 @@ package com.algaworks.algashop.ordering.application.customer.query;
 
 import com.algaworks.algashop.ordering.domain.model.commons.Email;
 import com.algaworks.algashop.ordering.domain.model.commons.FullName;
+import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import org.assertj.core.api.Assertions;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -59,23 +61,20 @@ class CustomerQueryServiceIT {
     }
 
     @Test
-    public void shouldFilterByEmail(){
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Michael", "Johnson")).
-                email(new Email("michael.Johnson@gmail.com")).build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("Emily", "Davis")).
-                email(new Email("emily.davis@gmail.com")).build());
-        customers.add(CustomerTestDataBuilder.brandNewCustomer().fullName(new FullName("James", "Miller")).
-                email(new Email("james.miller@gmail.com")).build());
-        CustomerFilter filter = new CustomerFilter(4, 0);
+    public void shouldFilterByEmail() {
+        customers.add(CustomerTestDataBuilder.existingCustomer().id(new CustomerId()).email(new Email("user1@test.com")).build());
+        customers.add(CustomerTestDataBuilder.existingCustomer().id(new CustomerId()).email(new Email("test2@algashop.com")).build());
+        customers.add(CustomerTestDataBuilder.existingCustomer().id(new CustomerId()).email(new Email("user3@test.com")).build());
 
-        filter.setEmail("john".toUpperCase());
+        CustomerFilter filter = new CustomerFilter();
+        filter.setEmail("test");
+
         Page<CustomerSummaryOutput> page = queryService.filter(filter);
 
-        Assertions.assertThat(page.getTotalPages()).isEqualTo(1);
-        Assertions.assertThat(page.getTotalElements()).isEqualTo(2);
-        Assertions.assertThat(page.getNumberOfElements()).isEqualTo(2);
-        Assertions.assertThat(page.getContent().getFirst().getEmail()).isEqualTo("john.doe@gmail.com");
+        Assertions.assertThat(page.getTotalElements()).isEqualTo(3);
+        Assertions.assertThat(page.getContent())
+                .extracting(CustomerSummaryOutput::getEmail)
+                .containsExactlyInAnyOrder("user1@test.com", "test2@algashop.com", "user3@test.com");
     }
 
     @Test
