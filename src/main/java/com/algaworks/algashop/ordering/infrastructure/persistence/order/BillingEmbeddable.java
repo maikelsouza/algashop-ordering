@@ -23,8 +23,6 @@ public class BillingEmbeddable {
 
     private String phone;
 
-    private String email;
-
     @Embedded
     private AddressEmbeddable address;
 

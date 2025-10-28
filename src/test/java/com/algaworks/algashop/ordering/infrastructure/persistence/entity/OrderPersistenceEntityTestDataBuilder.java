@@ -68,7 +68,6 @@ public class OrderPersistenceEntityTestDataBuilder {
                 .document("112-33-2321")
                 .firstName("John")
                 .lastName("Doe")
-                .email("john@gmail.com")
                 .address(buildAddressEmbeddable())
                 .build();
     }

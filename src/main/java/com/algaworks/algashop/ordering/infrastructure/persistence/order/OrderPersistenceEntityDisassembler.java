@@ -31,7 +31,7 @@ public class OrderPersistenceEntityDisassembler {
                 .readyAt(persistenceEntity.getReadyAt())
                 .items(buildItems(persistenceEntity.getItems()))
                 .version(persistenceEntity.getVersion())
-                .billing(buildBilling(persistenceEntity.getBilling()))
+            //    .billing(buildBilling(persistenceEntity.getBilling()))
                 .shipping(buildShipping(persistenceEntity.getShipping()))
                 .build();
     }
@@ -63,7 +63,6 @@ public class OrderPersistenceEntityDisassembler {
                 .fullName(new FullName(billingEmbeddable.getFirstName(), billingEmbeddable.getLastName()))
                 .document(new Document(billingEmbeddable.getDocument()))
                 .phone(new Phone(billingEmbeddable.getPhone()))
-                .email(new Email(billingEmbeddable.getEmail()))
                 .address(buildAddress(billingEmbeddable.getAddress()))
                 .build();
     }
