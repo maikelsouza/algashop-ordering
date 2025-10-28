@@ -6,13 +6,11 @@ import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;
 import com.algaworks.algashop.ordering.domain.model.customer.Customers;
 import org.assertj.core.api.Assertions;
-import org.hibernate.annotations.processing.SQL;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
