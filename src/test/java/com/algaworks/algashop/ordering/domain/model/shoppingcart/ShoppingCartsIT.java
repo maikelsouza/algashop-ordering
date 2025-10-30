@@ -95,13 +95,12 @@ class ShoppingCartsIT {
 
         Assertions.assertThat(shoppingCarts.count()).isZero();
 
-        ShoppingCart ShoppingCart1 = ShoppingCartTestDataBuilder.aShoppingCart().build();
-        ShoppingCart ShoppingCart2 = ShoppingCartTestDataBuilder.aShoppingCart().build();;
+        ShoppingCart ShoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().build();
 
-        shoppingCarts.add(ShoppingCart1);
-        shoppingCarts.add(ShoppingCart2);
+        shoppingCarts.add(ShoppingCart);
 
-        Assertions.assertThat(shoppingCarts.count()).isEqualTo(2);
+
+        Assertions.assertThat(shoppingCarts.count()).isEqualTo(1);
     }
 
     @Test

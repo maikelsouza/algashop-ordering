@@ -198,12 +198,6 @@ public class OrderControllerIT {
     @Test
     public void shouldCreateOrderUsingShoppingCart(){
 
-        var shoppingCartPersistence = existingShoppingCart()
-                .id(validShoppingCartId)
-                .customer(customerRepository.getReferenceById(validCustomerId))
-                .build();
-        shoppingCartRepository.save(shoppingCartPersistence);
-
         String json = AlgaShopResourceUtils.readContent("json/create-order-with-shopping-cart.json");
         String createdOrderId = RestAssured
                 .given()
@@ -227,12 +221,6 @@ public class OrderControllerIT {
 
     @Test
     public void shouldNotCreateOrderUsingShoppingCartWhenShoppingCartWasNotFound(){
-
-        var shoppingCartPersistence = existingShoppingCart()
-                .id(validShoppingCartId)
-                .customer(customerRepository.getReferenceById(validCustomerId))
-                .build();
-        shoppingCartRepository.save(shoppingCartPersistence);
 
         String json = AlgaShopResourceUtils.readContent("json/create-order-with-shopping-cart-was-not-found.json");
         RestAssured

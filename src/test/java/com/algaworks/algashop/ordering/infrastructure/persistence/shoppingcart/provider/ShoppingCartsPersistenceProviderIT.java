@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.provider;
 
+import com.algaworks.algashop.ordering.domain.model.customer.Customer;
 import com.algaworks.algashop.ordering.domain.model.customer.CustomerTestDataBuilder;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.product.ProductTestDataBuilder;
@@ -94,11 +95,17 @@ class ShoppingCartsPersistenceProviderIT {
     @Test
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void shouldAddFindNotFailWhenNotTransaction(){
-        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().build();
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        customersPersistenceProvider.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customer.id()).build();
         persistenceProvider.add(shoppingCart);
 
         Assertions.assertThatNoException()
-                .isThrownBy(() -> persistenceProvider.ofId(shoppingCart.id()).orElseThrow());
+                .isThrownBy(() -> {
+                    ShoppingCart foundCart =  persistenceProvider.ofId(shoppingCart.id()).orElseThrow();
+                    Assertions.assertThat(foundCart).isNotNull();
+                });
+
 
     }
 
