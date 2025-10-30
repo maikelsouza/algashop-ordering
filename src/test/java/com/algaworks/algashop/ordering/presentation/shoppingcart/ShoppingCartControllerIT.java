@@ -29,7 +29,8 @@ import java.util.UUID;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:db/testdata/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 public class ShoppingCartControllerIT {
 
     @LocalServerPort
@@ -57,8 +58,6 @@ public class ShoppingCartControllerIT {
                 .numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL);
         RestAssured.config().jsonConfig(jsonConfig);
 
-        initDatabase();
-
         wireMockProductCatalog = new WireMockServer(
                 options()
                         .port(8781)
@@ -79,10 +78,6 @@ public class ShoppingCartControllerIT {
     public void after(){
         wireMockProductCatalog.stop();
         wireMockRapidex.stop();
-    }
-
-    private void initDatabase(){
-        customerRepository.saveAndFlush(CustomerPersistenceEntityTestDataBuilder.existingCustomer().id(validCustomerId).build());
     }
 
     @Test

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ import java.util.UUID;
         CustomersPersistenceProvider.class, CustomerPersistenceEntityAssembler.class,
         CustomerPersistenceEntityDisassembler.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(properties = "spring.flyway.locations=classpath:db/migration,classpath:db/testdata")
 class ShoppingCartsPersistenceProviderIT {
 
     private ShoppingCartsPersistenceProvider persistenceProvider;
@@ -47,12 +49,6 @@ class ShoppingCartsPersistenceProviderIT {
         this.customersPersistenceProvider = customersPersistenceProvider;
     }
 
-    @BeforeEach
-    public void setup(){
-        if (!customersPersistenceProvider.exists(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID)){
-            customersPersistenceProvider.add(CustomerTestDataBuilder.existingCustomer().build());
-        }
-    }
 
     @AfterEach
     void cleanUp() {

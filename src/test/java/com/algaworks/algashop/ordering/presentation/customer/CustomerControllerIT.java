@@ -20,7 +20,8 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:db/testdata/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 public class CustomerControllerIT {
 
     @LocalServerPort
@@ -40,15 +41,8 @@ public class CustomerControllerIT {
         JsonConfig jsonConfig = JsonConfig.jsonConfig()
                 .numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL);
         RestAssured.config().jsonConfig(jsonConfig);
-
-        initDatabase();
-
-
     }
 
-    private void initDatabase(){
-        customerRepository.saveAndFlush(CustomerPersistenceEntityTestDataBuilder.existingCustomer().id(validCustomerId).build());
-    }
 
     @Test
     public void shouldCreateACustomer(){

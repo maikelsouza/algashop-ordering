@@ -5,7 +5,6 @@ import com.algaworks.algashop.ordering.application.checkout.BuyNowInputTestDataB
 import com.algaworks.algashop.ordering.application.order.query.OrderDetailOutput;
 import com.algaworks.algashop.ordering.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityRepository;
-import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestDataBuilder;
 import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityRepository;
 import com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.ShoppingCartPersistenceEntityRepository;
 import com.algaworks.algashop.ordering.utils.AlgaShopResourceUtils;
@@ -34,13 +33,12 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@AutoConfigureStubRunner(stubsMode = StubRunnerProperties.StubsMode.LOCAL,
 //        ids = "com.algaworks.algashop:product-catalog:0.0.1-SNAPSHOT:8781")
-@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:db/testdata/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@Sql(scripts = "classpath:db/clean/afterMigrate.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_CLASS)
 public class OrderControllerIT {
 
     @LocalServerPort
     private int port;
-
-    private static boolean databaseInitialized;
 
     @Autowired
     private CustomerPersistenceEntityRepository customerRepository;
@@ -70,8 +68,6 @@ public class OrderControllerIT {
                 .numberReturnType(JsonPathConfig.NumberReturnType.BIG_DECIMAL);
         RestAssured.config().jsonConfig(jsonConfig);
 
-        initDatabase();
-
         wireMockProductCatalog = new WireMockServer(
                 options()
                     .port(8781)
@@ -92,10 +88,6 @@ public class OrderControllerIT {
     public void after(){
         wireMockProductCatalog.stop();
         wireMockRapidex.stop();
-    }
-
-    private void initDatabase(){
-        customerRepository.saveAndFlush(CustomerPersistenceEntityTestDataBuilder.existingCustomer().id(validCustomerId).build());
     }
 
     @Test
