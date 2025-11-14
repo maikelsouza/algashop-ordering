@@ -13,7 +13,7 @@ public class OrderFactory {
 
     public static Order filled(CustomerId customerId, Shipping shipping,
                                Billing billing, PaymentMethod paymentMethod,
-                               Product product, Quantity quantity){
+                               Product product, Quantity quantity, CreditCardId creditCardId){
         Objects.requireNonNull(customerId);
         Objects.requireNonNull(shipping);
         Objects.requireNonNull(billing);
@@ -24,7 +24,7 @@ public class OrderFactory {
         Order order = Order.draft(customerId);
         order.changeBilling(billing);
         order.changeShipping(shipping);
-        order.changePaymentMethod(paymentMethod);
+        order.changePaymentMethod(paymentMethod, creditCardId);
         order.addItem(product, quantity);
 
         return order;

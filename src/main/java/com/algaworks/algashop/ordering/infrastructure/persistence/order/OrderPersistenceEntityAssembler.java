@@ -40,6 +40,9 @@ public class OrderPersistenceEntityAssembler{
         orderPersistenceEntity.setVersion(order.version());
         orderPersistenceEntity.setBilling(buildBillingEmbeddable(order.billing()));
         orderPersistenceEntity.setShipping(buildShippingEmbeddable(order.shipping()));
+        if (order.creditCardId() != null){
+            orderPersistenceEntity.setCreditCardId(order.creditCardId().id());
+        }
         Set<OrderItemPersistenceEntity> mergeItems = mergeItems(order, orderPersistenceEntity);
         orderPersistenceEntity.replaceItems(mergeItems);
         CustomerPersistenceEntity customerPersistenceEntity = customerPersistenceEntityRepository.getReferenceById(order.customerId().value());

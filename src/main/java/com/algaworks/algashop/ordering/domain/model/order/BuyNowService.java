@@ -20,7 +20,8 @@ public class BuyNowService {
                         Billing billing,
                         Shipping shipping,
                         Quantity quantity,
-                        PaymentMethod paymentMethod) {
+                        PaymentMethod paymentMethod,
+                        CreditCardId creditCardId) {
 
         Objects.requireNonNull(product);
         Objects.requireNonNull(customer);
@@ -32,7 +33,7 @@ public class BuyNowService {
 
         Order order = Order.draft(customer.id());
         order.changeBilling(billing);
-        order.changePaymentMethod(paymentMethod);
+        order.changePaymentMethod(paymentMethod, creditCardId);
         order.addItem(product, quantity);
         if (haveFreeShipping(customer)) {
             Shipping freeShipping = shipping.toBuilder().cost(Money.ZERO).build();

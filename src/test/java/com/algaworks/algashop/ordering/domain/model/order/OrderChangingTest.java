@@ -22,7 +22,7 @@ public class OrderChangingTest {
         order.addItem(product, new Quantity(1));
         order.changeBilling(billing);
         order.changeShipping(shipping);
-        order.changePaymentMethod(creditCard);
+        order.changePaymentMethod(creditCard, new CreditCardId());
 
 
         Assertions.assertWith(order,
@@ -82,7 +82,7 @@ public class OrderChangingTest {
         PaymentMethod creditCard = PaymentMethod.CREDIT_CARD;
 
         Assertions.assertThatExceptionOfType(OrderCannotBeEditedException.class)
-                .isThrownBy(() -> order.changePaymentMethod(creditCard))
+                .isThrownBy(() -> order.changePaymentMethod(creditCard, new CreditCardId()))
                 .withMessage(String.format(ERROR_ORDER_CANNOT_BE_EDITED,order.id(), order.status()));
     }
 
@@ -98,7 +98,7 @@ public class OrderChangingTest {
         order.addItem(product, new Quantity(1));
         order.changeBilling(billing);
         order.changeShipping(shipping);
-        order.changePaymentMethod(creditCard);
+        order.changePaymentMethod(creditCard, new CreditCardId());
 
 
         Assertions.assertWith(order,
@@ -112,7 +112,7 @@ public class OrderChangingTest {
         order.place();
 
         Assertions.assertThatExceptionOfType(OrderCannotBeEditedException.class)
-                .isThrownBy(() -> order.changePaymentMethod(PaymentMethod.GATEWAY_BALANCE))
+                .isThrownBy(() -> order.changePaymentMethod(PaymentMethod.GATEWAY_BALANCE, null))
                 .withMessage(String.format(ERROR_ORDER_CANNOT_BE_EDITED,order.id(), order.status()));
     }
 

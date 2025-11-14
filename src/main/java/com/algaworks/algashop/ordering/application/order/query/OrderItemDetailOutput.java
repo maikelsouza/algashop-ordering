@@ -28,5 +28,7 @@ public class OrderItemDetailOutput {
 
     private BigDecimal totalAmount;
 
+    private UUID creditCardId;
+
 
 }

@@ -49,12 +49,12 @@ class BuyNowServiceTest {
         Billing billing = OrderTestDataBuilder.aBilling();
         Shipping shipping = OrderTestDataBuilder.aShipping();
         Customer customer = CustomerTestDataBuilder.existingCustomer().build();
-        PaymentMethod creditCard = PaymentMethod.CREDIT_CARD;
+        PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
         Quantity quantity = new Quantity(1);
 
 
         Order order =  buyNowService.buyNow(product,customer, billing,
-                shipping, quantity,creditCard);
+                shipping, quantity,paymentMethod, new CreditCardId());
 
         assertThat(order).satisfies(
                 o -> assertThat(o).isNotNull(),
@@ -86,10 +86,10 @@ class BuyNowServiceTest {
 
         Billing billing = OrderTestDataBuilder.aBilling();
         Shipping shipping = OrderTestDataBuilder.aShipping();
-        PaymentMethod creditCard = PaymentMethod.CREDIT_CARD;
+        PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
 
         Assertions.assertThatExceptionOfType(ProductOutOfStockException.class)
-                .isThrownBy(() ->buyNowService.buyNow(productUnavailable, customer,billing, shipping, quantity,creditCard))
+                .isThrownBy(() ->buyNowService.buyNow(productUnavailable, customer,billing, shipping, quantity,paymentMethod, new CreditCardId()))
                 .withMessage(String.format(ERROR_PRODUCT_IS_OUT_OF_STOCK,productUnavailable.id()));
     }
 
@@ -102,7 +102,7 @@ class BuyNowServiceTest {
         PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
 
         Assertions.assertThatThrownBy(() -> buyNowService.buyNow(product, customer, billing, shipping,
-                Quantity.ZERO, paymentMethod)).isInstanceOf(IllegalArgumentException.class);
+                Quantity.ZERO, paymentMethod, new CreditCardId())).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -116,12 +116,12 @@ class BuyNowServiceTest {
         Billing billing = OrderTestDataBuilder.aBilling();
         Shipping shipping = OrderTestDataBuilder.aShipping();
         Customer customer = CustomerTestDataBuilder.existingCustomer().loyaltyPoints(new LoyaltyPoints(100)).build();
-        PaymentMethod creditCard = PaymentMethod.CREDIT_CARD;
+        PaymentMethod paymentMethod = PaymentMethod.CREDIT_CARD;
         Quantity quantity = new Quantity(1);
 
 
         Order order =  buyNowService.buyNow(product,customer, billing,
-                shipping, quantity,creditCard);
+                shipping, quantity,paymentMethod, new CreditCardId());
 
         assertThat(order).satisfies(
                 o -> assertThat(o).isNotNull(),

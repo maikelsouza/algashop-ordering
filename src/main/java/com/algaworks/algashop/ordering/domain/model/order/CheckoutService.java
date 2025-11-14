@@ -19,7 +19,8 @@ public class CheckoutService {
     public Order checkout(Customer customer, ShoppingCart shoppingCart,
                           Billing billing,
                           Shipping shipping,
-                          PaymentMethod paymentMethod){
+                          PaymentMethod paymentMethod,
+                          CreditCardId creditCardId){
 
         Objects.requireNonNull(customer);
         Objects.requireNonNull(shoppingCart);
@@ -41,7 +42,7 @@ public class CheckoutService {
             order.changeShipping(shipping);
         }
 
-        order.changePaymentMethod(paymentMethod);
+        order.changePaymentMethod(paymentMethod, creditCardId);
 
         shoppingCart.items().forEach(item ->
                 order.addItem(new Product(item.productId(), item.productName(),

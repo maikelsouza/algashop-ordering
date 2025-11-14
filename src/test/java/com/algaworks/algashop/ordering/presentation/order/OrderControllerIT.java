@@ -27,7 +27,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.UUID;
 
-import static com.algaworks.algashop.ordering.infrastructure.persistence.entity.ShoppingCartPersistenceEntityTestDataBuilder.existingShoppingCart;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -115,9 +114,11 @@ public class OrderControllerIT {
 
     @Test
     public void shouldCreateOrderUsingProduct_DTO(){
+        UUID creditCardId = UUID.randomUUID();
         BuyNowInput input = BuyNowInputTestDataBuilder.aBuyNowInput()
                 .productId(validProductId)
                 .customerId(validCustomerId)
+                .creditCardId(creditCardId)
                 .build();
 
         OrderDetailOutput orderDetailOutput = RestAssured
@@ -137,6 +138,7 @@ public class OrderControllerIT {
 
 
         Assertions.assertThat(orderDetailOutput.getCustomer().getId()).isEqualTo(validCustomerId);
+        Assertions.assertThat(orderDetailOutput.getCreditCardId()).isEqualTo(creditCardId);
 
         boolean orderExists = orderRepository.existsById(new OrderId(orderDetailOutput.getId()).value().toLong());
 
