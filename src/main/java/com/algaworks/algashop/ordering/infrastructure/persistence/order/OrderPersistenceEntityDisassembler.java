@@ -36,7 +36,7 @@ public class OrderPersistenceEntityDisassembler {
                 .items(buildItems(persistenceEntity.getItems()))
                 .creditCardId(creditCardId)
                 .version(persistenceEntity.getVersion())
-            //    .billing(buildBilling(persistenceEntity.getBilling()))
+                .billing(toBillingValueObject(persistenceEntity.getBilling()))
                 .shipping(buildShipping(persistenceEntity.getShipping()))
                 .build();
     }
@@ -60,19 +60,17 @@ public class OrderPersistenceEntityDisassembler {
         ).collect(Collectors.toSet());
     }
 
-
-
-    private Billing buildBilling(BillingEmbeddable billingEmbeddable) {
-        if (billingEmbeddable == null) return null;
+    private Billing toBillingValueObject(BillingEmbeddable billingEmbeddable) {
         return Billing.builder()
                 .fullName(new FullName(billingEmbeddable.getFirstName(), billingEmbeddable.getLastName()))
                 .document(new Document(billingEmbeddable.getDocument()))
                 .phone(new Phone(billingEmbeddable.getPhone()))
-                .address(buildAddress(billingEmbeddable.getAddress()))
+                .address(toAddressValueObject(billingEmbeddable.getAddress()))
+                .email(new Email(billingEmbeddable.getEmail()))
                 .build();
     }
 
-    private Address buildAddress(AddressEmbeddable addressEmbeddable){
+    private Address toAddressValueObject(AddressEmbeddable addressEmbeddable){
         if (addressEmbeddable == null) return null;
         return Address.builder()
                 .state(addressEmbeddable.getState())
@@ -89,7 +87,7 @@ public class OrderPersistenceEntityDisassembler {
         if (shippingEmbeddable == null) return null;
         return Shipping.builder()
                 .cost(new Money(shippingEmbeddable.getCost()))
-                .address(buildAddress(shippingEmbeddable.getAddress()))
+                .address(toAddressValueObject(shippingEmbeddable.getAddress()))
                 .expectedDate(shippingEmbeddable.getExpectedDate())
                 .recipient(buildRecipient(shippingEmbeddable.getRecipient()))
                 .build();

@@ -65,6 +65,7 @@ public class OrderPersistenceEntityTestDataBuilder {
     private static BillingEmbeddable buildBillingEmbeddable() {
         return BillingEmbeddable.builder()
                 .phone("111-441-1244")
+                .email("John.doe@gmail.com")
                 .document("112-33-2321")
                 .firstName("John")
                 .lastName("Doe")
