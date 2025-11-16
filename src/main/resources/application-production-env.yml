@@ -6,7 +6,7 @@ spring:
   jpa:
     show-sql: true
   flyway:
-    enable: false
+    enabled: false
     locations: classpath:db/migration
     user: ${FLYWAY_USERNAME}
     password: ${FLYWAY_PASSWORD}

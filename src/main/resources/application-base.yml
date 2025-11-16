@@ -6,7 +6,7 @@ spring:
       ddl-auto: none
     show-sql: false
   flyway:
-    enable: false
+    enabled: false
     locations: classpath:db/migration
 
 algashop:

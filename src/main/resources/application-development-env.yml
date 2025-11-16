@@ -6,7 +6,7 @@ spring:
   jpa:
     show-sql: true
   flyway:
-    enable: true
+    enabled: true
     locations: classpath:db/migration,classpath:db/testdata
     user: postgres
     password: postgres
