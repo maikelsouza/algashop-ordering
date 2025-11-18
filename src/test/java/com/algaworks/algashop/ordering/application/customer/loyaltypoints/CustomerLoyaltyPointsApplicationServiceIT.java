@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.application.customer.loyaltypoints;
 
+import com.algaworks.algashop.ordering.application.AbstractApplicationIT;
 import com.algaworks.algashop.ordering.domain.model.commons.Quantity;
 import com.algaworks.algashop.ordering.domain.model.customer.*;
 import com.algaworks.algashop.ordering.domain.model.order.*;
@@ -9,18 +10,14 @@ import com.algaworks.algashop.ordering.infrastructure.listener.customer.Customer
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 import static com.algaworks.algashop.ordering.domain.model.ErrorMessages.*;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringBootTest
-@Transactional
-class CustomerLoyaltyPointsApplicationServiceIT {
+class CustomerLoyaltyPointsApplicationServiceIT extends AbstractApplicationIT {
 
     @Autowired
     private CustomerLoyaltyPointsApplicationService customerLoyaltyPointsApplicationService;
