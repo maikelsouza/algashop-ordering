@@ -1,36 +1,29 @@
-package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart.provider;
+package com.algaworks.algashop.ordering.infrastructure.persistence.provider;
 
 import com.algaworks.algashop.ordering.domain.model.order.Order;
 import com.algaworks.algashop.ordering.domain.model.order.OrderStatus;
 import com.algaworks.algashop.ordering.domain.model.order.OrderTestDataBuilder;
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityAssembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomersPersistenceProvider;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityAssembler;
+import com.algaworks.algashop.ordering.infrastructure.persistence.AbstractPersistenceIT;
 import com.algaworks.algashop.ordering.infrastructure.persistence.SpringDataAuditingConfig;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityAssembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityDisassembler;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntity;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrderPersistenceEntityRepository;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.OrdersPersistenceProvider;
+import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomersPersistenceProvider;
+import com.algaworks.algashop.ordering.infrastructure.persistence.order.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@DataJpaTest
 @Import({OrdersPersistenceProvider.class, OrderPersistenceEntityAssembler.class,
         OrderPersistenceEntityDisassembler.class, SpringDataAuditingConfig.class,
         CustomersPersistenceProvider.class, CustomerPersistenceEntityAssembler.class,
         CustomerPersistenceEntityDisassembler.class})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(properties = "spring.flyway.locations=classpath:db/migration,classpath:db/testdata")
-class OrdersPersistenceProviderIT {
+class OrdersPersistenceProviderIT extends AbstractPersistenceIT {
 
     private OrdersPersistenceProvider persistenceProvider;
 

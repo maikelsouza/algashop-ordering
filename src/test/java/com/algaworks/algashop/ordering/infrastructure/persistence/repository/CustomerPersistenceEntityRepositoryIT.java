@@ -1,5 +1,6 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.repository;
 
+import com.algaworks.algashop.ordering.infrastructure.persistence.AbstractPersistenceIT;
 import com.algaworks.algashop.ordering.infrastructure.persistence.SpringDataAuditingConfig;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityRepository;
@@ -7,14 +8,10 @@ import com.algaworks.algashop.ordering.infrastructure.persistence.entity.Custome
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(SpringDataAuditingConfig.class)
-public class CustomerPersistenceEntityRepositoryIT {
+public class CustomerPersistenceEntityRepositoryIT extends AbstractPersistenceIT {
 
 
     private final CustomerPersistenceEntityRepository customerPersistenceEntityRepository;
