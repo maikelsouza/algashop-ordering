@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.shoppingcart;
 
 import com.algaworks.algashop.ordering.core.application.utility.Mapper;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerId;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ShoppingCartQueryServiceImpl implements ForObtainingShoppingCarts {
+public class ForObtainingShoppingCartsJpaRepositoryImpl implements ForObtainingShoppingCarts {
 
     private final ShoppingCartPersistenceEntityRepository repository;
 
