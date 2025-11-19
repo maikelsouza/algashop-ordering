@@ -1,15 +1,16 @@
 package com.algaworks.algashop.ordering.presentation.customer;
 
-import com.algaworks.algashop.ordering.core.application.commons.AddressData;
-import com.algaworks.algashop.ordering.core.application.customer.management.CustomerInput;
-import com.algaworks.algashop.ordering.core.application.customer.management.CustomerManagementApplicationService;
-import com.algaworks.algashop.ordering.core.application.customer.management.CustomerUpdateInput;
-import com.algaworks.algashop.ordering.core.application.customer.query.*;
+import com.algaworks.algashop.ordering.core.application.customer.CustomerManagementApplicationService;
+import com.algaworks.algashop.ordering.core.application.customer.query.CustomerOutputTestDataBuilder;
+import com.algaworks.algashop.ordering.core.application.customer.query.CustomerSummaryOutputTestDataBuilder;
 import com.algaworks.algashop.ordering.core.domain.model.DomainEntityBadRequestException;
 import com.algaworks.algashop.ordering.core.domain.model.DomainException;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerEmailIsInUseException;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.core.ports.in.commons.AddressData;
+import com.algaworks.algashop.ordering.core.ports.in.customer.*;
 import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ForQueringShoppingCarts;
+import com.algaworks.algashop.ordering.infrastructure.adapters.in.web.customer.CustomerController;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ class CustomerControllerContractTest {
     private CustomerManagementApplicationService customerManagementApplicationService;
 
     @MockitoBean
-    private CustomerQueryService customerQueryService;
+    private ForQueryingCustomers customerQueryService;
 
     @MockitoBean
     private ForQueringShoppingCarts shoppingCartQueryService;

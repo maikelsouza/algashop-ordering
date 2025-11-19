@@ -1,14 +1,15 @@
 package com.algaworks.algashop.ordering.infrastructure.listener.customer;
 
 import com.algaworks.algashop.ordering.core.application.AbstractApplicationIT;
-import com.algaworks.algashop.ordering.core.application.customer.loyaltypoints.CustomerLoyaltyPointsApplicationService;
-import com.algaworks.algashop.ordering.core.application.customer.notification.CustomerNotificationApplicationService;
+import com.algaworks.algashop.ordering.core.application.customer.CustomerLoyaltyPointsApplicationService;
+import com.algaworks.algashop.ordering.core.application.customer.CustomerRegistrationConfirmationApplicationService;
 import com.algaworks.algashop.ordering.core.domain.model.commons.Email;
 import com.algaworks.algashop.ordering.core.domain.model.commons.FullName;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerRegisteredEvent;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderReadyEvent;
+import com.algaworks.algashop.ordering.infrastructure.adapters.in.listener.customer.CustomerEventListener;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ class CustomerEventListenerIT extends AbstractApplicationIT {
     private CustomerLoyaltyPointsApplicationService loyaltyPointsApplicationService;
 
     @MockitoBean
-    private CustomerNotificationApplicationService notificationApplicationService;
+    private CustomerRegistrationConfirmationApplicationService confirmationApplicationService;
 
     @Test
     public void shouldListenOrderReadyEvent(){
@@ -61,7 +62,8 @@ class CustomerEventListenerIT extends AbstractApplicationIT {
         );
 
         Mockito.verify(customerEventListener).listen(Mockito.any(CustomerRegisteredEvent.class));
-        Mockito.verify(notificationApplicationService).notifyNewRegistration(Mockito.any(CustomerNotificationApplicationService.NotifyNewRegistrationInput.class));
+        Mockito.verify(confirmationApplicationService).confirm(Mockito.any(UUID.class));
+
     }
 
 }
