@@ -7,8 +7,8 @@ import com.algaworks.algashop.ordering.core.application.customer.query.CustomerF
 import com.algaworks.algashop.ordering.core.application.customer.query.CustomerOutput;
 import com.algaworks.algashop.ordering.core.application.customer.query.CustomerQueryService;
 import com.algaworks.algashop.ordering.core.application.customer.query.CustomerSummaryOutput;
-import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartOutput;
-import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartQueryService;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ForQueringShoppingCarts;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ShoppingCartOutput;
 import com.algaworks.algashop.ordering.presentation.PageModel;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class CustomerController {
 
     private final CustomerQueryService customerQueryService;
 
-    private final ShoppingCartQueryService shoppingCartQueryService;
+    private final ForQueringShoppingCarts shoppingCartQueryService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

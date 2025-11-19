@@ -9,6 +9,8 @@ import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCa
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartNotFoundException;
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartTestDataBuilder;
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCarts;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ForQueringShoppingCarts;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ShoppingCartOutput;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class ShoppingCartQueryServiceIT extends AbstractApplicationIT {
 
     @Autowired
-    private ShoppingCartQueryService queryService;
+    private ForQueringShoppingCarts queryService;
 
     @Autowired
     private ShoppingCarts shoppingCarts;

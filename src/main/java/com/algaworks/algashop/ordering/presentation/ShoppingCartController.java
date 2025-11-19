@@ -1,13 +1,13 @@
 package com.algaworks.algashop.ordering.presentation;
 
 import com.algaworks.algashop.ordering.core.application.shoppingcart.ShoppingCartManagementApplicationService;
-import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartItemOutput;
-import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartOutput;
-import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartQueryService;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerNotFoundException;
 import com.algaworks.algashop.ordering.core.domain.model.product.ProductNotFoundException;
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartInput;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ForQueringShoppingCarts;
 import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ShoppingCartItemInput;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ShoppingCartItemOutput;
+import com.algaworks.algashop.ordering.core.ports.in.shoppingcart.ShoppingCartOutput;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class ShoppingCartController {
 
     private final  ShoppingCartManagementApplicationService shoppingCartManagementApplicationService;
 
-    private final ShoppingCartQueryService shoppingCartQueryService;
+    private final ForQueringShoppingCarts shoppingCartQueryService;
 
 
     @PostMapping
