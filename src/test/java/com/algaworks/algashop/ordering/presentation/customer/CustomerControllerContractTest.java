@@ -1,15 +1,15 @@
 package com.algaworks.algashop.ordering.presentation.customer;
 
-import com.algaworks.algashop.ordering.application.commons.AddressData;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerInput;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerManagementApplicationService;
-import com.algaworks.algashop.ordering.application.customer.management.CustomerUpdateInput;
-import com.algaworks.algashop.ordering.application.customer.query.*;
-import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartQueryService;
-import com.algaworks.algashop.ordering.domain.model.DomainEntityBadRequestException;
-import com.algaworks.algashop.ordering.domain.model.DomainException;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerEmailIsInUseException;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerNotFoundException;
+import com.algaworks.algashop.ordering.core.application.commons.AddressData;
+import com.algaworks.algashop.ordering.core.application.customer.management.CustomerInput;
+import com.algaworks.algashop.ordering.core.application.customer.management.CustomerManagementApplicationService;
+import com.algaworks.algashop.ordering.core.application.customer.management.CustomerUpdateInput;
+import com.algaworks.algashop.ordering.core.application.customer.query.*;
+import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartQueryService;
+import com.algaworks.algashop.ordering.core.domain.model.DomainEntityBadRequestException;
+import com.algaworks.algashop.ordering.core.domain.model.DomainException;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerEmailIsInUseException;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerNotFoundException;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,9 +25,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
-import java.time.format.DateTimeFormatter;
 
 @WebMvcTest(controllers = CustomerController.class)
 class CustomerControllerContractTest {

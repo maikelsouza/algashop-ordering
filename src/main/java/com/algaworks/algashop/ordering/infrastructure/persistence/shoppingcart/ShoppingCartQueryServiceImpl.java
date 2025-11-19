@@ -1,11 +1,11 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.shoppingcart;
 
-import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartOutput;
-import com.algaworks.algashop.ordering.application.shoppingcart.query.ShoppingCartQueryService;
-import com.algaworks.algashop.ordering.application.utility.Mapper;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartId;
-import com.algaworks.algashop.ordering.domain.model.shoppingcart.ShoppingCartNotFoundException;
+import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartOutput;
+import com.algaworks.algashop.ordering.core.application.shoppingcart.query.ShoppingCartQueryService;
+import com.algaworks.algashop.ordering.core.application.utility.Mapper;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartId;
+import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

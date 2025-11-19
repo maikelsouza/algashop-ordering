@@ -1,11 +1,11 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.disassembler;
 
 
-import com.algaworks.algashop.ordering.domain.model.commons.Document;
-import com.algaworks.algashop.ordering.domain.model.commons.FullName;
-import com.algaworks.algashop.ordering.domain.model.customer.BirthDate;
-import com.algaworks.algashop.ordering.domain.model.customer.Customer;
-import com.algaworks.algashop.ordering.domain.model.customer.CustomerId;
+import com.algaworks.algashop.ordering.core.domain.model.commons.Document;
+import com.algaworks.algashop.ordering.core.domain.model.commons.FullName;
+import com.algaworks.algashop.ordering.core.domain.model.customer.BirthDate;
+import com.algaworks.algashop.ordering.core.domain.model.customer.Customer;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerId;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntity;
 import com.algaworks.algashop.ordering.infrastructure.persistence.customer.CustomerPersistenceEntityDisassembler;
 import com.algaworks.algashop.ordering.infrastructure.persistence.entity.CustomerPersistenceEntityTestDataBuilder;
