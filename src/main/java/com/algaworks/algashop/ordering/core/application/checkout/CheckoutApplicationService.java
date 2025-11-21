@@ -12,6 +12,10 @@ import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCa
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartId;
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartNotFoundException;
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCarts;
+import com.algaworks.algashop.ordering.core.ports.in.checkout.CheckoutInput;
+import com.algaworks.algashop.ordering.core.ports.in.checkout.ForBuyingWithShoppingCart;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.checkout.BillingInputDisassembler;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.checkout.ShippingInputDisassembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +24,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class CheckoutApplicationService {
+public class CheckoutApplicationService implements ForBuyingWithShoppingCart {
 
     private final CheckoutService checkoutService;
 
@@ -38,6 +42,7 @@ public class CheckoutApplicationService {
     private final ShippingInputDisassembler shippingInputDisassembler;
 
     @Transactional
+    @Override
     public String  checkout(CheckoutInput input){
         Objects.requireNonNull(input);
 

@@ -1,8 +1,8 @@
 package com.algaworks.algashop.ordering.infrastructure.persistence.entity;
 
 import com.algaworks.algashop.ordering.core.domain.model.IdGenerator;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.order.*;
 import com.algaworks.algashop.ordering.infrastructure.persistence.commons.AddressEmbeddable;
-import com.algaworks.algashop.ordering.infrastructure.persistence.order.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
