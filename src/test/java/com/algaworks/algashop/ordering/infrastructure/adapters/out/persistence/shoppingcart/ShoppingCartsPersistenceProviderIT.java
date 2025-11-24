@@ -1,0 +1,110 @@
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.shoppingcart;
+
+import com.algaworks.algashop.ordering.core.domain.model.commons.Quantity;
+import com.algaworks.algashop.ordering.core.domain.model.customer.Customer;
+import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestDataBuilder;
+import com.algaworks.algashop.ordering.core.domain.model.product.ProductTestDataBuilder;
+import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCart;
+import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCartTestDataBuilder;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.AbstractPersistenceIT;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.customer.CustomerPersistenceEntityAssembler;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.customer.CustomerPersistenceEntityDisassembler;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.persistence.customer.CustomersPersistenceProvider;
+import com.algaworks.algashop.ordering.infrastructure.config.auditing.SpringDataAuditingConfig;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Import({ShoppingCartsPersistenceProvider.class, ShoppingCartPersistenceEntityAssembler.class,
+        ShoppingCartPersistenceEntityDisassembler.class, SpringDataAuditingConfig.class,
+        CustomersPersistenceProvider.class, CustomerPersistenceEntityAssembler.class,
+        CustomerPersistenceEntityDisassembler.class})
+@TestPropertySource(properties = "spring.flyway.locations=classpath:db/migration,classpath:db/testdata")
+class ShoppingCartsPersistenceProviderIT extends AbstractPersistenceIT {
+
+    private ShoppingCartsPersistenceProvider persistenceProvider;
+
+    private ShoppingCartPersistenceEntityRepository entityRepository;
+
+    private CustomersPersistenceProvider customersPersistenceProvider;
+
+    @Autowired
+    public ShoppingCartsPersistenceProviderIT(ShoppingCartsPersistenceProvider persistenceProvider,
+                                              ShoppingCartPersistenceEntityRepository entityRepository,
+                                              CustomersPersistenceProvider customersPersistenceProvider) {
+        this.persistenceProvider = persistenceProvider;
+        this.entityRepository = entityRepository;
+        this.customersPersistenceProvider = customersPersistenceProvider;
+    }
+
+
+    @AfterEach
+    void cleanUp() {
+        entityRepository.deleteAll();
+    }
+
+    @Test
+    public void shouldUpdateAndKeepPersistenceEntityState(){
+
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().withItems(true).build();
+        UUID shoppingCartId = shoppingCart.id().value();
+
+        persistenceProvider.add(shoppingCart);
+        ShoppingCartPersistenceEntity persistenceEntity = entityRepository.findById(shoppingCartId).orElseThrow();
+
+        Assertions.assertThat(persistenceEntity.getTotalItems()).isEqualTo(3);
+        Assertions.assertThat(persistenceEntity.getCreatedByUserId()).isNotNull();
+        Assertions.assertThat(persistenceEntity.getLastModifiedAt()).isNotNull();
+        Assertions.assertThat(persistenceEntity.getLastModifiedByUserId()).isNotNull();
+
+        shoppingCart = persistenceProvider.ofId(shoppingCart.id()).orElseThrow();
+        shoppingCart.addItem(ProductTestDataBuilder.aProduct().build(), new Quantity(1));
+        persistenceProvider.add(shoppingCart);
+
+        persistenceEntity = entityRepository.findById(shoppingCartId).orElseThrow();
+        Assertions.assertThat(persistenceEntity.getTotalItems()).isEqualTo(4);
+        Assertions.assertThat(persistenceEntity.getCreatedByUserId()).isNotNull();
+        Assertions.assertThat(persistenceEntity.getLastModifiedAt()).isNotNull();
+        Assertions.assertThat(persistenceEntity.getLastModifiedByUserId()).isNotNull();
+    }
+
+    @Test
+    void shouldFindShoppingCartByCustomerId() {
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().build();
+
+        persistenceProvider.add(shoppingCart);
+
+        Optional<ShoppingCart> shoppingCartOptional = persistenceProvider.ofCustomer(CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID);
+
+        Assertions.assertThat(shoppingCartOptional).isPresent();
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void shouldAddFindNotFailWhenNotTransaction(){
+        Customer customer = CustomerTestDataBuilder.brandNewCustomer().build();
+        customersPersistenceProvider.add(customer);
+        ShoppingCart shoppingCart = ShoppingCartTestDataBuilder.aShoppingCart().customerId(customer.id()).build();
+        persistenceProvider.add(shoppingCart);
+
+        Assertions.assertThatNoException()
+                .isThrownBy(() -> {
+                    ShoppingCart foundCart =  persistenceProvider.ofId(shoppingCart.id()).orElseThrow();
+                    Assertions.assertThat(foundCart).isNotNull();
+                });
+
+
+    }
+
+
+
+
+}

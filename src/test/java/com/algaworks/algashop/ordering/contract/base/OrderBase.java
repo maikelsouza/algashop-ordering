@@ -2,8 +2,8 @@ package com.algaworks.algashop.ordering.contract.base;
 
 import com.algaworks.algashop.ordering.core.application.checkout.BuyNowApplicationService;
 import com.algaworks.algashop.ordering.core.application.checkout.CheckoutApplicationService;
-import com.algaworks.algashop.ordering.core.application.order.query.OrderDetailOutputTestDataBuilder;
-import com.algaworks.algashop.ordering.core.application.order.query.OrderSummaryOutputTestDataBuilder;
+import com.algaworks.algashop.ordering.core.application.order.OrderDetailOutputTestDataBuilder;
+import com.algaworks.algashop.ordering.core.application.order.OrderSummaryOutputTestDataBuilder;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderNotFoundException;
 import com.algaworks.algashop.ordering.core.ports.in.checkout.BuyNowInput;
