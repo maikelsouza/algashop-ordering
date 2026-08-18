@@ -39,7 +39,7 @@ public class ShoppingCartItemPersistenceEntity {
 
     private Boolean available;
 
-    @JoinColumn
+    @JoinColumn(name = "shopping_cart_id")
     @ManyToOne(optional = false)
     private ShoppingCartPersistenceEntity shoppingCart;
 

@@ -11,12 +11,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.UUID;
 
 @Import(SpringDataAuditingConfig.class)
-@TestPropertySource(properties = "spring.flyway.locations=classpath:db/migration,classpath:db/testdata")
 class ShoppingCartPersistenceEntityRepositoryIT extends AbstractPersistenceIT {
 
     private final ShoppingCartPersistenceEntityRepository shoppingCartPersistenceEntityRepository;
@@ -33,10 +31,16 @@ class ShoppingCartPersistenceEntityRepositoryIT extends AbstractPersistenceIT {
 
     @BeforeEach
     public void setup(){
+        shoppingCartPersistenceEntityRepository.deleteAll();
+        shoppingCartPersistenceEntityRepository.flush();
+
         UUID customerId = CustomerTestDataBuilder.DEFAULT_CUSTOMER_ID.value();
-        if (!customerPersistenceEntityRepository.existsById(customerId)){
-            customerPersistenceEntity = customerPersistenceEntityRepository.saveAndFlush(CustomerPersistenceEntityTestDataBuilder.existingCustomer().build());
-        }
+        customerPersistenceEntity = customerPersistenceEntityRepository.findById(customerId)
+                .orElseGet(() -> customerPersistenceEntityRepository
+                        .saveAndFlush(CustomerPersistenceEntityTestDataBuilder.existingCustomer().build()));
+
+        Assertions.assertThat(customerPersistenceEntity).isNotNull();
+        Assertions.assertThat(customerPersistenceEntity.getId()).isEqualTo(customerId);
     }
 
     @Test
@@ -45,6 +49,9 @@ class ShoppingCartPersistenceEntityRepositoryIT extends AbstractPersistenceIT {
                 .existingShoppingCart()
                 .customer(customerPersistenceEntity)
                 .build();
+
+        Assertions.assertThat(entity.getCustomerId()).isNotNull();
+
         shoppingCartPersistenceEntityRepository.saveAndFlush(entity);
         Assertions.assertThat(shoppingCartPersistenceEntityRepository.existsById(entity.getId())).isTrue();
 
@@ -67,6 +74,9 @@ class ShoppingCartPersistenceEntityRepositoryIT extends AbstractPersistenceIT {
                 .existingShoppingCart()
                 .customer(customerPersistenceEntity)
                 .build();
+
+        Assertions.assertThat(persistenceEntity.getCustomerId()).isNotNull();
+
         persistenceEntity = shoppingCartPersistenceEntityRepository.saveAndFlush(persistenceEntity);
 
         Assertions.assertThat(persistenceEntity.getCreatedByUserId()).isNotNull();
