@@ -9,6 +9,7 @@ import com.algaworks.algashop.ordering.presentation.BadGatewayException;
 import com.algaworks.algashop.ordering.presentation.GatewayTimeoutException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.resilience.annotation.ConcurrencyLimit;
 import org.springframework.resilience.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,6 +25,7 @@ public class ProductCatalogServiceHttpImpl implements ProductCatalogService {
 
     private final ProductCatalogAPIClient productCatalogAPIClient;
 
+    @ConcurrencyLimit(2)
     @Retryable(
             maxRetries = 3,
             delayString ="3s",
@@ -31,6 +33,7 @@ public class ProductCatalogServiceHttpImpl implements ProductCatalogService {
             includes = {GatewayTimeoutException.class, BadGatewayException.class})
     @Override
     public Optional<Product> ofId(ProductId productId) {
+        log.info("Trying to load product {}", productId);
         ProductResponse productResponse;
         log.info("Loading product {}", productId);
         try {
