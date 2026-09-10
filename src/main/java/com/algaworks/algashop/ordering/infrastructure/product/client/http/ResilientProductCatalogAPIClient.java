@@ -4,7 +4,9 @@ import com.algaworks.algashop.ordering.presentation.BadGatewayException;
 import com.algaworks.algashop.ordering.presentation.GatewayTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.circuitbreaker.retry.FrameworkRetryCircuitBreaker;
+import org.springframework.cloud.circuitbreaker.retry.FrameworkRetryConfig;
+import org.springframework.cloud.circuitbreaker.retry.FrameworkRetryConfigBuilder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.cloud.client.circuitbreaker.NoFallbackAvailableException;
 import org.springframework.core.retry.RetryException;
@@ -25,30 +27,36 @@ public class ResilientProductCatalogAPIClient {
 
     private final ProductCatalogAPIClient productCatalogAPIClient;
 
-    private final CircuitBreaker circuitBreaker;
+    private final FrameworkRetryCircuitBreaker circuitBreaker;
 
-    public ResilientProductCatalogAPIClient(ProductCatalogAPIClient productCatalogAPIClient, CircuitBreakerFactory circuitBreakerFactory) {
+    public ResilientProductCatalogAPIClient(ProductCatalogAPIClient productCatalogAPIClient,
+                                            CircuitBreakerFactory<FrameworkRetryConfig, FrameworkRetryConfigBuilder> circuitBreakerFactory) {
         this.productCatalogAPIClient = productCatalogAPIClient;
-        this.circuitBreaker = circuitBreakerFactory.create("productCatalogCB");
+        this.circuitBreaker = (FrameworkRetryCircuitBreaker) circuitBreakerFactory.create("productCatalogCB");
     }
 
     @Cacheable(cacheNames = "algashop:products-catalog-api:v1", key = "#productId")
     @ConcurrencyLimit(2)
     public Optional<ProductResponse> getId(UUID productId) {
         log.info("Try to Load product {}", productId);
+        log.info("Product Catalog API Circuit Breaker State is: {}", circuitBreaker.getCircuitBreakerPolicy().getState());
         try {
             return circuitBreaker.run(() -> loadProduct(productId));
         } catch (NoFallbackAvailableException e){
-            if (e.getCause() instanceof RetryException re){
-                if(re.getCause() instanceof GatewayTimeoutException gte){
-                    throw gte;
-                }
-                if(re.getCause() instanceof BadGatewayException bge){
-                    throw bge;
-                }
-            }
-            throw e;
+            throw  unwrapException(e);
         }
+    }
+
+    private RuntimeException unwrapException(NoFallbackAvailableException e) {
+        if (e.getCause() instanceof RetryException re){
+            if(re.getCause() instanceof GatewayTimeoutException gte){
+                return gte;
+            }
+            if(re.getCause() instanceof BadGatewayException bge){
+                return bge;
+            }
+        }
+        return e;
     }
 
     private Optional<ProductResponse> loadProduct(UUID productId) {
