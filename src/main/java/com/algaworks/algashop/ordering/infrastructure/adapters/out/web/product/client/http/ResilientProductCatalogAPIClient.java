@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.product.client.http;
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.web.product.client.http;
 
 import com.algaworks.algashop.ordering.infrastructure.config.resilience.SpringCircuitBreakerConfig;
 import com.algaworks.algashop.ordering.presentation.BadGatewayException;

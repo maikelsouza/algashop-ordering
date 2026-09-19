@@ -1,5 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.product.client.http;
-
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.web.shipping.client.rapidex;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,25 +12,26 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.time.Duration;
 
 @Configuration
-public class ProductCatalogAPIConfig {
+public class RapiDexAPIClientConfig {
+
 
     @Bean
-    public ProductCatalogAPIClient productCatalogAPIClient(RestClient.Builder builder,
-                                                           @Value("${algashop.integrations.product-catalog.url}")  String url) {
-
+    public RapiDexAPIClient rapidexApiClient(
+            RestClient.Builder builder,
+            @Value("${algashop.integrations.rapidex.url}") String rapiDexUrl) {
         RestClient restClient = builder
-                .baseUrl(url)
+                .baseUrl(rapiDexUrl)
                 .requestFactory(generateClientHttpRequestFactory())
                 .build();
         RestClientAdapter adapter = RestClientAdapter.create(restClient);
         HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builderFor(adapter).build();
-        return proxyFactory.createClient(ProductCatalogAPIClient.class);
+        return proxyFactory.createClient(RapiDexAPIClient.class);
     }
 
     private ClientHttpRequestFactory generateClientHttpRequestFactory() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setReadTimeout(Duration.ofSeconds(5));
-        factory.setConnectTimeout(Duration.ofSeconds(2));
+        factory.setReadTimeout(Duration.ofSeconds(7));
+        factory.setConnectTimeout(Duration.ofSeconds(3));
         return factory;
     }
 

@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex;
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.web.shipping.client.rapidex;
 
 import com.algaworks.algashop.ordering.core.domain.model.commons.Money;
 import com.algaworks.algashop.ordering.core.domain.model.order.shipping.ShippingCostService;

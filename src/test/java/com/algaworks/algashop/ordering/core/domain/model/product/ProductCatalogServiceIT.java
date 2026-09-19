@@ -1,6 +1,6 @@
 package com.algaworks.algashop.ordering.core.domain.model.product;
 
-import com.algaworks.algashop.ordering.infrastructure.product.client.http.ProductCatalogAPIClient;
+import com.algaworks.algashop.ordering.infrastructure.adapters.out.web.product.client.http.ProductCatalogAPIClient;
 import com.algaworks.algashop.ordering.utils.TestContainerPostgreSQLConfig;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

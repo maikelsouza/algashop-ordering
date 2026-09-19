@@ -1,4 +1,4 @@
-package com.algaworks.algashop.ordering.infrastructure.shipping.client.rapidex;
+package com.algaworks.algashop.ordering.infrastructure.adapters.out.web.shipping.client.rapidex;
 
 import com.algaworks.algashop.ordering.infrastructure.config.resilience.SpringCircuitBreakerConfig;
 import com.algaworks.algashop.ordering.presentation.BadGatewayException;
@@ -37,7 +37,10 @@ public class ResilientRapiDexAPIClient {
     public DeliveryCostResponse calculate(DeliveryCostRequest request) {
         log.info("RapiDexAPI CircuitBreaker state is {}", circuitBreaker.getCircuitBreakerPolicy().getState());
         try {
-            DeliveryCostResponse response = circuitBreaker.run(() -> doCalculate(request));
+            DeliveryCostResponse response = circuitBreaker.run(
+                              () -> doCalculate(request),
+                    ex -> doInternalFallback(request, ex)
+            );
             if (response == null) {
                 throw new BadGatewayException.ClientErrorException("Invalid zip code provided");
             }
@@ -45,6 +48,11 @@ public class ResilientRapiDexAPIClient {
         } catch (NoFallbackAvailableException e) {
             throw unwrapException(e);
         }
+    }
+
+    private DeliveryCostResponse doInternalFallback(DeliveryCostRequest request, Throwable ex) {
+        log.warn("RapiDexAPI API call failed for request {}", request, ex);
+        return new DeliveryCostResponse("20", 10L);
     }
 
     private RuntimeException unwrapException(NoFallbackAvailableException e) {
