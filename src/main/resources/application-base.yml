@@ -13,3 +13,25 @@ algashop:
   integrations:
     shipping.provider: RAPIDEX
 
+management:
+  info:
+    env.enabled: true
+  health:
+    redis:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      group:
+        readiness:
+          include: db,readinessState
+        status:
+          order: "DOWN, OUT_OF_SERVICE, UNKNOWN, DEGRADED, UP"
+
+info:
+  app.name: Algashop Ordering API
+
